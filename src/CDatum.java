@@ -35,6 +35,16 @@ public class CDatum extends Calendar
 		this.Stunde = i;
 	}
 	
+	CDatum(int jahr, int monat, int tag, int stunde)
+	//for default dates
+	{
+		cal = Calendar.getInstance();
+		this.Tag = tag;
+		this.Monat = monat;
+		this.Jahr = jahr;
+		this.Stunde = stunde;
+	}
+	
 	public void setTag(int T)
 	{
 		this.Tag = T;

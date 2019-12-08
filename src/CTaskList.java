@@ -23,6 +23,14 @@ public class CTaskList {
 		this.taskList = new LinkedList<CTask>();
 	}
 	
+	CTaskList(BufferedReader input)
+	{
+		this.name = "";
+		this.dateCreation = new CDatum();
+		this.taskList = new LinkedList<CTask>();
+		loadTaskList(input);
+	}
+	
 	//Methods
 	public int getSize()
 	{
@@ -67,11 +75,66 @@ public class CTaskList {
 		
 	}//end saveTaskList
 	
-	/*
-	public CTaskList loadTaskLIst(BufferedReader input)
+	
+	public void loadTaskList(BufferedReader input)
 	{
+		String str;
+		int index; 
 		
+		System.out.println("In Ladefunktion von TaskList");
+		
+		//Empty list if it is filled
+		if(this.taskList.size() > 0)
+			this.taskList.clear();
+		
+		try {
+			//Header lesen
+			input.readLine();
+			str = input.readLine();		
+			index = str.indexOf(":")+1;
+			this.name = str.substring(index);
+			//Date de creation einlesen
+			str = input.readLine();
+			index = str.indexOf(":")+2;
+			str = str.substring(index);
+			System.out.println(str);
+			
+			index = str.indexOf("\t");
+			this.dateCreation.Tag = Integer.parseInt(str.substring(0,index));
+			str = str.substring(index+1);
+			index = str.indexOf("\t");
+			this.dateCreation.Monat = Integer.parseInt(str.substring(0,index));
+			str = str.substring(index+1);
+			index = str.indexOf("\t");
+			this.dateCreation.Jahr = Integer.parseInt(str.substring(0,index));
+			str = str.substring(index+1);
+			this.dateCreation.Stunde = Integer.parseInt(str);
+			
+			str = input.readLine();
+			
+			//Read in the tasks
+			int idx=0;
+			str = input.readLine();
+			str = input.readLine();
+			str = input.readLine();
+			System.out.println("Header ingelesen...");
+			System.out.println(str);
+			while(!(str.substring(0,19).equals(("---EndOfTaskList---").substring(0,19))))
+			{
+				System.out.println(idx); idx++;
+				CTask task = new CTask(str);
+				this.taskList.add(task);
+				str = input.readLine();
+			}
+			System.out.println("end of task list reached");
+			
+		}
+		catch(IOException exep)
+		{
+			exep.printStackTrace();
+			System.out.println("Fehler ...putain!");
+		}
 	}
-	*/
+	
 	
 }

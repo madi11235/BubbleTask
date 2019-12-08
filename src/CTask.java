@@ -31,9 +31,9 @@ public class CTask {
 	public boolean groomed; //if true, all relevant information in the task has been filled
 	
 	//Constructors
-	CTask(String description)
+	CTask()
 	{
-		this.description = description;
+		this.description = "";
 		this.dateCreation = new CDatum();
 		this.dateModification = new CDatum();
 		this.interfaceList = new LinkedList<CInterface>();
@@ -46,6 +46,87 @@ public class CTask {
 		this.priority = calculatePriority();
 		this.topicForCustomerCall = false; 
 		this.groomed = false;
+	}
+	
+	CTask(String str)
+	{
+		int index, tag, monat, jahr, stunde; 
+		index = str.indexOf("\t");
+		this.description = str.substring(0, index);
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.notes = str.substring(0, index);
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		jahr = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		monat = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		tag = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		stunde = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		this.dateCreation = new CDatum(jahr, monat, tag, stunde);
+		index = str.indexOf("\t");
+		jahr = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		monat = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		tag = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		stunde = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		this.dateModification = new CDatum(jahr, monat, tag, stunde);
+		index = str.indexOf("\t");
+		jahr = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		monat = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		tag = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		stunde = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		this.dateDue = new CDatum(jahr, monat, tag, stunde);
+		index = str.indexOf("\t");
+		jahr = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		monat = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		tag = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		stunde = Integer.parseInt(str.substring(0,index));
+		str = str.substring(index+1);
+		this.dateDone = new CDatum(jahr, monat, tag, stunde);
+		index = str.indexOf("\t");
+		this.priority = Double.parseDouble(str.substring(0, index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.customerRequest = Boolean.parseBoolean(str.substring(0, index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.involveOthers = Boolean.parseBoolean(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.projectImpact = getImpactLevelFromString(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.topicForCustomerCall = Boolean.parseBoolean(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.groomed = Boolean.parseBoolean(str);
+		this.interfaceList = new LinkedList<CInterface>();
 	}
 	
 	//Interface Methods
@@ -81,6 +162,28 @@ public class CTask {
 		else
 			this.involveOthers = false; 
 			
+	}
+	
+	public static ImpactLevel getImpactLevelFromString(String str)
+	{
+		if(str.equals("LOW"))
+			return ImpactLevel.LOW;
+		else
+		{
+			if(str.equals("MEDIUM"))
+				return ImpactLevel.MEDIUM;
+			else
+			{
+				if(str.equals("HIGH"))
+					return ImpactLevel.HIGH;
+				else
+				{
+					return ImpactLevel.VERY_HIGH;
+				}
+			}
+		}
+			
+		
 	}
 	
 	/*
