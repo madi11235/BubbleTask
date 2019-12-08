@@ -14,7 +14,7 @@ public class CTask {
 	//Attributes
 	private String description; 
 	private String notes;
-	private CDatum dateCreation;
+	public CDatum dateCreation;
 	public CDatum dateModification;
 	public CDatum dateDue;
 	public CDatum dateDone;
@@ -24,7 +24,7 @@ public class CTask {
 	public LinkedList<CInterface> interfaceList; //who do I need to solve this task
 	public enum ImpactLevel
 	{
-		GERING, MITTEL, HOCH, SEHR_HOCH
+		LOW, MEDIUM, HIGH, VERY_HIGH
 	}
 	public ImpactLevel projectImpact;
 	public boolean topicForCustomerCall; //Has this topic the potential to ba hendled in a customer call?
@@ -39,16 +39,16 @@ public class CTask {
 		this.interfaceList = new LinkedList<CInterface>();
 		this.involveOthers = false;
 		this.notes = "";
-		this.dateDue = null;
-		this.dateDone = null;
+		this.dateDue = new CDatum(0);
+		this.dateDone = new CDatum(0);
 		this.customerRequest = false;
-		this.projectImpact = ImpactLevel.GERING;
+		this.projectImpact = ImpactLevel.LOW;
 		this.priority = calculatePriority();
 		this.topicForCustomerCall = false; 
 		this.groomed = false;
 	}
 	
-	//Methods
+	//Interface Methods
 	public String getDescription()
 	{
 		return description;
@@ -82,6 +82,68 @@ public class CTask {
 			this.involveOthers = false; 
 			
 	}
+	
+	/*
+	 * getContentAsString()
+	 * 
+	 * returns the attribute of the task as string for saving
+	 */
+	public String getContentAsString()
+	{
+		String outText = description;
+		outText = outText.concat("\t");
+		outText = outText.concat(notes);
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateCreation.Jahr));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateCreation.Monat));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateCreation.Tag));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateCreation.Stunde));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateModification.Jahr));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateModification.Monat));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateModification.Tag));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateModification.Stunde));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDue.Jahr));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDue.Monat));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDue.Tag));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDue.Stunde));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDone.Jahr));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDone.Monat));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDone.Tag));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(dateDone.Stunde));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(priority));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(customerRequest));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(involveOthers));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(projectImpact));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(topicForCustomerCall));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(groomed));
+		outText = outText.concat("\t");
+		//TODO: Interface list auch speichern und laden
+		
+		return outText; 
+	}
+	
+	//Methods
 	
 	private double calculatePriority()
 	{

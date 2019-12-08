@@ -27,5 +27,9 @@ public class CInterface {
 		this.dueDateForContact = null;
 	}
 	//Methods
-	
+	//TODO: Implement return as string
+	/*public String getContentAsString()
+	{
+		
+	}*/
 }

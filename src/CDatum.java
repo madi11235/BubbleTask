@@ -25,6 +25,15 @@ public class CDatum extends Calendar
 		this.Stunde = cal.get(Calendar.HOUR_OF_DAY);
 	}
 	
+	CDatum(int i)
+	//for default dates
+	{
+		cal = Calendar.getInstance();
+		this.Tag = i;
+		this.Monat = i;
+		this.Jahr = i;
+		this.Stunde = i;
+	}
 	
 	public void setTag(int T)
 	{
