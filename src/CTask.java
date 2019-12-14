@@ -29,6 +29,7 @@ public class CTask {
 		LOW, MEDIUM, HIGH, VERY_HIGH
 	}
 	public ImpactLevel projectImpact;
+	public ImpactLevel complexity;
 	public boolean topicForCustomerCall; //Has this topic the potential to ba hendled in a customer call?
 	public boolean groomed; //if true, all relevant information in the task has been filled
 	
@@ -47,6 +48,7 @@ public class CTask {
 		this.dateDone = new CDatum(0);
 		this.customerRequest = false;
 		this.projectImpact = ImpactLevel.LOW;
+		this.complexity = ImpactLevel.LOW;
 		this.priority = calculatePriority();
 		this.topicForCustomerCall = false; 
 		this.groomed = false;
@@ -130,6 +132,9 @@ public class CTask {
 		str = str.substring(index+1);
 		index = str.indexOf("\t");
 		this.projectImpact = getImpactLevelFromString(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.complexity = getImpactLevelFromString(str.substring(0,index));
 		str = str.substring(index+1);
 		index = str.indexOf("\t");
 		this.topicForCustomerCall = Boolean.parseBoolean(str.substring(0,index));
@@ -272,6 +277,8 @@ public class CTask {
 		outText = outText.concat(String.valueOf(involveOthers));
 		outText = outText.concat("\t");
 		outText = outText.concat(String.valueOf(projectImpact));
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(complexity));
 		outText = outText.concat("\t");
 		outText = outText.concat(String.valueOf(topicForCustomerCall));
 		outText = outText.concat("\t");
