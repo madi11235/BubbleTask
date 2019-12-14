@@ -14,6 +14,8 @@ public class CTask {
 	//Attributes
 	private String description; 
 	private String notes;
+	private String assignee; 
+	private boolean done; 
 	public CDatum dateCreation;
 	public CDatum dateModification;
 	public CDatum dateDue;
@@ -22,7 +24,7 @@ public class CTask {
 	public boolean customerRequest; //was this task requested directly by the customer
 	private boolean involveOthers; //can I do this task alone or do I need to involve others
 	public LinkedList<CInterface> interfaceList; //who do I need to solve this task
-	public enum ImpactLevel
+	public static enum ImpactLevel
 	{
 		LOW, MEDIUM, HIGH, VERY_HIGH
 	}
@@ -34,11 +36,13 @@ public class CTask {
 	CTask()
 	{
 		this.description = "";
+		this.notes = "";
+		this.assignee = "Markus";
+		this.done = false; 
 		this.dateCreation = new CDatum();
 		this.dateModification = new CDatum();
 		this.interfaceList = new LinkedList<CInterface>();
 		this.involveOthers = false;
-		this.notes = "";
 		this.dateDue = new CDatum(0);
 		this.dateDone = new CDatum(0);
 		this.customerRequest = false;
@@ -56,6 +60,12 @@ public class CTask {
 		str = str.substring(index+1);
 		index = str.indexOf("\t");
 		this.notes = str.substring(0, index);
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.assignee = str.substring(0, index);
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		this.done = Boolean.parseBoolean(str.substring(0, index));
 		str = str.substring(index+1);
 		index = str.indexOf("\t");
 		jahr = Integer.parseInt(str.substring(0,index));
@@ -150,18 +160,40 @@ public class CTask {
 		this.notes = notes; 
 	}
 	
+	public boolean getDone()
+	{
+		return done; 
+	}
+	
+	public void setDone(boolean done)
+	{
+		this.done = done; 
+	}
+	
+	public String getAssignee()
+	{
+		return this.assignee;
+	}
+	
+	public void setAssignee(String txt)
+	{
+		this.assignee = txt;
+	}
+	
 	public boolean getInvolveOthers()
 	{
 		return involveOthers;
 	}
 	
-	public void setInvolveOthers()
+	public void setInvolveOthers(boolean others)
 	{
+		this.involveOthers = others;
+/*		
 		if(interfaceList.size() > 0)
 			this.involveOthers = true;
 		else
 			this.involveOthers = false; 
-			
+*/			
 	}
 	
 	public static ImpactLevel getImpactLevelFromString(String str)
@@ -196,6 +228,10 @@ public class CTask {
 		String outText = description;
 		outText = outText.concat("\t");
 		outText = outText.concat(notes);
+		outText = outText.concat("\t");
+		outText = outText.concat(assignee);
+		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(done));
 		outText = outText.concat("\t");
 		outText = outText.concat(String.valueOf(dateCreation.Jahr));
 		outText = outText.concat("\t");
