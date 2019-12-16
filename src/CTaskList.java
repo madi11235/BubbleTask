@@ -136,5 +136,25 @@ public class CTaskList {
 		}
 	}
 	
+	public String[][] getListAsStringArray()
+	{
+		String[][] Slist;
+		if(taskList.size() > 0)
+		{
+			// number of fields per task
+			String[] fieldNames = taskList.get(0).getFieldNames();
+			//set up and fill list
+			Slist = new String[taskList.size()+1][fieldNames.length];
+			Slist[0] = fieldNames;
+			for(int i = 0; i < taskList.size(); i++)
+			{
+				Slist[i+1] = taskList.get(i).getTaskAsStringArray();
+			}
+		}
+		else
+		{Slist = new String[0][0];}
+		
+		return Slist;
+	}
 	
 }

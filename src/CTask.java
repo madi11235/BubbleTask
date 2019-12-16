@@ -296,4 +296,53 @@ public class CTask {
 		return 1.0;
 	}
 	
+	/*
+	 * getFieldNames()
+	 * 
+	 * returns te names of all properties of a task as a string array
+	 */
+	public String[] getFieldNames()
+	{
+		String[] fieldNames = 
+			{
+					"Description",
+					"Assignee",
+					"Done",
+					"Creation Date",
+					"Modification Data",
+					"Due Date",
+					"Done Date",
+					"Priority",
+					"Project Impact",
+					"Complexity",
+					"Customer Request",
+					"Involves others",
+					"Topic for Customer Call",
+					"groomed"
+			};
+		return fieldNames;
+	}
+	
+	public String[] getTaskAsStringArray()
+	{
+		String[] STask = {
+				this.description,
+				this.assignee,
+				String.valueOf(this.done),
+				String.valueOf(this.dateCreation.Tag) + "." + String.valueOf(this.dateCreation.Monat) + "." + String.valueOf(this.dateCreation.Jahr),
+				String.valueOf(this.dateModification.Tag) + "." + String.valueOf(this.dateModification.Monat) + "." + String.valueOf(this.dateModification.Jahr),
+				String.valueOf(this.dateDue.Tag) + "." + String.valueOf(this.dateDue.Monat) + "." + String.valueOf(this.dateDue.Jahr),
+				String.valueOf(this.dateDone.Tag) + "." + String.valueOf(this.dateDone.Monat) + "." + String.valueOf(this.dateDone.Jahr),
+				String.valueOf(this.priority),
+				String.valueOf(this.projectImpact),
+				String.valueOf(this.complexity),
+				String.valueOf(this.customerRequest),
+				String.valueOf(this.involveOthers),
+				String.valueOf(this.topicForCustomerCall),
+				String.valueOf(this.groomed)
+		};
+		
+		return STask;
+	}
+	
 }

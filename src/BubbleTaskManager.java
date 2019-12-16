@@ -20,6 +20,8 @@ public class BubbleTaskManager {
 	FileReader fReader;
 	BufferedReader bReader;
 	
+	CTableView TableView = new CTableView();;
+	
 	//Attribute Maske
 	JFrame WFrame; 
 	JButton JBnewTask;
@@ -285,6 +287,7 @@ public class BubbleTaskManager {
 		
 		//initialize
 		taskMan.initialize();
+		taskMan.TableView.showTable(tl);
 		
 	}
 
