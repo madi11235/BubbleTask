@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class BubbleTaskManager {
+public class BubbleTaskManager implements ActionListener {
 
 	//Attribute
 	CTaskList taskList;
@@ -40,6 +40,30 @@ public class BubbleTaskManager {
 	BubbleTaskManager()
 	{
 		datei = new File("Tasks.tsk");
+	}
+	
+	
+	public void actionPerformed(ActionEvent e)
+	{
+		String command;
+		command = e.getActionCommand();
+		
+		switch (command) 
+		{
+		//TODO: Wann speichern wir die veränderte Task Liste ? (nach jeder Action?)
+		case "BNewTask": //neue Aufgabe anlegen
+			openEmptyTaskWindow(JTFnewTask.getText());
+			break;
+		case "BTaskAdd": //neue Aufgabe aus Task Window hinzufügen
+			addNewTaskWithDetails();
+			TableView.taskList = this.taskList;
+			WTaskFrame.setVisible(false);
+			break;
+		case "BTaskCancel": //Cancel button pressed in new task window
+			WTaskFrame.setVisible(false);
+			resetTaskFrame();
+			break;
+		}
 	}
 	
 	//Methoden
@@ -127,6 +151,8 @@ public class BubbleTaskManager {
 		
 		JBnewTask = new JButton("Add Task");
 		JBnewTask.setBounds(600, 50, 150, 30);
+		JBnewTask.addActionListener(this);
+		JBnewTask.setActionCommand("BNewTask");
 		WFrame.add(JBnewTask);
 		
 		WFrame.setVisible(true);
@@ -230,14 +256,116 @@ public class BubbleTaskManager {
 		
 		JBTaskOK = new JButton("Add Task");
 		JBTaskOK.setBounds(600, 450, 150,50);
+		JBTaskOK.addActionListener(this);
+		JBTaskOK.setActionCommand("BTaskAdd");
 		WTaskFrame.add(JBTaskOK);
 		
 		JBTaskCancel = new JButton("Cancel");
 		JBTaskCancel.setBounds(800,450,150,50);
+		JBTaskCancel.addActionListener(this);
+		JBTaskCancel.setActionCommand("BTaskCancel");
 		WTaskFrame.add(JBTaskCancel);
 		
 		WTaskFrame.setVisible(true);
 		
+	}
+	
+	public void resetTaskFrame()
+	/*
+	 * resets the task Edit / new task window to default values
+	 */
+	{
+		JTFDescription.setText("");
+		JTANotes.setText("");
+		JTFAssignee.setText("Markus");
+		
+		JTFDueDay.setText(String.valueOf(today.Tag));
+		JTFDueMonth.setText(String.valueOf(today.Monat));
+		JTFDueYear.setText(String.valueOf(today.Jahr));
+		
+		JCBcustomerReq.setSelected(false);
+		JCBcustomerCall.setSelected(false);
+		JCBinterfaceOthers.setSelected(false);
+		
+		JComboImpact.setSelectedIndex(-1);
+		JComboComplexity.setSelectedIndex(-1);
+	}
+	
+	public void openEmptyTaskWindow(String descriptionText)
+	/*
+	 * Opens the empty task window for adding a new task
+	 * If a description is available, it fills out the description text in the new task frame. 
+	 */
+	{
+		resetTaskFrame();
+		JTFDescription.setText(descriptionText);
+		WTaskFrame.setVisible(true);
+	}
+	
+	public void addNewTaskWithDetails()
+	/*
+	 * Adds a new task, taking the information given in the 
+	 * task editing window.
+	 */
+	{
+		CTask task = new CTask();
+		task.setDescription(JTFDescription.getText());
+		task.setNotes(JTANotes.getText());
+		task.setAssignee(JTFAssignee.getText());
+		task.dateDue.Tag = Integer.parseInt(JTFDueDay.getText());
+		task.dateDue.Monat = Integer.parseInt(JTFDueMonth.getText());
+		task.dateDue.Jahr = Integer.parseInt(JTFDueYear.getText());
+		task.customerRequest = JCBcustomerReq.isSelected();
+		task.topicForCustomerCall = JCBcustomerCall.isSelected();
+		task.setInvolveOthers(JCBinterfaceOthers.isSelected());
+		switch (JComboImpact.getSelectedIndex())
+		{
+		case 0:
+			task.projectImpact = CTask.ImpactLevel.LOW;
+			break;
+		case 1:
+			task.projectImpact = CTask.ImpactLevel.MEDIUM;
+			break;
+		case 2:
+			task.projectImpact = CTask.ImpactLevel.HIGH;
+			break; 
+		case 3: 
+			task.projectImpact = CTask.ImpactLevel.VERY_HIGH;
+			break;
+		default:
+			task.projectImpact = CTask.ImpactLevel.LOW;
+			break;
+		}
+		switch (JComboComplexity.getSelectedIndex())
+		{
+		case 0:
+			task.complexity = CTask.ImpactLevel.LOW;
+			break;
+		case 1:
+			task.complexity = CTask.ImpactLevel.MEDIUM;
+			break;
+		case 2:
+			task.complexity = CTask.ImpactLevel.HIGH;
+			break; 
+		case 3: 
+			task.complexity = CTask.ImpactLevel.VERY_HIGH;
+			break;
+		default:
+			task.complexity = CTask.ImpactLevel.LOW;
+			break;
+		}
+		task.dateCreation.Jahr = today.Jahr;
+		task.dateCreation.Monat = today.Monat;
+		task.dateCreation.Tag = today.Tag;
+		task.dateCreation.Stunde = today.Stunde;
+		
+		task.dateModification.Jahr = today.Jahr;
+		task.dateModification.Monat = today.Monat;
+		task.dateModification.Tag = today.Tag;
+		task.dateModification.Stunde = today.Stunde;
+		
+		taskList.addTaskToList(task);
+		WTaskFrame.setVisible(false);
 	}
 	
 	public static void main(String[] args) {
@@ -283,7 +411,6 @@ public class BubbleTaskManager {
 			System.out.println(str1);
 			System.out.println(str2);
 		}
-		
 		
 		//initialize
 		taskMan.initialize();
