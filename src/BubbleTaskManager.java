@@ -24,7 +24,7 @@ public class BubbleTaskManager implements ActionListener {
 	
 	//Attribute Maske
 	JFrame WFrame; 
-	JButton JBnewTask;
+	JButton JBnewTask, JBquickAdd;
 	JTextField JTFnewTask;
 	
 	JFrame WTaskFrame; 
@@ -57,15 +57,24 @@ public class BubbleTaskManager implements ActionListener {
 		//TODO: Wann speichern wir die veränderte Task Liste ? (nach jeder Action?)
 		case "BNewTask": //neue Aufgabe anlegen
 			openEmptyTaskWindow(JTFnewTask.getText());
+			JTFnewTask.setText("");
+			break;
+		case "BquickAdd": //neue Aufgabe with default values
+			addNewTaskDefault(JTFnewTask.getText());
+			TableView.taskList = this.taskList;
+			JTFnewTask.requestFocus();
+			JTFnewTask.setText("");
 			break;
 		case "BTaskAdd": //neue Aufgabe aus Task Window hinzufügen
 			addNewTaskWithDetails();
 			TableView.taskList = this.taskList;
 			WTaskFrame.setVisible(false);
+			JTFnewTask.requestFocus();
 			break;
 		case "BTaskCancel": //Cancel button pressed in new task window
 			WTaskFrame.setVisible(false);
 			resetTaskFrame();
+			JTFnewTask.requestFocus();
 			break;
 		case "OpenTableView":
 			TableView.showTable(this.taskList);
@@ -144,7 +153,7 @@ public class BubbleTaskManager implements ActionListener {
 		WFrame = new JFrame("Bubble Tasks");
 		WFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		WFrame.setLayout(null);
-		WFrame.setSize(800, 600);
+		WFrame.setSize(900, 600);
 		WFrame.setLocation(50, 50);
 		
 		JLabel JLnewTask = new JLabel("New Task:"); 
@@ -154,13 +163,20 @@ public class BubbleTaskManager implements ActionListener {
 		
 		JTFnewTask = new JTextField();
 		JTFnewTask.setBounds(150, 50, 425, 30);
+		JTFnewTask.requestFocus();
 		WFrame.add(JTFnewTask);
 		
 		JBnewTask = new JButton("Add Task");
-		JBnewTask.setBounds(600, 50, 150, 30);
+		JBnewTask.setBounds(600, 50, 120, 30);
 		JBnewTask.addActionListener(this);
 		JBnewTask.setActionCommand("BNewTask");
 		WFrame.add(JBnewTask);
+		
+		JBquickAdd = new JButton("Quick Add");
+		JBquickAdd.setBounds(750, 50, 120, 30);
+		JBquickAdd.addActionListener(this);
+		JBquickAdd.setActionCommand("BquickAdd");
+		WFrame.add(JBquickAdd);
 		
 		//Menu bar
 		MenuBar = new JMenuBar();
@@ -320,6 +336,17 @@ public class BubbleTaskManager implements ActionListener {
 		WTaskFrame.setVisible(true);
 	}
 	
+	public void addNewTaskDefault(String Description)
+	/*
+	 * Quickly adds a new task with default values. 
+	 * Description is taken from the description line. 
+	 */
+	{
+		CTask task = new CTask();
+		task.setDescription(Description);
+		taskList.addTaskToList(task);
+	}
+	
 	public void addNewTaskWithDetails()
 	/*
 	 * Adds a new task, taking the information given in the 
@@ -372,18 +399,8 @@ public class BubbleTaskManager implements ActionListener {
 			task.complexity = CTask.ImpactLevel.LOW;
 			break;
 		}
-		task.dateCreation.Jahr = today.Jahr;
-		task.dateCreation.Monat = today.Monat;
-		task.dateCreation.Tag = today.Tag;
-		task.dateCreation.Stunde = today.Stunde;
-		
-		task.dateModification.Jahr = today.Jahr;
-		task.dateModification.Monat = today.Monat;
-		task.dateModification.Tag = today.Tag;
-		task.dateModification.Stunde = today.Stunde;
 		
 		taskList.addTaskToList(task);
-		WTaskFrame.setVisible(false);
 	}
 	
 	public static void main(String[] args) {

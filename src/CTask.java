@@ -49,9 +49,9 @@ public class CTask {
 		this.customerRequest = false;
 		this.projectImpact = ImpactLevel.LOW;
 		this.complexity = ImpactLevel.LOW;
-		this.priority = calculatePriority();
 		this.topicForCustomerCall = false; 
 		this.groomed = false;
+		this.priority = calculatePriority();
 	}
 	
 	CTask(String str)
