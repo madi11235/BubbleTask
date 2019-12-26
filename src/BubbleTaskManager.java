@@ -36,6 +36,10 @@ public class BubbleTaskManager implements ActionListener {
 	JComboBox JComboComplexity = new JComboBox(SImpactLevels);
 	JButton JBTaskOK, JBTaskCancel;
 	
+	JMenuBar MenuBar;
+	JMenu MenuView;
+	JMenuItem MenuTableView;
+	
 	//Konstruktor
 	BubbleTaskManager()
 	{
@@ -62,6 +66,9 @@ public class BubbleTaskManager implements ActionListener {
 		case "BTaskCancel": //Cancel button pressed in new task window
 			WTaskFrame.setVisible(false);
 			resetTaskFrame();
+			break;
+		case "OpenTableView":
+			TableView.showTable(this.taskList);
 			break;
 		}
 	}
@@ -154,6 +161,20 @@ public class BubbleTaskManager implements ActionListener {
 		JBnewTask.addActionListener(this);
 		JBnewTask.setActionCommand("BNewTask");
 		WFrame.add(JBnewTask);
+		
+		//Menu bar
+		MenuBar = new JMenuBar();
+		
+		MenuView = new JMenu("View");
+		MenuView.getAccessibleContext().setAccessibleDescription("View related menue items");
+		MenuBar.add(MenuView); 
+		
+		MenuTableView = new JMenuItem("TableView");
+		MenuTableView.addActionListener(this);
+		MenuTableView.setActionCommand("OpenTableView");
+		MenuView.add(MenuTableView);
+		
+		WFrame.setJMenuBar(MenuBar);
 		
 		WFrame.setVisible(true);
 		
@@ -265,9 +286,6 @@ public class BubbleTaskManager implements ActionListener {
 		JBTaskCancel.addActionListener(this);
 		JBTaskCancel.setActionCommand("BTaskCancel");
 		WTaskFrame.add(JBTaskCancel);
-		
-		WTaskFrame.setVisible(true);
-		
 	}
 	
 	public void resetTaskFrame()
@@ -414,7 +432,6 @@ public class BubbleTaskManager implements ActionListener {
 		
 		//initialize
 		taskMan.initialize();
-		taskMan.TableView.showTable(tl);
 		
 	}
 
