@@ -264,6 +264,31 @@ public class CTask {
 		
 	}
 	
+	public static int getIntFromImpactLevel(ImpactLevel lev)
+	{
+		int i = 0;
+		switch(lev)
+		{
+			case LOW:
+				i = 0;
+				break;
+			case MEDIUM: 
+				i = 1;
+				break;
+			case HIGH:
+				i = 2; 
+				break; 
+			case VERY_HIGH: 
+				i = 3;
+				break;
+			default:
+				i = -1;
+				break; 
+		}
+			
+		return i;
+	}
+	
 	public ImpactLevel getProjectImpact()
 	{
 		return this.projectImpact;

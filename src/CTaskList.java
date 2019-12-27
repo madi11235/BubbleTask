@@ -47,6 +47,22 @@ public class CTaskList {
 		return taskList.add(task);
 	}
 	
+	public boolean replaceTaskInList(int ind, CTask task)
+	{
+		boolean ret = false;
+		
+		if(ind >= taskList.size())
+		{
+			System.out.println("Error in replacing task function. The index requested is larger than the size of the list. ");
+		}
+		else{
+			taskList.set(ind, task);
+			ret = true; 
+		}
+		
+		return ret;
+	}
+	
 	public void saveTaskList(BufferedWriter output)
 	{
 	

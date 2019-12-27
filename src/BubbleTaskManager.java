@@ -19,7 +19,7 @@ public class BubbleTaskManager implements ActionListener {
 	FileReader fReader;
 	BufferedReader bReader;
 	
-	CTableView TableView = new CTableView();;
+	CTableView TableView; 
 	
 	//Attribute Maske
 	JFrame WFrame; 
@@ -27,6 +27,7 @@ public class BubbleTaskManager implements ActionListener {
 	JTextField JTFnewTask;
 	
 	CTaskEditFrame WTaskFrame; 
+	CTaskEditFrame WEditTaskFrame;
 	
 	JMenuBar MenuBar;
 	JMenu MenuView;
@@ -47,7 +48,7 @@ public class BubbleTaskManager implements ActionListener {
 		switch (command) 
 		{
 		case "BNewTask": //neue Aufgabe anlegen
-			openEmptyTaskWindow(JTFnewTask.getText());
+			WTaskFrame.openEmptyTaskWindow(JTFnewTask.getText());
 			JTFnewTask.setText("");
 			break;
 		case "BquickAdd": //neue Aufgabe with default values
@@ -64,16 +65,26 @@ public class BubbleTaskManager implements ActionListener {
 			break;
 		case "BTaskCancel": //Cancel button pressed in new task window
 			WTaskFrame.WTaskFrame.setVisible(false);
-			resetTaskFrame();
+			WTaskFrame.resetTaskFrame();
 			JTFnewTask.requestFocus();
 			break;
 		case "OpenTableView":
 			TableView.showTable(this.taskList);
 			break;
+		case "BTaskSubmitEdit": //submit the edited task
+			replaceTaskInList(WEditTaskFrame.taskIndex, WEditTaskFrame.getTaskFromFrame());
+			TableView.taskList = this.taskList;
+			WEditTaskFrame.WTaskFrame.setVisible(false);
+			JTFnewTask.requestFocus();
+			break;
+		case "BEditCancel": //Cancel Task editing
+			WEditTaskFrame.WTaskFrame.setVisible(false);
+			WEditTaskFrame.resetTaskFrame();
+			JTFnewTask.requestFocus();
+			break; 
 		}
 		//After each action, we save the new task list
 		saveTasks();
-		
 	}
 	
 	//Methoden
@@ -203,7 +214,6 @@ public class BubbleTaskManager implements ActionListener {
 		/*********************
 		 * New Task screen
 		 */
-		
 		WTaskFrame = new CTaskEditFrame("Task");
 		
 		WTaskFrame.JBTaskOK.addActionListener(this);
@@ -212,24 +222,25 @@ public class BubbleTaskManager implements ActionListener {
 		WTaskFrame.JBTaskCancel.addActionListener(this);
 		WTaskFrame.JBTaskCancel.setActionCommand("BTaskCancel");
 		
+		/**********************
+		 *  Edit Task screen
+		 */
+		WEditTaskFrame = new CTaskEditFrame("Edit Task");
+		
+		WEditTaskFrame.JBTaskOK.addActionListener(this);
+		WEditTaskFrame.JBTaskOK.setActionCommand("BTaskSubmitEdit");
+		
+		WEditTaskFrame.JBTaskCancel.addActionListener(this);
+		WEditTaskFrame.JBTaskCancel.setActionCommand("BEditCancel");
+		
+		/***********************
+		 * Prepare table view
+		 */
+		
+		TableView = new CTableView(taskList, WEditTaskFrame);
+		
 	}
 	
-	public void resetTaskFrame()
-	/*
-	 * resets the task Edit / new task window to default values
-	 */
-	{
-		WTaskFrame.resetTaskFrame();
-	}
-	
-	public void openEmptyTaskWindow(String descriptionText)
-	/*
-	 * Opens the empty task window for adding a new task
-	 * If a description is available, it fills out the description text in the new task frame. 
-	 */
-	{
-		WTaskFrame.openEmptyTaskWindow(JTFnewTask.getText());
-	}
 	
 	public void addNewTaskDefault(String Description)
 	/*
@@ -251,6 +262,14 @@ public class BubbleTaskManager implements ActionListener {
 		CTask task = WTaskFrame.getTaskFromFrame();
 			
 		taskList.addTaskToList(task);
+	}
+	
+	public void replaceTaskInList(int index, CTask task)
+	/*
+	 * Replaces a task in the list of task with the edited version of the task 
+	 */
+	{
+		taskList.replaceTaskInList(index, task);
 	}
 	
 	public static void main(String[] args) {

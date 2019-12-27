@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class CTableView implements ActionListener{
 
 	CTaskList taskList;
+	CTaskEditFrame editFrame;
 	
 	JFrame WTableFrame;
 	JScrollPane scrollPane;
@@ -14,7 +15,18 @@ public class CTableView implements ActionListener{
 	
 	CTableView()
 	{
-		
+		setUpWindow();
+	}
+	
+	CTableView(CTaskList taskList, CTaskEditFrame editFrame)
+	{
+		this.taskList = taskList;
+		this.editFrame = editFrame; 
+		setUpWindow();
+	}
+	
+	private void setUpWindow()
+	{
 		WTableFrame = new JFrame("Table View");
 		WTableFrame.setLayout(null);
 		WTableFrame.setSize(900, 500);
@@ -31,7 +43,7 @@ public class CTableView implements ActionListener{
 		JBedit.addActionListener(this);
 		JBedit.setActionCommand("EditEntry");
 		WTableFrame.add(JBedit);
-		
+	
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -74,7 +86,7 @@ public class CTableView implements ActionListener{
 	 * task list object and not a copied task list.) 
 	 */
 	{
-		CTask task;
+		CTask task = null;
 		int[] selectedRows = taskTable.getSelectedRows();
 		String selTaskDescr = (String) taskTable.getValueAt(selectedRows[0], 0);
 		
@@ -94,6 +106,15 @@ public class CTableView implements ActionListener{
 			}
 		}
 		
+		//edit task via task frame
+		if(task != null)
+		{
+			editFrame.openEditView(index, task);
+		}
+		else
+		{
+			System.out.println("Error: Task from table for editing not identified. Bug in software in Table View Class. Congratlations!");
+		}
 		
 	}
 	
