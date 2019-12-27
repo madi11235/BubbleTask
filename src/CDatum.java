@@ -8,6 +8,11 @@ public class CDatum extends Calendar
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final int zeroDay = 1;
+	public static final int zeroMonth = 1;
+	public static final int zeroYear = 2019;
+	
 	//++++++++++++++++++++++
 	
 	Calendar cal;
@@ -60,6 +65,20 @@ public class CDatum extends Calendar
 		this.Jahr = J;
 	}
 	
+	public long convertDateInHours()
+	/*
+	 * Function converts the date into hours starting with
+	 * a predefined zero-hour.
+	 * Assuming a 1.1.XXXX as zero hour. Otherwise the computation requires more thought.  
+	 */
+	{
+		//compute the difference from zero hour:
+		long diffYear = this.Jahr - zeroYear;
+		long diffMonth = this.Monat - zeroMonth;
+		long diffDay = this.Tag - zeroDay;
+		
+		return ((long) this.Stunde + 24 * diffDay + 24 * 30 * diffMonth + 24 * 365 * diffYear); 	
+	}
 	
 	protected void computeTime()
 	{

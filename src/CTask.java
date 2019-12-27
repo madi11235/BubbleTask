@@ -7,6 +7,7 @@
  * 
  */
 import java.util.*;
+import java.util.Date;
 
 public class CTask {
 
@@ -344,6 +345,16 @@ public class CTask {
 		this.groomed = in;
 	}
 	
+	public double getPriority()
+	{
+		return this.priority;
+	}
+	
+	public void updatePriority()
+	{
+		this.priority = calculatePriority();
+	}
+	
 	/*
 	 * getContentAsString()
 	 * 
@@ -414,7 +425,51 @@ public class CTask {
 	
 	private double calculatePriority()
 	{
-		return 1.0;
+		//TODO: factors not included: topic for customer call, customer request
+		//TODO: add delegated to task
+		double prio = 1.0;
+		int timeLeft = computeDifferenceInDays(new CDatum(),this.dateDue);
+		
+		//complexity factor
+		int c;
+		switch(complexity)
+		{
+			case LOW:
+				c = 1; break;
+			case MEDIUM:
+				c = 2; break;
+			case HIGH:
+				c = 3; break;
+			case VERY_HIGH:
+				c = 5; break;
+			default:
+				c = 1; break;
+		}
+		//project impact factor
+		int pImp; 
+		switch(projectImpact)
+		{
+			case LOW:
+				pImp = 1; break;
+			case MEDIUM:
+				pImp = 2; break;
+			case HIGH:
+				pImp = 3; break;
+			case VERY_HIGH:
+				pImp = 5; break;
+			default:
+				pImp = 1; break;
+		}
+		
+		prio = Math.min(Math.max(15 - timeLeft, 1),15);
+		prio = prio + c + pImp;
+		
+		if(involveOthers)
+		{
+			prio = prio + 10;
+		}
+		
+		return prio;
 	}
 	
 	/*
@@ -466,6 +521,34 @@ public class CTask {
 		};
 		
 		return STask;
+	}
+	
+	private int computeDifferenceInDays(CDatum now, CDatum due)
+	/*
+	 * Function computes the difference in days between two days. 
+	 * Note, that the maximum relevant difference is 14 days. 
+	 * 
+	 * In a first step, the date is converted into hours, starting with
+	 * 1.1.2019 as hour 0.
+	 */
+	{
+		if(due.Tag != 0)
+		{
+			long dueTime = due.convertDateInHours();
+			long nowTime = now.convertDateInHours();
+			
+			long diff = dueTime - nowTime;
+			
+			int diffDays = (int) Math.round((double)diff/(24.0));
+			
+			return Math.max(diffDays,0);
+		}
+		else
+		{
+			//no due date given
+			return 100;
+		}
+			
 	}
 	
 }

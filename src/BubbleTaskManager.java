@@ -93,7 +93,8 @@ public class BubbleTaskManager implements ActionListener {
 			WDelConfFrame.WConfirmFrame.setVisible(false);
 			break;
 		}
-		//After each action, we save the new task list
+		//After each action, we update and save the new task list
+		taskList.updateAllTasks();
 		saveTasks();
 	}
 	
@@ -172,6 +173,8 @@ public class BubbleTaskManager implements ActionListener {
 		System.out.println("Name: "+taskList.name);
 		System.out.println(String.format("Datum: %d - %d - %d: %d ", taskList.dateCreation.Tag, taskList.dateCreation.Monat, taskList.dateCreation.Jahr, taskList.dateCreation.Stunde));
 		
+		//update priorities (with current date)
+		taskList.updateAllTasks();
 		
 		/*****************
 		 * Start screen
@@ -258,6 +261,10 @@ public class BubbleTaskManager implements ActionListener {
 		 * Prepare table view
 		 */
 		TableView = new CTableView(taskList, WEditTaskFrame, WDelConfFrame);
+		
+		
+		//TODO: re-evaluate the need for grooming
+		
 		
 	}
 	

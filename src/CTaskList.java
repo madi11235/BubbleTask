@@ -178,4 +178,15 @@ public class CTaskList {
 		return Slist;
 	}
 	
+	public void updateAllTasks()
+	/*
+	 * This method updated all tesks in the list w.r.t.:
+	 * - priority re-computation
+	 */
+	{
+		for(int i=0; i< taskList.size(); i++)
+		{
+			getTask(i).updatePriority();
+		}
+	}
 }
