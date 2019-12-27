@@ -1,9 +1,10 @@
 ---Start of tasklist---
-Name:       Neue Task List
+Name:         Neue Task List
 Date de creation: 27	12	2019	10
 
 ------------------
 Tasklist
 Aufgabe 1	Dies ist die Notiz zu einer sehr wichtigen Aufgabe. Hier kommt ein Zeilensprung.	Markus	false	2019	12	27	10	2019	12	27	10	2019	12	30	0	0	0	0	0	1.0	true	true	VERY_HIGH	VERY_HIGH	true	false	
 Nummer 2		Markus	false	2019	12	27	10	2019	12	27	10	0	0	0	0	0	0	0	0	1.0	false	false	LOW	LOW	false	false	
+Aufgabe 1	eine Notiz	Markus	false	2019	12	27	11	2019	12	27	11	2019	12	30	0	0	0	0	0	1.0	true	true	VERY_HIGH	VERY_HIGH	true	false	
 ---EndOfTaskList---

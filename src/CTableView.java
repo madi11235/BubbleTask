@@ -85,7 +85,13 @@ public class CTableView implements ActionListener{
 		{
 			task = taskList.getTask(index);
 			if(selTaskDescr == task.getDescription())
-				descrFound = true; 
+			{
+				descrFound = true;
+			}
+			else
+			{
+				index++;
+			}
 		}
 		
 		

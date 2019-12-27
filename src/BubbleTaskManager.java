@@ -12,7 +12,6 @@ public class BubbleTaskManager implements ActionListener {
 	//Attribute
 	CTaskList taskList;
 	CDatum today; 
-	String[] SImpactLevels = {"Low", "Medium", "High", "Very High"};
 	
 	File datei; 
 	FileWriter fWriter;
@@ -27,14 +26,7 @@ public class BubbleTaskManager implements ActionListener {
 	JButton JBnewTask, JBquickAdd;
 	JTextField JTFnewTask;
 	
-	JFrame WTaskFrame; 
-	JTextField JTFDescription;
-	JTextArea JTANotes;
-	JTextField JTFAssignee, JTFDueDay, JTFDueMonth, JTFDueYear;
-	JCheckBox JCBcustomerReq, JCBcustomerCall, JCBinterfaceOthers;
-	JComboBox JComboImpact = new JComboBox(SImpactLevels);
-	JComboBox JComboComplexity = new JComboBox(SImpactLevels);
-	JButton JBTaskOK, JBTaskCancel;
+	CTaskEditFrame WTaskFrame; 
 	
 	JMenuBar MenuBar;
 	JMenu MenuView;
@@ -67,11 +59,11 @@ public class BubbleTaskManager implements ActionListener {
 		case "BTaskAdd": //neue Aufgabe aus Task Window hinzufügen
 			addNewTaskWithDetails();
 			TableView.taskList = this.taskList;
-			WTaskFrame.setVisible(false);
+			WTaskFrame.WTaskFrame.setVisible(false);
 			JTFnewTask.requestFocus();
 			break;
 		case "BTaskCancel": //Cancel button pressed in new task window
-			WTaskFrame.setVisible(false);
+			WTaskFrame.WTaskFrame.setVisible(false);
 			resetTaskFrame();
 			JTFnewTask.requestFocus();
 			break;
@@ -212,110 +204,14 @@ public class BubbleTaskManager implements ActionListener {
 		 * New Task screen
 		 */
 		
-		WTaskFrame = new JFrame("Task");
-		WTaskFrame.setLayout(null);
-		WTaskFrame.setSize(1000, 550);
-		WTaskFrame.setLocation(100, 100);
+		WTaskFrame = new CTaskEditFrame("Task");
 		
-		JLabel JLTaskDescription = new JLabel("Task Description:"); 
-		JLTaskDescription.setBounds(50, 50, 200, 30);
-		JLTaskDescription.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLTaskDescription);
+		WTaskFrame.JBTaskOK.addActionListener(this);
+		WTaskFrame.JBTaskOK.setActionCommand("BTaskAdd");
 		
-		JTFDescription = new JTextField();
-		JTFDescription.setBounds(280,50,650,30);
-		WTaskFrame.add(JTFDescription);
+		WTaskFrame.JBTaskCancel.addActionListener(this);
+		WTaskFrame.JBTaskCancel.setActionCommand("BTaskCancel");
 		
-		JLabel JLNotes = new JLabel("Notes:");
-		JLNotes.setBounds(600, 100, 50, 30);
-		JLNotes.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLNotes);
-		
-		JTANotes = new JTextArea();
-		JScrollPane JscrolP = new JScrollPane(JTANotes);
-		JscrolP.setBounds(680, 100, 250, 300);
-		JscrolP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		JscrolP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);;
-		WTaskFrame.add(JscrolP);
-		
-		JLabel JLAssignee = new JLabel("Assignee:");
-		JLAssignee.setBounds(50, 100, 200, 30);
-		JLAssignee.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLAssignee);
-		
-		JTFAssignee = new JTextField("Markus");
-		JTFAssignee.setBounds(280, 100, 250, 30);
-		WTaskFrame.add(JTFAssignee);
-		
-		JLabel JLDueDate = new JLabel("Due Date:");
-		JLDueDate.setBounds(50, 150, 200, 30);
-		JLDueDate.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLDueDate);
-		
-		JTFDueDay = new JTextField(String.valueOf(today.Tag));
-		JTFDueDay.setBounds(280,150,50,30);
-		WTaskFrame.add(JTFDueDay);
-		JTFDueMonth = new JTextField(String.valueOf(today.Monat));
-		JTFDueMonth.setBounds(340,150,50,30);
-		WTaskFrame.add(JTFDueMonth);
-		JTFDueYear = new JTextField(String.valueOf(today.Jahr));
-		JTFDueYear.setBounds(400,150,80,30);
-		WTaskFrame.add(JTFDueYear);
-		
-		JLabel JLCustReq = new JLabel("Direct Customer request:");
-		JLCustReq.setBounds(50,200,200,30);
-		JLCustReq.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLCustReq);
-		
-		JCBcustomerReq = new JCheckBox();
-		JCBcustomerReq.setBounds(280, 200, 30,30);
-		WTaskFrame.add(JCBcustomerReq);
-		
-		JLabel JLCustCall = new JLabel("Topic for customer call:");
-		JLCustCall.setBounds(50,250,200,30);
-		JLCustCall.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLCustCall);
-		
-		JCBcustomerCall = new JCheckBox();
-		JCBcustomerCall.setBounds(280,250,30,30);
-		WTaskFrame.add(JCBcustomerCall);
-		
-		JLabel JLInvOthers = new JLabel("Involves others:");
-		JLInvOthers.setBounds(50,300,200,30);
-		JLInvOthers.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLInvOthers);
-		
-		JCBinterfaceOthers = new JCheckBox();
-		JCBinterfaceOthers.setBounds(280, 300,30,30);
-		WTaskFrame.add(JCBinterfaceOthers);
-		
-		JLabel JLProjImp = new JLabel("Project Impact:");
-		JLProjImp.setBounds(50,350,200,30);
-		JLProjImp.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLProjImp);
-		
-		JComboImpact.setBounds(280,350,200,30);
-		WTaskFrame.add(JComboImpact);
-		
-		JLabel JLComplexity = new JLabel("Complexity");
-		JLComplexity.setBounds(50,400,200,30);
-		JLComplexity.setHorizontalAlignment(JLabel.RIGHT);
-		WTaskFrame.add(JLComplexity);
-		
-		JComboComplexity.setBounds(280,400,200,30);
-		WTaskFrame.add(JComboComplexity);
-		
-		JBTaskOK = new JButton("Add Task");
-		JBTaskOK.setBounds(600, 450, 150,50);
-		JBTaskOK.addActionListener(this);
-		JBTaskOK.setActionCommand("BTaskAdd");
-		WTaskFrame.add(JBTaskOK);
-		
-		JBTaskCancel = new JButton("Cancel");
-		JBTaskCancel.setBounds(800,450,150,50);
-		JBTaskCancel.addActionListener(this);
-		JBTaskCancel.setActionCommand("BTaskCancel");
-		WTaskFrame.add(JBTaskCancel);
 	}
 	
 	public void resetTaskFrame()
@@ -323,20 +219,7 @@ public class BubbleTaskManager implements ActionListener {
 	 * resets the task Edit / new task window to default values
 	 */
 	{
-		JTFDescription.setText("");
-		JTANotes.setText("");
-		JTFAssignee.setText("Markus");
-		
-		JTFDueDay.setText(String.valueOf(today.Tag));
-		JTFDueMonth.setText(String.valueOf(today.Monat));
-		JTFDueYear.setText(String.valueOf(today.Jahr));
-		
-		JCBcustomerReq.setSelected(false);
-		JCBcustomerCall.setSelected(false);
-		JCBinterfaceOthers.setSelected(false);
-		
-		JComboImpact.setSelectedIndex(-1);
-		JComboComplexity.setSelectedIndex(-1);
+		WTaskFrame.resetTaskFrame();
 	}
 	
 	public void openEmptyTaskWindow(String descriptionText)
@@ -345,9 +228,7 @@ public class BubbleTaskManager implements ActionListener {
 	 * If a description is available, it fills out the description text in the new task frame. 
 	 */
 	{
-		resetTaskFrame();
-		JTFDescription.setText(descriptionText);
-		WTaskFrame.setVisible(true);
+		WTaskFrame.openEmptyTaskWindow(JTFnewTask.getText());
 	}
 	
 	public void addNewTaskDefault(String Description)
@@ -367,53 +248,8 @@ public class BubbleTaskManager implements ActionListener {
 	 * task editing window.
 	 */
 	{
-		CTask task = new CTask();
-		task.setDescription(JTFDescription.getText());
-		task.setNotes(JTANotes.getText());
-		task.setAssignee(JTFAssignee.getText());
-		task.setDueDate(Integer.parseInt(JTFDueYear.getText()),
-					Integer.parseInt(JTFDueMonth.getText()), Integer.parseInt(JTFDueDay.getText()));
-		task.setCustomerRequest(JCBcustomerReq.isSelected());
-		task.setTopicForCustCall(JCBcustomerCall.isSelected());
-		task.setInvolveOthers(JCBinterfaceOthers.isSelected());
-		switch (JComboImpact.getSelectedIndex())
-		{
-		case 0:
-			task.setProjectImpact(CTask.ImpactLevel.LOW);
-			break;
-		case 1:
-			task.setProjectImpact(CTask.ImpactLevel.MEDIUM);
-			break;
-		case 2:
-			task.setProjectImpact(CTask.ImpactLevel.HIGH);
-			break; 
-		case 3: 
-			task.setProjectImpact(CTask.ImpactLevel.VERY_HIGH);
-			break;
-		default:
-			task.setProjectImpact(CTask.ImpactLevel.LOW);
-			break;
-		}
-		switch (JComboComplexity.getSelectedIndex())
-		{
-		case 0:
-			task.setComplexity(CTask.ImpactLevel.LOW);
-			break;
-		case 1:
-			task.setComplexity(CTask.ImpactLevel.MEDIUM);
-			break;
-		case 2:
-			task.setComplexity(CTask.ImpactLevel.HIGH);
-			break; 
-		case 3: 
-			task.setComplexity(CTask.ImpactLevel.VERY_HIGH);
-			break;
-		default:
-			task.setComplexity(CTask.ImpactLevel.LOW);
-			break;
-		}
-		task.setGroomed(true);
-		
+		CTask task = WTaskFrame.getTaskFromFrame();
+			
 		taskList.addTaskToList(task);
 	}
 	
