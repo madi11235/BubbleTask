@@ -10,7 +10,7 @@ public class CTableView implements ActionListener{
 	JScrollPane scrollPane;
 	JTable taskTable;
 	
-	JButton JBupdate;
+	JButton JBupdate, JBedit;
 	
 	CTableView()
 	{
@@ -25,6 +25,13 @@ public class CTableView implements ActionListener{
 		JBupdate.addActionListener(this);
 		JBupdate.setActionCommand("UpdateTable");
 		WTableFrame.add(JBupdate);
+		
+		JBedit = new JButton("Edit");
+		JBedit.setBounds(775, 125, 75, 50);
+		JBedit.addActionListener(this);
+		JBedit.setActionCommand("EditEntry");
+		WTableFrame.add(JBedit);
+		
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -36,6 +43,9 @@ public class CTableView implements ActionListener{
 		{
 		case "UpdateTable":
 			showTable(this.taskList);
+			break;
+		case "EditEntry":
+			editTableEntry();
 			break;
 		}
 	}
@@ -54,6 +64,31 @@ public class CTableView implements ActionListener{
 		taskTable.setFillsViewportHeight(true);
 		WTableFrame.add(scrollPane);
 		WTableFrame.setVisible(true);
+	}
+	
+	public void editTableEntry()
+	/*
+	 * Function identifies table entry line to be modified
+	 * and opens a window allowing the editing of this task.
+	 * (assuimung, that this classes object has a pointer to the 
+	 * task list object and not a copied task list.) 
+	 */
+	{
+		CTask task;
+		int[] selectedRows = taskTable.getSelectedRows();
+		String selTaskDescr = (String) taskTable.getValueAt(selectedRows[0], 0);
+		
+		// find index in task list
+		boolean descrFound = false;
+		int index = 0;
+		while(!descrFound && index < taskList.getSize())
+		{
+			task = taskList.getTask(index);
+			if(selTaskDescr == task.getDescription())
+				descrFound = true; 
+		}
+		
+		
 	}
 	
 }

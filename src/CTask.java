@@ -18,20 +18,20 @@ public class CTask {
 	private boolean done; 
 	public CDatum dateCreation;
 	public CDatum dateModification;
-	public CDatum dateDue;
+	private CDatum dateDue;
 	public CDatum dateDone;
 	private double priority; 
-	public boolean customerRequest; //was this task requested directly by the customer
+	private boolean customerRequest; //was this task requested directly by the customer
 	private boolean involveOthers; //can I do this task alone or do I need to involve others
 	public LinkedList<CInterface> interfaceList; //who do I need to solve this task
 	public static enum ImpactLevel
 	{
 		LOW, MEDIUM, HIGH, VERY_HIGH
 	}
-	public ImpactLevel projectImpact;
-	public ImpactLevel complexity;
-	public boolean topicForCustomerCall; //Has this topic the potential to ba hendled in a customer call?
-	public boolean groomed; //if true, all relevant information in the task has been filled
+	private ImpactLevel projectImpact;
+	private ImpactLevel complexity;
+	private boolean topicForCustomerCall; //Has this topic the potential to ba hendled in a customer call?
+	private boolean groomed; //if true, all relevant information in the task has been filled
 	
 	//Constructors
 	CTask()
@@ -162,6 +162,26 @@ public class CTask {
 	
 	public void setNotes(String notes)
 	{
+		//remove the line breaks from the string
+		int index = notes.indexOf(System.lineSeparator());
+		String buf;
+		
+		while (index != -1)
+		{
+			buf = notes.substring(0, index);
+			notes = buf + " " + notes.substring(index + 1);
+			index = notes.indexOf(System.lineSeparator());
+		}
+		
+		//remove tabs
+		index = notes.indexOf("\t");
+		while (index != -1)
+		{
+			buf = notes.substring(0, index);
+			notes = buf + " " + notes.substring(index + 1);
+			index = notes.indexOf("\t");
+		}
+		
 		this.notes = notes; 
 	}
 	
@@ -185,6 +205,26 @@ public class CTask {
 		this.assignee = txt;
 	}
 	
+	public boolean getCustomerRequest()
+	{
+		return this.customerRequest;
+	}
+	
+	public void setCustomerRequest(boolean req)
+	{
+		this.customerRequest = req;
+	}
+	
+	public boolean getTopicForCustCall()
+	{
+		return this.topicForCustomerCall;
+	}
+	
+	public void setTopicForCustCall(boolean custCall)
+	{
+		this.topicForCustomerCall = custCall;
+	}
+	
 	public boolean getInvolveOthers()
 	{
 		return involveOthers;
@@ -200,6 +240,7 @@ public class CTask {
 			this.involveOthers = false; 
 */			
 	}
+	
 	
 	public static ImpactLevel getImpactLevelFromString(String str)
 	{
@@ -221,6 +262,61 @@ public class CTask {
 		}
 			
 		
+	}
+	
+	public ImpactLevel getProjectImpact()
+	{
+		return this.projectImpact;
+	}
+	
+	public void setProjectImpact(ImpactLevel lev)
+	{
+		this.projectImpact = lev;
+	}
+	
+	public ImpactLevel getComplexity()
+	{
+		return this.complexity;
+	}
+	
+	public void setComplexity(ImpactLevel compl)
+	{
+		this.complexity = compl;
+	}
+	
+	public CDatum getDueDate()
+	{
+		return this.dateDue;
+	}
+	
+	public void setDueDate(CDatum date)
+	{
+		this.dateDue = date;
+	}
+	
+	public void setDueDate(int year, int month, int day)
+	{
+		this.dateDue.Jahr = year;
+		this.dateDue.Monat = month;
+		this.dateDue.Tag = day;
+	}
+
+	public void setDueDate(int year, int month, int day, int hour)
+	{
+		this.dateDue.Jahr = year;
+		this.dateDue.Monat = month;
+		this.dateDue.Tag = day;
+		this.dateDue.Stunde = hour;
+	}
+	
+	public boolean getGroomed()
+	{
+		return this.groomed;
+	}
+	
+	public void setGroomed(boolean in)
+	{
+		this.groomed = in;
 	}
 	
 	/*

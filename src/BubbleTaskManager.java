@@ -54,7 +54,6 @@ public class BubbleTaskManager implements ActionListener {
 		
 		switch (command) 
 		{
-		//TODO: Wann speichern wir die veränderte Task Liste ? (nach jeder Action?)
 		case "BNewTask": //neue Aufgabe anlegen
 			openEmptyTaskWindow(JTFnewTask.getText());
 			JTFnewTask.setText("");
@@ -80,6 +79,9 @@ public class BubbleTaskManager implements ActionListener {
 			TableView.showTable(this.taskList);
 			break;
 		}
+		//After each action, we save the new task list
+		saveTasks();
+		
 	}
 	
 	//Methoden
@@ -114,30 +116,36 @@ public class BubbleTaskManager implements ActionListener {
 	
 	public CTaskList loadTasks()
 	{
-		try{
-			
-			fReader = new FileReader(datei);
-			bReader = new BufferedReader(fReader);
-			
-		}
-		catch(IOException ex)
+		CTaskList tl = new CTaskList("Neue Task List");
+		
+		if(datei.exists() && !datei.isDirectory())
 		{
-			ex.printStackTrace();
-			System.out.println("File not found");
+			try
+			{
+				fReader = new FileReader(datei);
+				bReader = new BufferedReader(fReader);
+				
+				//Load Data	
+				tl = new CTaskList(bReader);
+			
+			}
+			catch(IOException ex)
+			{
+				ex.printStackTrace();
+				System.out.println("File not found");
+			}
+		
+			try
+			{
+				bReader.close();
+				fReader.close();
+			}	
+			catch(IOException ex)
+			{
+				ex.printStackTrace();
+			}
 		}
 		
-		//Load Data	
-		CTaskList tl = new CTaskList(bReader);
-	
-		try
-		{
-			bReader.close();
-			fReader.close();
-		}	
-		catch(IOException ex)
-		{
-			ex.printStackTrace();
-		}
 		return tl;
 	}
 	
@@ -145,6 +153,12 @@ public class BubbleTaskManager implements ActionListener {
 	public void initialize()
 	{
 		today = new CDatum();
+		
+		taskList = loadTasks();
+		System.out.println("Task list loaded:");
+		System.out.println("Name: "+taskList.name);
+		System.out.println(String.format("Datum: %d - %d - %d: %d ", taskList.dateCreation.Tag, taskList.dateCreation.Monat, taskList.dateCreation.Jahr, taskList.dateCreation.Stunde));
+		
 		
 		/*****************
 		 * Start screen
@@ -357,48 +371,48 @@ public class BubbleTaskManager implements ActionListener {
 		task.setDescription(JTFDescription.getText());
 		task.setNotes(JTANotes.getText());
 		task.setAssignee(JTFAssignee.getText());
-		task.dateDue.Tag = Integer.parseInt(JTFDueDay.getText());
-		task.dateDue.Monat = Integer.parseInt(JTFDueMonth.getText());
-		task.dateDue.Jahr = Integer.parseInt(JTFDueYear.getText());
-		task.customerRequest = JCBcustomerReq.isSelected();
-		task.topicForCustomerCall = JCBcustomerCall.isSelected();
+		task.setDueDate(Integer.parseInt(JTFDueYear.getText()),
+					Integer.parseInt(JTFDueMonth.getText()), Integer.parseInt(JTFDueDay.getText()));
+		task.setCustomerRequest(JCBcustomerReq.isSelected());
+		task.setTopicForCustCall(JCBcustomerCall.isSelected());
 		task.setInvolveOthers(JCBinterfaceOthers.isSelected());
 		switch (JComboImpact.getSelectedIndex())
 		{
 		case 0:
-			task.projectImpact = CTask.ImpactLevel.LOW;
+			task.setProjectImpact(CTask.ImpactLevel.LOW);
 			break;
 		case 1:
-			task.projectImpact = CTask.ImpactLevel.MEDIUM;
+			task.setProjectImpact(CTask.ImpactLevel.MEDIUM);
 			break;
 		case 2:
-			task.projectImpact = CTask.ImpactLevel.HIGH;
+			task.setProjectImpact(CTask.ImpactLevel.HIGH);
 			break; 
 		case 3: 
-			task.projectImpact = CTask.ImpactLevel.VERY_HIGH;
+			task.setProjectImpact(CTask.ImpactLevel.VERY_HIGH);
 			break;
 		default:
-			task.projectImpact = CTask.ImpactLevel.LOW;
+			task.setProjectImpact(CTask.ImpactLevel.LOW);
 			break;
 		}
 		switch (JComboComplexity.getSelectedIndex())
 		{
 		case 0:
-			task.complexity = CTask.ImpactLevel.LOW;
+			task.setComplexity(CTask.ImpactLevel.LOW);
 			break;
 		case 1:
-			task.complexity = CTask.ImpactLevel.MEDIUM;
+			task.setComplexity(CTask.ImpactLevel.MEDIUM);
 			break;
 		case 2:
-			task.complexity = CTask.ImpactLevel.HIGH;
+			task.setComplexity(CTask.ImpactLevel.HIGH);
 			break; 
 		case 3: 
-			task.complexity = CTask.ImpactLevel.VERY_HIGH;
+			task.setComplexity(CTask.ImpactLevel.VERY_HIGH);
 			break;
 		default:
-			task.complexity = CTask.ImpactLevel.LOW;
+			task.setComplexity(CTask.ImpactLevel.LOW);
 			break;
 		}
+		task.setGroomed(true);
 		
 		taskList.addTaskToList(task);
 	}
@@ -407,18 +421,19 @@ public class BubbleTaskManager implements ActionListener {
 		
 		System.out.println("Willkommen zum Bubble Task Manager");
 		
+		/*
 		CTask Aufgabe1 = new CTask();
 		Aufgabe1.setDescription("Aufgabe nr.1");
 		CTask Aufgabe2 = new CTask();
 		Aufgabe2.setDescription("Aufgabe nr.2");
+		*/
 		
 		BubbleTaskManager taskMan = new BubbleTaskManager();
 		
-		taskMan.taskList = new CTaskList("Meine Aufgabenliste");
+		/*
 		taskMan.taskList.addTaskToList(Aufgabe1);
 		taskMan.taskList.addTaskToList(Aufgabe2);
 		System.out.println("Groesse der Aufgabenliste: " + taskMan.taskList.getSize());
-		
 		
 		for (int i=0; i<taskMan.taskList.getSize(); i++)
 		{
@@ -426,17 +441,13 @@ public class BubbleTaskManager implements ActionListener {
 			System.out.println("Beschreibung von Task nr. " + i + " ist: " + Aufg.getDescription());
 			System.out.println(Aufg.getContentAsString());
 		}
+		*/
+		//System.out.println("Speichere Liste");
+		//taskMan.saveTasks();
 		
-		System.out.println("Speichere Liste");
-		taskMan.saveTasks();
-		
-		CTaskList tl = taskMan.loadTasks();;
-		System.out.println("Task list loaded:");
-		System.out.println("Name: "+tl.name);
-		System.out.println(String.format("Datum: %d - %d - %d: %d ", tl.dateCreation.Tag, tl.dateCreation.Monat, tl.dateCreation.Jahr, tl.dateCreation.Stunde));
 		
 		//checke dass laden und schreiben korrekt funktionieren
-		String str1 = Aufgabe1.getContentAsString();
+		/*String str1 = Aufgabe1.getContentAsString();
 		String str2 = tl.getTask(0).getContentAsString();
 		if(str1.equals(str2))
 			System.out.println("Speichern und laden funktioniert");
@@ -446,6 +457,7 @@ public class BubbleTaskManager implements ActionListener {
 			System.out.println(str1);
 			System.out.println(str2);
 		}
+		*/
 		
 		//initialize
 		taskMan.initialize();
