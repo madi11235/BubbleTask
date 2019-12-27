@@ -140,7 +140,7 @@ public class CTask {
 		this.topicForCustomerCall = Boolean.parseBoolean(str.substring(0,index));
 		str = str.substring(index+1);
 		index = str.indexOf("\t");
-		this.groomed = Boolean.parseBoolean(str);
+		this.groomed = Boolean.parseBoolean(str.substring(0,index));
 		this.interfaceList = new LinkedList<CInterface>();
 	}
 	
@@ -452,8 +452,8 @@ public class CTask {
 				this.assignee,
 				String.valueOf(this.done),
 				this.notes,
-				String.valueOf(this.dateCreation.Tag) + "." + String.valueOf(this.dateCreation.Monat) + "." + String.valueOf(this.dateCreation.Jahr),
-				String.valueOf(this.dateModification.Tag) + "." + String.valueOf(this.dateModification.Monat) + "." + String.valueOf(this.dateModification.Jahr),
+				String.valueOf(this.dateCreation.Tag) + "." + String.valueOf(this.dateCreation.Monat) + "." + String.valueOf(this.dateCreation.Jahr) + ":" + String.valueOf(this.dateCreation.Stunde),
+				String.valueOf(this.dateModification.Tag) + "." + String.valueOf(this.dateModification.Monat) + "." + String.valueOf(this.dateModification.Jahr)  + ":" + String.valueOf(this.dateModification.Stunde),
 				String.valueOf(this.dateDue.Tag) + "." + String.valueOf(this.dateDue.Monat) + "." + String.valueOf(this.dateDue.Jahr),
 				String.valueOf(this.dateDone.Tag) + "." + String.valueOf(this.dateDone.Monat) + "." + String.valueOf(this.dateDone.Jahr),
 				String.valueOf(this.priority),

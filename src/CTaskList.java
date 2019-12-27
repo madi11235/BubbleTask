@@ -63,6 +63,11 @@ public class CTaskList {
 		return ret;
 	}
 	
+	public void removeTaskFromList(int ind)
+	{
+		taskList.remove(ind);
+	}
+	
 	public void saveTaskList(BufferedWriter output)
 	{
 	
@@ -133,7 +138,7 @@ public class CTaskList {
 			str = input.readLine();
 			str = input.readLine();
 			str = input.readLine();
-			System.out.println("Header ingelesen...");
+			System.out.println("Header eingelesen...");
 			System.out.println(str);
 			while(!(str.substring(0,19).equals(("---EndOfTaskList---").substring(0,19))))
 			{

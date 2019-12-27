@@ -1,11 +1,12 @@
 ---Start of tasklist---
-Name:              Neue Task List
+Name:                                       Neue Task List
 Date de creation: 27	12	2019	10
 
 ------------------
 Tasklist
-Erste Aufgabe	Dies ist die Notiz zu einer sehr wichtigen Aufgabe.  Hier kommt ein Zeilensprung.	Markus	false	2019	12	27	15	2019	12	27	15	2020	1	30	0	0	0	0	0	1.0	true	true	VERY_HIGH	VERY_HIGH	true	false	
-Nummer 2		Markus	false	2019	12	27	10	2019	12	27	10	0	0	0	0	0	0	0	0	1.0	false	false	LOW	LOW	false	false	
-Dritte Aufgabe	eine Notiz	Markus	false	2019	12	27	15	2019	12	27	15	2019	12	30	0	0	0	0	0	1.0	true	true	VERY_HIGH	VERY_HIGH	false	true	
-vierte Aufgabe		Markus	false	2019	12	27	15	2019	12	27	15	2020	2	27	0	0	0	0	0	1.0	false	true	MEDIUM	LOW	false	true	
+Erste Aufgabe	groomed2 -- Dies ist die Notiz zu einer sehr wichtigen Aufgabe.  Hier kommt ein Zeilensprung.	Markus	false	2019	12	27	17	2019	12	27	17	2020	1	30	0	0	0	0	0	1.0	true	true	VERY_HIGH	VERY_HIGH	true	true	
+zweite Aufgabe	per default (quick add) hinzugefügt	Markus	false	2019	12	27	16	2019	12	27	16	0	0	0	0	0	0	0	0	1.0	false	false	LOW	LOW	false	false	
+Dritte Aufgabe	eine Notiz wurde geändert um 17:21 am 27.12.2019	Markus	false	2019	12	27	15	2019	12	27	15	2019	12	30	0	0	0	0	0	1.0	true	true	VERY_HIGH	VERY_HIGH	false	false	
+fünfte Aufgabe		Markus	false	2019	12	27	17	2019	12	27	17	2019	12	28	0	0	0	0	0	1.0	false	true	MEDIUM	LOW	false	false	
+sechste Aufgabe	Ist diese gegroomed?	Markus	false	2019	12	27	17	2019	12	27	17	2020	2	1	0	0	0	0	0	1.0	true	false	HIGH	HIGH	false	false	
 ---EndOfTaskList---

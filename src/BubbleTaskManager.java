@@ -28,6 +28,7 @@ public class BubbleTaskManager implements ActionListener {
 	
 	CTaskEditFrame WTaskFrame; 
 	CTaskEditFrame WEditTaskFrame;
+	CDeleteConfirmFrame WDelConfFrame;
 	
 	JMenuBar MenuBar;
 	JMenu MenuView;
@@ -72,7 +73,8 @@ public class BubbleTaskManager implements ActionListener {
 			TableView.showTable(this.taskList);
 			break;
 		case "BTaskSubmitEdit": //submit the edited task
-			replaceTaskInList(WEditTaskFrame.taskIndex, WEditTaskFrame.getTaskFromFrame());
+			CTask tsk = WEditTaskFrame.getTaskFromEditFrame(taskList.getTask(WEditTaskFrame.taskIndex));
+			replaceTaskInList(WEditTaskFrame.taskIndex, tsk);
 			TableView.taskList = this.taskList;
 			WEditTaskFrame.WTaskFrame.setVisible(false);
 			JTFnewTask.requestFocus();
@@ -81,7 +83,15 @@ public class BubbleTaskManager implements ActionListener {
 			WEditTaskFrame.WTaskFrame.setVisible(false);
 			WEditTaskFrame.resetTaskFrame();
 			JTFnewTask.requestFocus();
-			break; 
+			break;
+		case "BConfDelete": //confirm deletion
+			deleteTask(WDelConfFrame.taskIndex);
+			WDelConfFrame.WConfirmFrame.setVisible(false);
+			JTFnewTask.requestFocus();
+			break;
+		case "BcancelDelete": //cancel deletion
+			WDelConfFrame.WConfirmFrame.setVisible(false);
+			break;
 		}
 		//After each action, we save the new task list
 		saveTasks();
@@ -233,11 +243,21 @@ public class BubbleTaskManager implements ActionListener {
 		WEditTaskFrame.JBTaskCancel.addActionListener(this);
 		WEditTaskFrame.JBTaskCancel.setActionCommand("BEditCancel");
 		
+		/********************
+		 * Deletion confirm frame set up
+		 */
+		WDelConfFrame = new CDeleteConfirmFrame();
+		
+		WDelConfFrame.JBok.addActionListener(this);
+		WDelConfFrame.JBok.setActionCommand("BConfDelete");
+		
+		WDelConfFrame.JBcancel.addActionListener(this);
+		WDelConfFrame.JBcancel.setActionCommand("BcancelDelete");
+		
 		/***********************
 		 * Prepare table view
 		 */
-		
-		TableView = new CTableView(taskList, WEditTaskFrame);
+		TableView = new CTableView(taskList, WEditTaskFrame, WDelConfFrame);
 		
 	}
 	
@@ -260,7 +280,6 @@ public class BubbleTaskManager implements ActionListener {
 	 */
 	{
 		CTask task = WTaskFrame.getTaskFromFrame();
-			
 		taskList.addTaskToList(task);
 	}
 	
@@ -270,6 +289,14 @@ public class BubbleTaskManager implements ActionListener {
 	 */
 	{
 		taskList.replaceTaskInList(index, task);
+	}
+	
+	public void deleteTask(int index)
+	/*
+	 * Delet a task from the task list at the given index
+	 */
+	{
+		taskList.removeTaskFromList(index);
 	}
 	
 	public static void main(String[] args) {
