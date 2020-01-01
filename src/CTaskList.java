@@ -178,10 +178,18 @@ public class CTaskList {
 		return Slist;
 	}
 	
+	
+	public void sortPriority()
+	{
+		Collections.sort(taskList, new CTaskPriorityComparator());
+	}
+	
+	
 	public void updateAllTasks()
 	/*
 	 * This method updated all tesks in the list w.r.t.:
 	 * - priority re-computation
+	 * - TODO: grooming activation if task is over due
 	 */
 	{
 		for(int i=0; i< taskList.size(); i++)

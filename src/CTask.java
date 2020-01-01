@@ -7,7 +7,6 @@
  * 
  */
 import java.util.*;
-import java.util.Date;
 
 public class CTask {
 
@@ -552,3 +551,13 @@ public class CTask {
 	}
 	
 }
+
+
+class CTaskPriorityComparator implements Comparator<CTask>
+{
+	public int compare(CTask task1, CTask task2)
+	{
+		return (int) Math.round(10 * (task2.getPriority() - task1.getPriority()));
+	}
+}
+

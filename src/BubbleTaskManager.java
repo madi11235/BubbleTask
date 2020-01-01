@@ -34,6 +34,9 @@ public class BubbleTaskManager implements ActionListener {
 	JMenu MenuView;
 	JMenuItem MenuTableView;
 	
+	CBubbleArea bubbleArea;
+	JScrollPane bubbleScrollPane;
+	
 	//Konstruktor
 	BubbleTaskManager()
 	{
@@ -261,6 +264,17 @@ public class BubbleTaskManager implements ActionListener {
 		 * Prepare table view
 		 */
 		TableView = new CTableView(taskList, WEditTaskFrame, WDelConfFrame);
+		
+		/*******************
+		 * Set up bubble canvas
+		 */
+		bubbleArea = new CBubbleArea();
+		//bubbleArea.setBounds(80, 150, 400, 1000);
+		bubbleArea.setSize(400, 500);
+		bubbleScrollPane = new JScrollPane(bubbleArea);
+		bubbleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);;
+		bubbleScrollPane.setBounds(80,150,420,350);
+		WFrame.add(bubbleScrollPane);
 		
 		
 		//TODO: re-evaluate the need for grooming
