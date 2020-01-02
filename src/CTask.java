@@ -10,6 +10,10 @@ import java.util.*;
 
 public class CTask {
 
+	//Constants
+	public static final double MIN_PRIORITY = 1.0;
+	public static final double MAX_PRIORITY = 35.0;
+	
 	
 	//Attributes
 	private String description; 
@@ -550,6 +554,48 @@ public class CTask {
 			
 	}
 	
+	public int computeRemainingTimeTillDate(CDatum now)
+	/*
+	 * This function computes the time difference in days
+	 * between the due date of this task and another date. 
+	 * 
+	 * Function is used for a comparator operation to sort a task list for 
+	 * the due date. 
+	 * 
+	 * Some due dates are given as 0.0.0000. This defines an undfined due date. 
+	 * The time remaining until then is per definition very long. 
+	 * We assume this undefined date to be very far in the future. 
+	 */
+	{
+		
+		CDatum dueDate = new CDatum(this.dateDue);
+		
+		if(now.Tag == 0)
+		{
+			//now far in the future
+			now.Tag = 1;
+			now.Monat = 1;
+			now.Jahr = 2076;
+		}
+		
+		if(dueDate.Tag == 0)
+		{
+			//due date far in the future
+			dueDate.Tag = 1; 
+			dueDate.Monat = 1;
+			dueDate.Jahr = 2076;
+		}
+		
+		long dueTime = dueDate.convertDateInHours();
+		long nowTime = now.convertDateInHours();
+		
+		long diff = dueTime - nowTime;
+		
+		int diffDays = (int) Math.round((double)diff/(24.0));
+		
+		return diffDays;
+	}
+	
 }
 
 
@@ -561,3 +607,10 @@ class CTaskPriorityComparator implements Comparator<CTask>
 	}
 }
 
+class CTaskDueDateComparator implements Comparator<CTask>
+{
+	public int compare(CTask task1, CTask task2)
+	{
+		return task1.computeRemainingTimeTillDate(task2.getDueDate());
+	}
+}

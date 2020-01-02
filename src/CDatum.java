@@ -31,13 +31,13 @@ public class CDatum extends Calendar
 	}
 	
 	CDatum(int i)
-	//for default dates
+	//for default dates -- any input i results in a default date
 	{
 		cal = Calendar.getInstance();
-		this.Tag = i;
-		this.Monat = i;
-		this.Jahr = i;
-		this.Stunde = i;
+		this.Tag = 1;
+		this.Monat = 1;
+		this.Jahr = 2076;
+		this.Stunde = 0;
 	}
 	
 	CDatum(int jahr, int monat, int tag, int stunde)
@@ -48,6 +48,15 @@ public class CDatum extends Calendar
 		this.Monat = monat;
 		this.Jahr = jahr;
 		this.Stunde = stunde;
+	}
+	
+	CDatum(CDatum date)
+	//copy constructor
+	{
+		this.Jahr = date.Jahr;
+		this.Monat = date.Monat;
+		this.Tag = date.Tag;
+		this.Stunde = date.Stunde;
 	}
 	
 	public void setTag(int T)

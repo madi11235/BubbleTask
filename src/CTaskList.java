@@ -184,6 +184,11 @@ public class CTaskList {
 		Collections.sort(taskList, new CTaskPriorityComparator());
 	}
 	
+	public void sortDueDate()
+	{
+		Collections.sort(taskList, new CTaskDueDateComparator());
+	}
+	
 	
 	public void updateAllTasks()
 	/*

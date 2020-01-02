@@ -35,7 +35,6 @@ public class BubbleTaskManager implements ActionListener {
 	JMenuItem MenuTableView;
 	
 	CBubbleArea bubbleArea;
-	JScrollPane bubbleScrollPane;
 	
 	//Konstruktor
 	BubbleTaskManager()
@@ -98,7 +97,11 @@ public class BubbleTaskManager implements ActionListener {
 		}
 		//After each action, we update and save the new task list
 		taskList.updateAllTasks();
-		saveTasks();
+		//saveTasks();
+		for(int i=0; i<taskList.getSize();i++)
+		{
+			System.out.println("Task " + String.valueOf(i) + "due Year" + String.valueOf(taskList.getTask(i).getDueDate().Jahr)); 
+		}
 	}
 	
 	//Methoden
@@ -269,12 +272,8 @@ public class BubbleTaskManager implements ActionListener {
 		 * Set up bubble canvas
 		 */
 		bubbleArea = new CBubbleArea();
-		//bubbleArea.setBounds(80, 150, 400, 1000);
-		bubbleArea.setSize(400, 500);
-		bubbleScrollPane = new JScrollPane(bubbleArea);
-		bubbleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);;
-		bubbleScrollPane.setBounds(80,150,420,350);
-		WFrame.add(bubbleScrollPane);
+		bubbleArea.setBounds(80, 150, 400, 350);
+		WFrame.add(bubbleArea);
 		
 		
 		//TODO: re-evaluate the need for grooming

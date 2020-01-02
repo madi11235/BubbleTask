@@ -192,7 +192,7 @@ public class CTaskEditFrame {
 	
 	public CTask getTaskFromFrame()
 	/*
-	 * reads out the fields in the frame and return a task
+	 * reads out the fields in the frame and returns a task
 	 */
 	{
 		CTask task = new CTask();
