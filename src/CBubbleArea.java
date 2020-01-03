@@ -5,9 +5,9 @@ public class CBubbleArea extends Canvas{
 
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_SET_SIZE = 500;
-	private static final int MIN_BUBBLE_RADIUS = 60;
-	private static final int MAX_BUBBLE_RADIUS = 120;
-	private static final int LIMIT_SMALL_RADIUS = 90;
+	private static final int MIN_BUBBLE_diameter = 60;
+	private static final int MAX_BUBBLE_diameter = 120;
+	private static final int LIMIT_SMALL_diameter = 90;
 	
 	public static final Color BackgroundColor = new Color(250, 235, 215);
 	public static final Color urgentColor = new Color(178, 34, 34);
@@ -19,10 +19,9 @@ public class CBubbleArea extends Canvas{
 	public class CBubble
 	{
 		int x,y;
-		private int radius;
+		private int diameter;
 		private Color fillColor;
-		private String text;
-		private CTask task;  
+		private String text; 
 		
 		CBubble(CTask task)
 		{
@@ -31,11 +30,11 @@ public class CBubbleArea extends Canvas{
 			this.y = 0;
 		}
 		
-		private int computeRadius(double prio)
+		private int computediameter(double prio)
 		{
 			double prioNormal = (prio - CTask.MIN_PRIORITY)/(CTask.MAX_PRIORITY - CTask.MIN_PRIORITY);
-			double radiusDouble = prioNormal * (double)(MAX_BUBBLE_RADIUS - MIN_BUBBLE_RADIUS) + (double)(MIN_BUBBLE_RADIUS);
-			return (int) radiusDouble; 
+			double diameterDouble = prioNormal * (double)(MAX_BUBBLE_diameter - MIN_BUBBLE_diameter) + (double)(MIN_BUBBLE_diameter);
+			return (int) diameterDouble; 
 		}
 		
 		private Color computeColor(double prio)
@@ -51,11 +50,11 @@ public class CBubbleArea extends Canvas{
 		public void drawBubble(Graphics g)
 		{
 			g.setColor(fillColor);
-			g.fillOval(x, y, radius, radius);
+			g.fillOval(x, y, diameter, diameter);
 			int lineIncrement = 11;
 			
 			g.setColor(Color.WHITE);
-			if(radius < LIMIT_SMALL_RADIUS)
+			if(diameter < LIMIT_SMALL_diameter)
 			{
 				g.setFont(smallFont);
 				lineIncrement = 11;
@@ -66,29 +65,29 @@ public class CBubbleArea extends Canvas{
 				lineIncrement = 14;
 			}
 			
-			String[] str = textUmbrechen(text, radius);
+			String[] str = textUmbrechen(text, diameter);
 			for(int i=0; i < str.length; i++)
 			{
-					g.drawString(str[i], x-radius+10, y-radius + i*lineIncrement);
+					g.drawString(str[i], x-(int)(0.5*diameter)+10, y-(int)(0.5*diameter) + i*lineIncrement);
 			}
 			
 		}
 		
-		private String[] textUmbrechen(String text, int radius)
+		private String[] textUmbrechen(String text, int diameter)
 		{
 			String[] out = {" ", " ", " "};
 			
 			int charPerLine  = 7;
 			
-			if(radius > 70 && radius <= 90)
+			if(diameter > 70 && diameter <= 90)
 				charPerLine = 11;
 			else
 			{
-				if(radius > 90 && radius <=110)
+				if(diameter > 90 && diameter <=110)
 					charPerLine = 14;
 				else
 				{
-					if(radius > 110)
+					if(diameter > 110)
 						charPerLine = 16;
 				}
 			}
@@ -129,26 +128,39 @@ public class CBubbleArea extends Canvas{
 			return out;
 		}
 		
-		
 		public void updateBubbleFromTask(CTask task)
 		{
-			this.task = task;
-			this.radius = computeRadius(task.getPriority());
+			this.diameter = computediameter(task.getPriority());
 			this.text = task.getDescription();
 			this.fillColor = computeColor(task.getPriority());
 		}
 	}
 	
 	CBubble[] bubbleSet = new CBubble[MAX_SET_SIZE];
+	private int nrBubbles = 0;
 	
 	CBubbleArea()
 	{
 		setBackground(BackgroundColor);
 	}
 	
-	class MouseWatcher extends MouseAdapter
+	CBubbleArea(CTaskList taskList)
 	{
+		setBackground(BackgroundColor);
 		
+		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
+		{
+			bubbleSet[i] = new CBubble(taskList.getTask(i));
+			nrBubbles = i+1;
+		}
+		
+		setXYofBubbles();
+		
+	}
+	
+	public int getNumberOfBubbles()
+	{
+		return nrBubbles;
 	}
 	
 	public void paint(Graphics g)
@@ -156,56 +168,17 @@ public class CBubbleArea extends Canvas{
 		
 	}
 	
-	/*
-	private String[] textUmbrechenSmall(String text)
+	private void setXYofBubbles()
 	{
-		String[] out = {" ", " ", " "};
 		
-		int charPerLine = 7;
-		
-		int indexSpace = text.indexOf(" ");
-		String str = text;
-		
-		
-		if(indexSpace > charPerLine)
-		{
-			//all in one line of size 9
-			out[0] = text.substring(0,charPerLine + 2) + "...";
-		}
-		else
-		{
-			out[0] = str.substring(0,indexSpace);
-			str = str.substring(indexSpace +1 );
-			
-			indexSpace = str.indexOf(" ");
-			if(indexSpace > charPerLine)
-			{
-				out[1] = str.substring(0,charPerLine) + "...";
-			}
-			else
-			{
-				out[1] = str.substring(0,indexSpace);
-				str = str.substring(indexSpace + 1);
-				
-				indexSpace = str.indexOf(" ");
-				if(indexSpace > charPerLine || str.length() > charPerLine)
-				{
-					out[2] = str.substring(0, charPerLine) + "...";
-				}
-				else
-				{
-					out[2] = str.substring(0, indexSpace);
-				}
-			}
-		}
-		
-		return out;
 	}
-	*/
 	
-	
-	
-	
+	class MouseWatcher extends MouseAdapter
+	{
 		
+	}
+	
+	
+	
 		
 }
