@@ -61,7 +61,6 @@ public class CTableView implements ActionListener{
 		switch (command)
 		{
 		case "UpdateTable":
-			taskList.sortDueDate();
 			showTable(this.taskList);
 			break;
 		case "EditEntry":

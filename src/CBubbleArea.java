@@ -172,7 +172,6 @@ public class CBubbleArea extends Canvas{
 		}
 		
 		setXYofBubbles();
-		
 	}
 	
 	public int getNumberOfBubbles()
@@ -252,6 +251,17 @@ public class CBubbleArea extends Canvas{
 				idxStart = idx;
 			}
 		}
+	}
+	
+	public void updateBubbleArea(CTaskList taskList)
+	{
+		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
+		{
+			bubbleSet[i] = new CBubble(taskList.getTask(i));
+			nrBubbles = i+1;
+		}
+		setXYofBubbles();
+		repaint();
 	}
 	
 	class MouseWatcher extends MouseAdapter

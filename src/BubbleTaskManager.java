@@ -101,6 +101,8 @@ public class BubbleTaskManager implements ActionListener {
 		}
 		//After each action, we update and save the new task list
 		taskList.updateAllTasks();
+		taskList.sortDueDate();
+		bubbleArea.updateBubbleArea(taskList);
 		//saveTasks();
 		for(int i=0; i<taskList.getSize();i++)
 		{
@@ -184,6 +186,7 @@ public class BubbleTaskManager implements ActionListener {
 		System.out.println(String.format("Datum: %d - %d - %d: %d ", taskList.dateCreation.Tag, taskList.dateCreation.Monat, taskList.dateCreation.Jahr, taskList.dateCreation.Stunde));
 		
 		//update priorities (with current date)
+		taskList.sortDueDate();
 		taskList.updateAllTasks();
 		
 		/*****************
