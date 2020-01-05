@@ -80,6 +80,7 @@ public class BubbleTaskManager implements ActionListener {
 			break;
 		case "BTaskSubmitEdit": //submit the edited task
 			CTask tsk = WEditTaskFrame.getTaskFromEditFrame(taskList.getTask(WEditTaskFrame.taskIndex));
+			tsk.dateModification.setToToday();
 			replaceTaskInList(WEditTaskFrame.taskIndex, tsk);
 			TableView.taskList = this.taskList;
 			WEditTaskFrame.WTaskFrame.setVisible(false);
@@ -103,7 +104,7 @@ public class BubbleTaskManager implements ActionListener {
 		taskList.updateAllTasks();
 		taskList.sortDueDate();
 		bubbleArea.updateBubbleArea(taskList);
-		//saveTasks();
+		saveTasks();
 		for(int i=0; i<taskList.getSize();i++)
 		{
 			System.out.println("Task " + String.valueOf(i) + "due Year" + String.valueOf(taskList.getTask(i).getDueDate().Jahr)); 
@@ -259,6 +260,7 @@ public class BubbleTaskManager implements ActionListener {
 		WEditTaskFrame.JBTaskCancel.addActionListener(this);
 		WEditTaskFrame.JBTaskCancel.setActionCommand("BEditCancel");
 		
+		
 		/********************
 		 * Deletion confirm frame set up
 		 */
@@ -278,7 +280,7 @@ public class BubbleTaskManager implements ActionListener {
 		/*******************
 		 * Set up bubble canvas
 		 */
-		bubbleArea = new CBubbleArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT);
+		bubbleArea = new CBubbleArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT, WEditTaskFrame);
 		bubbleArea.setBounds(80, 150, CANVAS_WIDTH, CANVAS_HEIGHT);
 		WFrame.add(bubbleArea);
 		

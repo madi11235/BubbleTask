@@ -23,6 +23,7 @@ public class CBubbleArea extends Canvas{
 		private int diameter;
 		private Color fillColor;
 		private String text; 
+		private CTask task; 
 		
 		CBubble(CTask task)
 		{
@@ -145,6 +146,7 @@ public class CBubbleArea extends Canvas{
 			this.diameter = computediameter(task.getPriority());
 			this.text = task.getDescription();
 			this.fillColor = computeColor(task.getPriority());
+			this.task = task;
 		}
 	}
 	
@@ -152,18 +154,26 @@ public class CBubbleArea extends Canvas{
 	private int nrBubbles = 0;
 	private int CanvasHeight, CanvasWidth;
 	
-	CBubbleArea(int width, int height)
+	CTaskEditFrame editFrame; 
+	
+	CBubbleArea(int width, int height, CTaskEditFrame editFrame)
 	{
 		setBackground(BackgroundColor);
 		this.CanvasHeight = height;
 		this.CanvasWidth = width;
+		this.editFrame = editFrame;
+		
+		addMouseListener(new MouseWatcher());
 	}
 	
-	CBubbleArea(CTaskList taskList, int width, int heigth)
+	CBubbleArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)
 	{
 		setBackground(BackgroundColor);
 		this.CanvasHeight = heigth;
 		this.CanvasWidth = width;
+		this.editFrame = editFrame; 
+		
+		addMouseListener(new MouseWatcher());
 		
 		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
 		{
@@ -172,6 +182,45 @@ public class CBubbleArea extends Canvas{
 		}
 		
 		setXYofBubbles();
+	}
+	
+	public void editBubble(int mouseX, int mouseY)
+	{
+		//find task index
+		CTask task = null;
+		int taskIndex = findBubbleIdx(mouseX, mouseY);
+		
+		//if task index valid, open task editing window
+		if(taskIndex != -1)
+		{
+			task = bubbleSet[taskIndex].task;
+			editFrame.openEditView(taskIndex, task);
+			
+		}
+	}
+	
+	public int findBubbleIdx(int x, int y)
+	{
+		int idx = 0;
+		boolean bubFound = false;
+
+		while(!bubFound && idx < nrBubbles)
+		{
+			int dx = (x - bubbleSet[idx].x);
+			int dy = (y - bubbleSet[idx].y);
+			int dSquared = dx * dx + dy * dy;
+			int rSquared = bubbleSet[idx].getRadius() * bubbleSet[idx].getRadius();
+			
+			if( dSquared < rSquared)
+				bubFound = true;
+			else
+				idx++;
+		}
+		
+		if(!bubFound)
+			idx = -1;
+		
+		return idx;
 	}
 	
 	public int getNumberOfBubbles()
@@ -257,7 +306,7 @@ public class CBubbleArea extends Canvas{
 	{
 		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
 		{
-			bubbleSet[i] = new CBubble(taskList.getTask(i));
+			bubbleSet[i].updateBubbleFromTask(taskList.getTask(i));
 			nrBubbles = i+1;
 		}
 		setXYofBubbles();
@@ -266,7 +315,13 @@ public class CBubbleArea extends Canvas{
 	
 	class MouseWatcher extends MouseAdapter
 	{
-		
+		public void mousePressed(MouseEvent e)
+		{
+			int mouseX = e.getX();
+			int mouseY = e.getY();
+			
+			editBubble(mouseX, mouseY);
+		}
 	}
 	
 	

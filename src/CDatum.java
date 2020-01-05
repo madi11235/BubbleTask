@@ -129,7 +129,14 @@ public class CDatum extends Calendar
 		 
 	 }
 	 
-	 
+	 public void setToToday()
+	 {
+		 cal = Calendar.getInstance();
+		 this.Tag = cal.get(Calendar.DATE);
+		 this.Monat = cal.get(Calendar.MONTH) +1;
+		 this.Jahr = cal.get(Calendar.YEAR);
+		 this.Stunde = cal.get(Calendar.HOUR_OF_DAY);
+	 }
 	
 	
 }

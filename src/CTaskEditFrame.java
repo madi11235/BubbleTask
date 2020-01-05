@@ -162,9 +162,10 @@ public class CTaskEditFrame {
 	 * 
 	 */
 	{
+		resetTaskFrame();
 		this.taskIndex = indexOfTask;
-		preFillWithTask(task);
 		WTaskFrame.setVisible(true);
+		preFillWithTask(task);
 	}
 	
 	private void preFillWithTask(CTask task)
