@@ -9,6 +9,10 @@ import java.awt.event.*;
 
 public class BubbleTaskManager implements ActionListener {
 
+	//constants
+	public static final int CANVAS_WIDTH = 400;
+	public static final int CANVAS_HEIGHT = 350; 
+	
 	//Attribute
 	CTaskList taskList;
 	CDatum today; 
@@ -271,8 +275,8 @@ public class BubbleTaskManager implements ActionListener {
 		/*******************
 		 * Set up bubble canvas
 		 */
-		bubbleArea = new CBubbleArea();
-		bubbleArea.setBounds(80, 150, 400, 350);
+		bubbleArea = new CBubbleArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT);
+		bubbleArea.setBounds(80, 150, CANVAS_WIDTH, CANVAS_HEIGHT);
 		WFrame.add(bubbleArea);
 		
 		
