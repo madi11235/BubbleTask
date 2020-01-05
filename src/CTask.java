@@ -197,6 +197,10 @@ public class CTask {
 	public void setDone(boolean done)
 	{
 		this.done = done; 
+		if(done)
+		{
+			this.dateDone.setToToday();
+		}
 	}
 	
 	public String getAssignee()

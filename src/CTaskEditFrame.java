@@ -12,7 +12,7 @@ public class CTaskEditFrame {
 	JTextField JTFDescription;
 	JTextArea JTANotes;
 	JTextField JTFAssignee, JTFDueDay, JTFDueMonth, JTFDueYear;
-	JCheckBox JCBcustomerReq, JCBcustomerCall, JCBinterfaceOthers;
+	JCheckBox JCBcustomerReq, JCBcustomerCall, JCBinterfaceOthers, JCBdone;
 	JComboBox JComboImpact = new JComboBox(SImpactLevels);
 	JComboBox JComboComplexity = new JComboBox(SImpactLevels);
 	JButton JBTaskOK, JBTaskCancel;
@@ -106,13 +106,22 @@ public class CTaskEditFrame {
 		JComboImpact.setBounds(280,350,200,30);
 		WTaskFrame.add(JComboImpact);
 		
-		JLabel JLComplexity = new JLabel("Complexity");
+		JLabel JLComplexity = new JLabel("Complexity:");
 		JLComplexity.setBounds(50,400,200,30);
 		JLComplexity.setHorizontalAlignment(JLabel.RIGHT);
 		WTaskFrame.add(JLComplexity);
 		
 		JComboComplexity.setBounds(280,400,200,30);
 		WTaskFrame.add(JComboComplexity);
+		
+		JLabel JLDone = new JLabel("Done:");
+		JLDone.setBounds(50,450,200,30);
+		JLDone.setHorizontalAlignment(JLabel.RIGHT);
+		WTaskFrame.add(JLDone);
+		
+		JCBdone = new JCheckBox();
+		JCBdone.setBounds(280,450,30,30);
+		WTaskFrame.add(JCBdone);
 		
 		JBTaskOK = new JButton("OK");
 		JBTaskOK.setBounds(600, 450, 150,50);
@@ -139,6 +148,7 @@ public class CTaskEditFrame {
 		JCBcustomerReq.setSelected(false);
 		JCBcustomerCall.setSelected(false);
 		JCBinterfaceOthers.setSelected(false);
+		JCBdone.setSelected(false);
 		
 		JComboImpact.setSelectedIndex(-1);
 		JComboComplexity.setSelectedIndex(-1);
@@ -189,6 +199,8 @@ public class CTaskEditFrame {
 		
 		JComboImpact.setSelectedIndex(CTask.getIntFromImpactLevel(task.getProjectImpact()));
 		JComboComplexity.setSelectedIndex(CTask.getIntFromImpactLevel(task.getComplexity()));
+		
+		JCBdone.setSelected(task.getDone());
 	}
 	
 	public CTask getTaskFromFrame()

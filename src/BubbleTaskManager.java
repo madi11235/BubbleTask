@@ -99,6 +99,13 @@ public class BubbleTaskManager implements ActionListener {
 		case "BcancelDelete": //cancel deletion
 			WDelConfFrame.WConfirmFrame.setVisible(false);
 			break;
+		case "CheckDone":
+			CTask aufg = WEditTaskFrame.getTaskFromEditFrame(taskList.getTask(WEditTaskFrame.taskIndex));
+			aufg.dateModification.setToToday();
+			aufg.setDone(WEditTaskFrame.JCBdone.isSelected());
+			replaceTaskInList(WEditTaskFrame.taskIndex, aufg);
+			TableView.taskList = this.taskList;
+			break;
 		}
 		//After each action, we update and save the new task list
 		taskList.updateAllTasks();
@@ -260,6 +267,8 @@ public class BubbleTaskManager implements ActionListener {
 		WEditTaskFrame.JBTaskCancel.addActionListener(this);
 		WEditTaskFrame.JBTaskCancel.setActionCommand("BEditCancel");
 		
+		WEditTaskFrame.JCBdone.addActionListener(this);
+		WEditTaskFrame.JCBdone.setActionCommand("CheckDone");
 		
 		/********************
 		 * Deletion confirm frame set up

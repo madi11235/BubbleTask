@@ -177,8 +177,11 @@ public class CBubbleArea extends Canvas{
 		
 		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
 		{
-			bubbleSet[i] = new CBubble(taskList.getTask(i));
-			nrBubbles = i+1;
+			if(!taskList.getTask(i).getDone())
+			{
+				bubbleSet[i] = new CBubble(taskList.getTask(i));
+				nrBubbles = i+1;
+			}
 		}
 		
 		setXYofBubbles();
@@ -306,8 +309,12 @@ public class CBubbleArea extends Canvas{
 	{
 		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
 		{
-			bubbleSet[i].updateBubbleFromTask(taskList.getTask(i));
-			nrBubbles = i+1;
+			if(!taskList.getTask(i).getDone())
+			{
+				bubbleSet[i].updateBubbleFromTask(taskList.getTask(i));
+				nrBubbles = i+1;
+			}
+			
 		}
 		setXYofBubbles();
 		repaint();
