@@ -109,6 +109,7 @@ public class BubbleTaskManager implements ActionListener {
 		}
 		//After each action, we update and save the new task list
 		taskList.updateAllTasks();
+		taskList.sortPriority();
 		taskList.sortDueDate();
 		bubbleArea.updateBubbleArea(taskList);
 		saveTasks();
