@@ -10,8 +10,8 @@ import java.awt.event.*;
 public class BubbleTaskManager implements ActionListener {
 
 	//constants
-	public static final int CANVAS_WIDTH = 400;
-	public static final int CANVAS_HEIGHT = 350; 
+	public static final int CANVAS_WIDTH = 700;
+	public static final int CANVAS_HEIGHT = 500; 
 	
 	//Attribute
 	CTaskList taskList;
@@ -204,7 +204,7 @@ public class BubbleTaskManager implements ActionListener {
 		WFrame = new JFrame("Bubble Tasks");
 		WFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		WFrame.setLayout(null);
-		WFrame.setSize(900, 600);
+		WFrame.setSize(1000, 800);
 		WFrame.setLocation(50, 50);
 		
 		JLabel JLnewTask = new JLabel("New Task:"); 

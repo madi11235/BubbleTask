@@ -9,10 +9,14 @@ public class CBubbleArea extends Canvas{
 	private static final int MAX_BUBBLE_diameter = 120;
 	private static final int LIMIT_SMALL_diameter = 90;
 	private static final int BUBBLE_PADDING = 10;
+	private static final int DonePipeWidth = 150;
+	private static final int DonePipeWOPadding = 120;
 	
 	public static final Color BackgroundColor = new Color(250, 235, 215);
 	public static final Color urgentColor = new Color(178, 34, 34);
 	public static final Color bubbleColor = new Color(25, 25, 112);
+	public static final Color doneColor = new Color(85, 107, 47); //Olive green
+	public static final Color lineColor = new Color(160, 82, 45); //Sienna
 	
 	public static Font smallFont = new Font("Avenir", Font.PLAIN, 10);
 	public static Font mediumFont = new Font("Avenir", Font.PLAIN, 12);
@@ -24,10 +28,11 @@ public class CBubbleArea extends Canvas{
 		private Color fillColor;
 		private String text; 
 		private CTask task; 
+		public int taskIndex;
 		
-		CBubble(CTask task)
+		CBubble(CTask task, int idx)
 		{
-			updateBubbleFromTask(task);
+			updateBubbleFromTask(task, idx);
 			this.x = 0;
 			this.y = 0;
 		}
@@ -39,12 +44,17 @@ public class CBubbleArea extends Canvas{
 			return (int) diameterDouble; 
 		}
 		
-		private Color computeColor(double prio)
+		private Color computeColor(double prio, boolean done)
 		{
 			Color retColor = bubbleColor;
-			double limit = (2.0/3.0) * (CTask.MAX_PRIORITY - CTask.MIN_PRIORITY) + CTask.MIN_PRIORITY;
-			if(prio > limit)
-				retColor = urgentColor;
+			if(done)
+				retColor = doneColor;
+			else
+			{
+				double limit = (2.0/3.0) * (CTask.MAX_PRIORITY - CTask.MIN_PRIORITY) + CTask.MIN_PRIORITY;
+				if(prio > limit)
+					retColor = urgentColor;
+			}
 			
 			return retColor;
 		}
@@ -141,78 +151,97 @@ public class CBubbleArea extends Canvas{
 			return out;
 		}
 		
-		public void updateBubbleFromTask(CTask task)
+		public void updateBubbleFromTask(CTask task, int idx)
 		{
 			this.diameter = computediameter(task.getPriority());
 			this.text = task.getDescription();
-			this.fillColor = computeColor(task.getPriority());
+			this.fillColor = computeColor(task.getPriority(), task.getDone());
 			this.task = task;
+			this.taskIndex = idx;
 		}
 	}
 	
+	CDatum today;
 	CBubble[] bubbleSet = new CBubble[MAX_SET_SIZE];
+	CBubble[] doneTodaySet = new CBubble[MAX_SET_SIZE];
 	private int nrBubbles = 0;
+	private int nrDoneToday = 0;
 	private int CanvasHeight, CanvasWidth;
 	
 	CTaskEditFrame editFrame; 
 	
+	/*
 	CBubbleArea(int width, int height, CTaskEditFrame editFrame)
 	{
 		setBackground(BackgroundColor);
 		this.CanvasHeight = height;
-		this.CanvasWidth = width;
+		this.CanvasWidth = width - DonePipeWidth;
 		this.editFrame = editFrame;
+		
+		today = new CDatum();
 		
 		addMouseListener(new MouseWatcher());
 	}
+	*/
 	
 	CBubbleArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)
 	{
 		setBackground(BackgroundColor);
 		this.CanvasHeight = heigth;
-		this.CanvasWidth = width;
+		this.CanvasWidth = width - DonePipeWidth;
 		this.editFrame = editFrame; 
+		
+		today = new CDatum();
 		
 		addMouseListener(new MouseWatcher());
 		
-		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
-		{
-			if(!taskList.getTask(i).getDone())
-			{
-				bubbleSet[i] = new CBubble(taskList.getTask(i));
-				nrBubbles = i+1;
-			}
-		}
+		//TODO: check if we need to initialize all bubbles in the bubble set
 		
-		setXYofBubbles();
+		updateBubbleArea(taskList);
 	}
 	
 	public void editBubble(int mouseX, int mouseY)
+	/*
+	 * Identifies the bubble, that has been clicked and then 
+	 * opens an edit frame pre-filled with the chosen task fields.
+	 */
 	{
 		//find task index
 		CTask task = null;
-		int taskIndex = findBubbleIdx(mouseX, mouseY);
+		int taskIndex = findBubbleIdx(mouseX, mouseY, bubbleSet, nrBubbles);
 		
 		//if task index valid, open task editing window
 		if(taskIndex != -1)
 		{
 			task = bubbleSet[taskIndex].task;
-			editFrame.openEditView(taskIndex, task);
-			
+			editFrame.openEditView(bubbleSet[taskIndex].taskIndex, task);
+		}
+		else
+		{
+			taskIndex = findBubbleIdx(mouseX, mouseY, doneTodaySet, nrDoneToday);
+			if(taskIndex != -1)
+			{
+				task = doneTodaySet[taskIndex].task;
+				editFrame.openEditView(doneTodaySet[taskIndex].taskIndex, task);
+			}
 		}
 	}
 	
-	public int findBubbleIdx(int x, int y)
+	public int findBubbleIdx(int x, int y, CBubble[] set, int setSize)
+	/*
+	 *  finds the bubble associated with the x and y coordinates on the
+	 *  canvas. 
+	 */
 	{
 		int idx = 0;
 		boolean bubFound = false;
 
-		while(!bubFound && idx < nrBubbles)
+		while(!bubFound && idx < setSize)
 		{
-			int dx = (x - bubbleSet[idx].x);
-			int dy = (y - bubbleSet[idx].y);
+			int dx = (x - set[idx].x);
+			int dy = (y - set[idx].y);
 			int dSquared = dx * dx + dy * dy;
-			int rSquared = bubbleSet[idx].getRadius() * bubbleSet[idx].getRadius();
+			int rSquared = set[idx].getRadius() * set[idx].getRadius();
 			
 			if( dSquared < rSquared)
 				bubFound = true;
@@ -231,15 +260,39 @@ public class CBubbleArea extends Canvas{
 		return nrBubbles;
 	}
 	
+	public int getNrOfDoneToday()
+	{
+		return nrDoneToday; 
+	}
+	
 	public void paint(Graphics g)
 	{
+		//draw line between open tasks canvas and done pipe
+		g.setColor(lineColor);
+		g.drawLine(CanvasWidth + 15, 20 , CanvasWidth + 15, CanvasHeight - 15);
+		
+		//draw open task bubbles
 		for(int i=0; i < getNumberOfBubbles(); i++)
 		{
 			bubbleSet[i].drawBubble(g);
 		}
+		
+		//draw done today tasks
+		for(int i=0; i< getNrOfDoneToday(); i++)
+		{
+			doneTodaySet[i].drawBubble(g);
+		}
 	}
 	
 	private void setXYofBubbles()
+	/*
+	 * Computes the centers of the bubbles. 
+	 * The algorithms fills line by line the lines with bubbles.
+	 * If the line is filled, the algo switches to the next line. 
+	 * 
+	 * It also sets the x- / y-coordinates of the bubbles of the 
+	 * tasks that have been done today. 
+	 */
 	{		
 		CBubble bub;
 		int x = 0; int y = 0;
@@ -303,18 +356,71 @@ public class CBubbleArea extends Canvas{
 				idxStart = idx;
 			}
 		}
+		
+		// ----
+		// Assembling the bubbles of tasks done today
+		x = CanvasWidth + DonePipeWidth - DonePipeWOPadding / 2;
+		y = CanvasHeight;
+		radius = 0;
+		radiusOld = 0;
+		
+		if(nrDoneToday > 0)
+		{
+			for(int i=0; i<nrDoneToday; i++)
+			{
+				doneTodaySet[i].x = x;
+				radius = doneTodaySet[i].getRadius();
+				y = y - radiusOld - radius;
+				doneTodaySet[i].y = y;
+				radiusOld = radius; 
+			}
+		}
+		
 	}
 	
 	public void updateBubbleArea(CTaskList taskList)
 	{
-		for(int i = 0; i < taskList.getSize() && i < MAX_SET_SIZE; i++)
+		nrBubbles = 0;
+		nrDoneToday = 0;
+		for(int i = 0; i < taskList.getSize(); i++)
 		{
 			if(!taskList.getTask(i).getDone())
 			{
-				bubbleSet[i].updateBubbleFromTask(taskList.getTask(i));
-				nrBubbles = i+1;
+				if(bubbleSet[nrBubbles] == null)
+				{
+					bubbleSet[nrBubbles] = new CBubble(taskList.getTask(i), i);
+					nrBubbles++;
+				}
+				else
+				{
+					bubbleSet[nrBubbles].updateBubbleFromTask(taskList.getTask(i), i);
+					nrBubbles++;
+				}
+			}
+			else
+			{
+				today.setToToday();
+				if(taskList.getTask(i).dateDone.Jahr == today.Jahr && 
+						taskList.getTask(i).dateDone.Monat == today.Monat &&
+						taskList.getTask(i).dateDone.Tag == today.Tag)
+				{
+					if(doneTodaySet[nrDoneToday] == null)
+					{
+						doneTodaySet[nrDoneToday] = new CBubble(taskList.getTask(i), i);
+						nrDoneToday++;
+					}
+					else
+					{
+						doneTodaySet[nrDoneToday].updateBubbleFromTask(taskList.getTask(i), i);
+						nrDoneToday++;
+					}
+				}
 			}
 			
+			if(nrBubbles >= MAX_SET_SIZE || nrDoneToday >= MAX_SET_SIZE)
+			{
+				break;
+			}
 		}
 		setXYofBubbles();
 		repaint();
