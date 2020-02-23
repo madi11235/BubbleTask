@@ -1,24 +1,24 @@
 ---Start of tasklist---
-Name: Neue Task List
+Name:   Neue Task List
 Date de creation: 6	1	2020	19
 
 ------------------
 Tasklist
-AGS: Mgmt review Termin?		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	6	0	2076	1	1	0	28.0	false	true	MEDIUM	LOW	false	true	
-ELFR Antwort Greg	Antwort von Daniel B. kommunizieren	Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	18.0	true	false	MEDIUM	LOW	false	true	
-Overview trim requests	Generiere Übersicht über trim requests und hinterlege in T&R	Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	31.0	true	true	HIGH	HIGH	true	true	
-Zeitplanung trims in MPP triggern		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	31.0	false	true	HIGH	HIGH	false	true	
-AGS trims: talk to Kellys proxy		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	30.0	false	true	HIGH	MEDIUM	false	true	
-Align trims w/ Aurora?		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	29.0	true	true	MEDIUM	MEDIUM	false	true	
-AGS: Prepare slide deck for Friday		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	33.0	true	true	VERY_HIGH	HIGH	true	true	
-AGS: Structure Tasks for preparation	Also in T&R	Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	33.0	true	true	VERY_HIGH	HIGH	true	true	
-AGS: Termin slide review		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	28.0	false	true	MEDIUM	LOW	false	true	
-Call: Review module dashboard		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	28.0	false	true	MEDIUM	LOW	true	true	
-Call: Project dashboard (timeline!)	Check Greg AI for project dashboard request	Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	19.0	true	false	MEDIUM	MEDIUM	true	true	
-Call: review ETCs		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	17.0	false	false	LOW	LOW	true	true	
-AGS: Webex invitation Friday AGS call		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	29.0	true	true	MEDIUM	MEDIUM	false	true	
-Webex supply chain call		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	7	0	2076	1	1	0	27.0	true	true	LOW	LOW	false	true	
-Prepare GPD	siehe Email von Ingbert	Markus	false	2020	1	6	20	2020	1	6	20	2020	1	13	0	2076	1	1	0	14.0	false	false	MEDIUM	HIGH	false	true	
-Read Config. in ERS	Read the configurability part in the ERS and analyse. BSTORION-3203	Markus	false	2020	1	6	20	2020	1	6	20	2020	1	17	0	2076	1	1	0	8.0	false	false	MEDIUM	LOW	false	true	
-Check status specific accuracy		Markus	false	2020	1	6	20	2020	1	6	20	2020	1	17	0	2076	1	1	0	8.0	false	false	MEDIUM	LOW	false	true	
+Overview trim requests	Generiere ï¿½bersicht ï¿½ber trim requests und hinterlege in T&R	Markus	true	2020	1	6	20	2020	2	23	13	2020	1	7	0	2020	2	23	13	31.0	true	true	HIGH	HIGH	true	true	
+AGS: Prepare slide deck for Friday		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	33.0	true	true	VERY_HIGH	HIGH	true	true	
+AGS: Structure Tasks for preparation	Also in T&R	Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	33.0	true	true	VERY_HIGH	HIGH	true	true	
+Zeitplanung trims in MPP triggern		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	31.0	false	true	HIGH	HIGH	false	true	
+AGS trims: talk to Kellys proxy		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	30.0	false	true	HIGH	MEDIUM	false	true	
+Align trims w/ Aurora?		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	29.0	true	true	MEDIUM	MEDIUM	false	true	
+AGS: Webex invitation Friday AGS call		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	29.0	true	true	MEDIUM	MEDIUM	false	true	
+AGS: Mgmt review Termin?		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	28.0	false	true	MEDIUM	LOW	false	true	
+AGS: Termin slide review		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	28.0	false	true	MEDIUM	LOW	false	true	
+Call: Review module dashboard		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	28.0	false	true	MEDIUM	LOW	true	true	
+Webex supply chain call		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	27.0	true	true	LOW	LOW	false	true	
+Prepare GPD	siehe Email von Ingbert	Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	20.0	false	false	MEDIUM	HIGH	false	true	
+Call: Project dashboard (timeline!)	Check Greg AI for project dashboard request	Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	19.0	true	false	MEDIUM	MEDIUM	true	true	
+ELFR Antwort Greg	Antwort von Daniel B. kommunizieren	Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	18.0	true	false	MEDIUM	LOW	false	true	
+Read Config. in ERS	Read the configurability part in the ERS and analyse. BSTORION-3203	Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	18.0	false	false	MEDIUM	LOW	false	true	
+Check status specific accuracy		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	18.0	false	false	MEDIUM	LOW	false	true	
+Call: review ETCs		Markus	false	2020	1	6	20	2020	1	6	20	2020	2	23	13	2076	1	1	0	17.0	false	false	LOW	LOW	true	true	
 ---EndOfTaskList---

@@ -202,4 +202,27 @@ public class CTaskList {
 			getTask(i).updatePriority();
 		}
 	}
+	
+	public void autoGroomAllTasks()
+	/*
+	 * This method goeas through all the tasks in the task list
+	 * and updated the due date to today in case the task is not yet completed and
+	 * overdue. 
+	 */
+	{
+		CDatum today = new CDatum();
+		
+		for(int i=0; i< taskList.size(); i++)
+		{
+			if(!getTask(i).getDone())
+			{
+				if(getTask(i).computeRemainingTimeTillDate(today) < 0)
+				{
+					getTask(i).setDueDate(today);
+				}
+				getTask(i).updatePriority();	
+			}
+			
+		}
+	}
 }

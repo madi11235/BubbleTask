@@ -35,8 +35,8 @@ public class BubbleTaskManager implements ActionListener {
 	CDeleteConfirmFrame WDelConfFrame;
 	
 	JMenuBar MenuBar;
-	JMenu MenuView;
-	JMenuItem MenuTableView;
+	JMenu MenuView, MenuEdit;
+	JMenuItem MenuTableView, MenuGroomAuto;
 	
 	CBubbleArea bubbleArea;
 	
@@ -77,6 +77,10 @@ public class BubbleTaskManager implements ActionListener {
 			break;
 		case "OpenTableView":
 			TableView.showTable(this.taskList);
+			break;
+		case "StartAutoGroom":
+			System.out.println("Auto groom clicked");
+			this.taskList.autoGroomAllTasks();
 			break;
 		case "BTaskSubmitEdit": //submit the edited task
 			CTask tsk = WEditTaskFrame.getTaskFromEditFrame(taskList.getTask(WEditTaskFrame.taskIndex));
@@ -241,6 +245,16 @@ public class BubbleTaskManager implements ActionListener {
 		MenuTableView.addActionListener(this);
 		MenuTableView.setActionCommand("OpenTableView");
 		MenuView.add(MenuTableView);
+		
+		MenuEdit = new JMenu("Edit");
+		MenuEdit.getAccessibleContext().setAccessibleDescription("Editing, performing actions");
+		MenuBar.add(MenuEdit);
+		
+		
+		MenuGroomAuto = new JMenuItem("Auto Groom");
+		MenuGroomAuto.addActionListener(this);
+		MenuGroomAuto.setActionCommand("StartAutoGroom");
+		MenuEdit.add(MenuGroomAuto);
 		
 		WFrame.setJMenuBar(MenuBar);
 		
