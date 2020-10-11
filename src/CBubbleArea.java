@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.JPanel;
 
-public class CBubbleArea extends Canvas{
+
+public class CBubbleArea extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_SET_SIZE = 500;
@@ -186,6 +188,7 @@ public class CBubbleArea extends Canvas{
 	
 	CBubbleArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)
 	{
+		System.out.println("In constructor for bubble area");
 		setBackground(BackgroundColor);
 		this.CanvasHeight = heigth;
 		this.CanvasWidth = width - DonePipeWidth;
@@ -265,8 +268,9 @@ public class CBubbleArea extends Canvas{
 		return nrDoneToday; 
 	}
 	
-	public void paint(Graphics g)
+	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		//draw line between open tasks canvas and done pipe
 		g.setColor(lineColor);
 		g.drawLine(CanvasWidth + 15, 20 , CanvasWidth + 15, CanvasHeight - 15);
@@ -423,6 +427,7 @@ public class CBubbleArea extends Canvas{
 			}
 		}
 		setXYofBubbles();
+		revalidate();
 		repaint();
 	}
 	

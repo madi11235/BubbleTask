@@ -11,7 +11,9 @@ public class BubbleTaskManager implements ActionListener {
 
 	//constants
 	public static final int CANVAS_WIDTH = 700;
-	public static final int CANVAS_HEIGHT = 500; 
+	public static final int CANVAS_HEIGHT = 1000; 
+	public static final int SCROLL_HEIGHT = 500;
+	public static final int SCROLL_WIDTH = CANVAS_WIDTH + 20;
 	
 	//Attribute
 	CTaskList taskList;
@@ -39,6 +41,8 @@ public class BubbleTaskManager implements ActionListener {
 	JMenuItem MenuTableView, MenuGroomAuto;
 	
 	CBubbleArea bubbleArea;
+	JScrollPane scrollPane; 
+	JPanel Vpanel;
 	
 	//Konstruktor
 	BubbleTaskManager()
@@ -306,11 +310,16 @@ public class BubbleTaskManager implements ActionListener {
 		 */
 		bubbleArea = new CBubbleArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT, WEditTaskFrame);
 		bubbleArea.setBounds(80, 150, CANVAS_WIDTH, CANVAS_HEIGHT);
-		WFrame.add(bubbleArea);
+		bubbleArea.setPreferredSize(new Dimension(CANVAS_WIDTH,CANVAS_HEIGHT));
 		
+		scrollPane = new JScrollPane(bubbleArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBounds(80,150,SCROLL_WIDTH, SCROLL_HEIGHT);
+		WFrame.add(scrollPane);
+		
+		scrollPane.revalidate();
+		scrollPane.repaint();
 		
 		//TODO: re-evaluate the need for grooming
-		
 		
 	}
 	
