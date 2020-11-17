@@ -1,5 +1,11 @@
 /*
  * Main Class for the bubble task task manager
+ * 
+ * This class contains the main function for running the program. 
+ * 
+ * Furthermore, the main actions to manage the tasks are implemented here, e.g.
+ * saveTasks, loadTasks, deleteTask, addNewTaskDefault, etc.
+ * 
  */
 
 import java.io.*;
@@ -27,7 +33,7 @@ public class BubbleTaskManager implements ActionListener {
 	
 	CTableView TableView; 
 	
-	//Attribute Maske
+	//Attribute Mask
 	JFrame WFrame; 
 	JButton JBnewTask, JBquickAdd;
 	JTextField JTFnewTask;
@@ -44,7 +50,7 @@ public class BubbleTaskManager implements ActionListener {
 	JScrollPane scrollPane; 
 	JPanel Vpanel;
 	
-	//Konstruktor
+	//Constructor
 	BubbleTaskManager()
 	{
 		datei = new File("Tasks.tsk");
@@ -127,7 +133,7 @@ public class BubbleTaskManager implements ActionListener {
 		}
 	}
 	
-	//Methoden
+	//Methods
 	public void saveTasks()
 	{
 
@@ -365,43 +371,7 @@ public class BubbleTaskManager implements ActionListener {
 		
 		System.out.println("Willkommen zum Bubble Task Manager");
 		
-		/*
-		CTask Aufgabe1 = new CTask();
-		Aufgabe1.setDescription("Aufgabe nr.1");
-		CTask Aufgabe2 = new CTask();
-		Aufgabe2.setDescription("Aufgabe nr.2");
-		*/
-		
 		BubbleTaskManager taskMan = new BubbleTaskManager();
-		
-		/*
-		taskMan.taskList.addTaskToList(Aufgabe1);
-		taskMan.taskList.addTaskToList(Aufgabe2);
-		System.out.println("Groesse der Aufgabenliste: " + taskMan.taskList.getSize());
-		
-		for (int i=0; i<taskMan.taskList.getSize(); i++)
-		{
-			CTask Aufg = taskMan.taskList.getTask(i);
-			System.out.println("Beschreibung von Task nr. " + i + " ist: " + Aufg.getDescription());
-			System.out.println(Aufg.getContentAsString());
-		}
-		*/
-		//System.out.println("Speichere Liste");
-		//taskMan.saveTasks();
-		
-		
-		//checke dass laden und schreiben korrekt funktionieren
-		/*String str1 = Aufgabe1.getContentAsString();
-		String str2 = tl.getTask(0).getContentAsString();
-		if(str1.equals(str2))
-			System.out.println("Speichern und laden funktioniert");
-		else
-		{
-			System.out.println("Speichern und laden funktionieren leider nicht....");
-			System.out.println(str1);
-			System.out.println(str2);
-		}
-		*/
 		
 		//initialize
 		taskMan.initialize();
