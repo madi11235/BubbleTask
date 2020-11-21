@@ -1,0 +1,7 @@
+Release notes Bubble Tasks
+
+Version 1.3
+-----------
+Release date: 11.10.2020
+Release features/updates: Added scroll bar to the bubble Area
+
