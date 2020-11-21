@@ -1,4 +1,5 @@
 # BubbleTask
-BubbleTask application repository
 
-BubbleTask is a Java application to manage your daily ToDos.
+Bubble Task helps you to organize your ToDos. 
+
+Basically, it is a todo-list, which helps you to prioritize your tasks. 
