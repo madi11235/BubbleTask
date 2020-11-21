@@ -17,7 +17,7 @@ public class BubbleTaskManager implements ActionListener {
 
 	//constants
 	public static final int CANVAS_WIDTH = 700;
-	public static final int CANVAS_HEIGHT = 1000; 
+	public static final int CANVAS_HEIGHT = 1500; 
 	public static final int SCROLL_HEIGHT = 500;
 	public static final int SCROLL_WIDTH = CANVAS_WIDTH + 20;
 	
