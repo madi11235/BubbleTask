@@ -7,6 +7,9 @@
 import java.util.*;
 import java.io.*;
 
+/*
+ * This class describes a list of tasks of class CTask. 
+ */
 public class CTaskList {
 
 	//Attribute
@@ -205,8 +208,8 @@ public class CTaskList {
 	
 	public void autoGroomAllTasks()
 	/*
-	 * This method goeas through all the tasks in the task list
-	 * and updated the due date to today in case the task is not yet completed and
+	 * This method goes through all the tasks in the task list
+	 * and updates the due date to today in case the task is not yet completed and
 	 * overdue. 
 	 */
 	{

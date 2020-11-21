@@ -2,7 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JPanel;
 
-
+/*
+ * This class describes the area in the gui, where the 
+ * bubbles representing the tasks are drawn. 
+ * It contains all methods relevant to interactions of the user with the bubble tasks
+ * area.
+ */
 public class CBubbleArea extends JPanel{
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +20,7 @@ public class CBubbleArea extends JPanel{
 	private static final int DonePipeWOPadding = 120;
 	
 	public static final Color BackgroundColor = new Color(250, 235, 215);
+	public static final Color highPrioColor = new Color(91,44,111);
 	public static final Color urgentColor = new Color(178, 34, 34);
 	public static final Color bubbleColor = new Color(25, 25, 112);
 	public static final Color doneColor = new Color(85, 107, 47); //Olive green
@@ -53,9 +59,16 @@ public class CBubbleArea extends JPanel{
 				retColor = doneColor;
 			else
 			{
-				double limit = (2.0/3.0) * (CTask.MAX_PRIORITY - CTask.MIN_PRIORITY) + CTask.MIN_PRIORITY;
-				if(prio > limit)
-					retColor = urgentColor;
+				if(prio > CTask.MAX_PRIORITY)
+				{
+					retColor = highPrioColor;
+				}
+				else
+				{
+					double limit = (2.0/3.0) * (CTask.MAX_PRIORITY - CTask.MIN_PRIORITY) + CTask.MIN_PRIORITY;
+					if(prio > limit)
+						retColor = urgentColor;
+				}
 			}
 			
 			return retColor;

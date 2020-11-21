@@ -1,5 +1,9 @@
 import javax.swing.*;
 
+/*
+ * This class describes the GUI used to fill the details of 
+ * a task. 
+ */
 public class CTaskEditFrame {
 
 	CDatum today;
@@ -12,7 +16,7 @@ public class CTaskEditFrame {
 	JTextField JTFDescription;
 	JTextArea JTANotes;
 	JTextField JTFAssignee, JTFDueDay, JTFDueMonth, JTFDueYear;
-	JCheckBox JCBcustomerReq, JCBcustomerCall, JCBinterfaceOthers, JCBdone;
+	JCheckBox JCBcustomerReq, JCBcustomerCall, JCBinterfaceOthers, JCBdone, JCBHighPrio;
 	JComboBox JComboImpact = new JComboBox(SImpactLevels);
 	JComboBox JComboComplexity = new JComboBox(SImpactLevels);
 	JButton JBTaskOK, JBTaskCancel;
@@ -79,6 +83,15 @@ public class CTaskEditFrame {
 		JCBcustomerReq = new JCheckBox();
 		JCBcustomerReq.setBounds(280, 200, 30,30);
 		WTaskFrame.add(JCBcustomerReq);
+		
+		JLabel JLHighPrio = new JLabel("High Priority:");
+		JLHighPrio.setBounds(350,200,100,30);
+		JLHighPrio.setHorizontalAlignment(JLabel.RIGHT);
+		WTaskFrame.add(JLHighPrio);
+		
+		JCBHighPrio = new JCheckBox();
+		JCBHighPrio.setBounds(480, 200, 30,30);
+		WTaskFrame.add(JCBHighPrio);
 		
 		JLabel JLCustCall = new JLabel("Topic for customer call:");
 		JLCustCall.setBounds(50,250,200,30);
@@ -149,6 +162,7 @@ public class CTaskEditFrame {
 		JCBcustomerCall.setSelected(false);
 		JCBinterfaceOthers.setSelected(false);
 		JCBdone.setSelected(false);
+		JCBHighPrio.setSelected(false);;
 		
 		JComboImpact.setSelectedIndex(-1);
 		JComboComplexity.setSelectedIndex(-1);
@@ -196,6 +210,7 @@ public class CTaskEditFrame {
 		JCBcustomerReq.setSelected(task.getCustomerRequest());
 		JCBcustomerCall.setSelected(task.getTopicForCustCall());
 		JCBinterfaceOthers.setSelected(task.getInvolveOthers());
+		JCBHighPrio.setSelected(task.getHighPriority());
 		
 		JComboImpact.setSelectedIndex(CTask.getIntFromImpactLevel(task.getProjectImpact()));
 		JComboComplexity.setSelectedIndex(CTask.getIntFromImpactLevel(task.getComplexity()));
@@ -216,6 +231,12 @@ public class CTaskEditFrame {
 		task.setDueDate(Integer.parseInt(JTFDueYear.getText()),
 					Integer.parseInt(JTFDueMonth.getText()), Integer.parseInt(JTFDueDay.getText()));
 		task.setCustomerRequest(JCBcustomerReq.isSelected());
+		task.setHighPriority(JCBHighPrio.isSelected());
+		if(JCBHighPrio.isSelected())
+		{
+			//if the task is a high priority task, the due date must be today
+			task.setDueDate(today);
+		}
 		task.setTopicForCustCall(JCBcustomerCall.isSelected());
 		task.setInvolveOthers(JCBinterfaceOthers.isSelected());
 		switch (JComboImpact.getSelectedIndex())
@@ -271,6 +292,12 @@ public class CTaskEditFrame {
 		task.setDueDate(Integer.parseInt(JTFDueYear.getText()),
 					Integer.parseInt(JTFDueMonth.getText()), Integer.parseInt(JTFDueDay.getText()));
 		task.setCustomerRequest(JCBcustomerReq.isSelected());
+		task.setHighPriority(JCBHighPrio.isSelected());
+		if(JCBHighPrio.isSelected())
+		{
+			//if the task is a high priority task, the due date must be today
+			task.setDueDate(today);
+		}
 		task.setTopicForCustCall(JCBcustomerCall.isSelected());
 		task.setInvolveOthers(JCBinterfaceOthers.isSelected());
 		switch (JComboImpact.getSelectedIndex())

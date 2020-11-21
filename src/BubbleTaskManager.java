@@ -89,7 +89,6 @@ public class BubbleTaskManager implements ActionListener {
 			TableView.showTable(this.taskList);
 			break;
 		case "StartAutoGroom":
-			System.out.println("Auto groom clicked");
 			this.taskList.autoGroomAllTasks();
 			break;
 		case "BTaskSubmitEdit": //submit the edited task

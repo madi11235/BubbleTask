@@ -1,13 +1,13 @@
 ---Start of tasklist---
-Name:     Neue Task List
+Name:           Neue Task List
 Date de creation: 6	7	2020	9
 
 ------------------
 Tasklist
-Task minus 1		Markus	false	2020	7	6	9	2020	11	21	20	2020	7	6	9	2076	1	1	0	27.0	false	true	LOW	LOW	false	true	false	
-Task eins		Markus	false	2020	7	6	9	2020	7	6	9	2020	7	6	0	2076	1	1	0	17.0	false	false	LOW	LOW	false	true	false	
-Task zwei		Markus	false	2020	7	6	9	2020	7	6	9	2020	7	7	0	2076	1	1	0	17.0	false	false	LOW	LOW	false	true	false	
-Task drei		Markus	false	2020	7	6	9	2020	10	11	18	2020	7	10	0	2076	1	1	0	29.0	true	true	HIGH	LOW	false	true	false	
+Task minus 1		Markus	false	2020	7	6	9	2020	11	21	20	2020	11	21	20	2076	1	1	0	36.0	false	true	LOW	LOW	false	true	true	
+Task drei		Markus	false	2020	7	6	9	2020	11	21	20	2020	11	21	20	2076	1	1	0	29.0	true	true	HIGH	LOW	false	true	false	
+Task eins		Markus	false	2020	7	6	9	2020	11	21	20	2020	11	21	20	2076	1	1	0	17.0	false	false	LOW	LOW	false	true	false	
+Task zwei		Markus	false	2020	7	6	9	2020	7	6	9	2020	11	21	20	2076	1	1	0	17.0	false	false	LOW	LOW	false	true	false	
 Task 15		Markus	false	2020	10	11	18	2020	10	11	18	2076	1	1	0	2076	1	1	0	3.0	false	false	LOW	LOW	false	false	false	
 hallo		Markus	false	2020	10	11	18	2020	10	11	18	2076	1	1	0	2076	1	1	0	3.0	false	false	LOW	LOW	false	false	false	
 zwei		Markus	false	2020	10	11	18	2020	10	11	18	2076	1	1	0	2076	1	1	0	3.0	false	false	LOW	LOW	false	false	false	

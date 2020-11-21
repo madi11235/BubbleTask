@@ -3,7 +3,6 @@
  * 
  * Summary: 
  * Class of singular tasks. An object of this class represents a singular tasks, which contains all the information to accomplish this task. 
- *  
  * 
  */
 import java.util.*;
@@ -362,6 +361,16 @@ public class CTask {
 	public void setGroomed(boolean in)
 	{
 		this.groomed = in;
+	}
+	
+	public boolean getHighPriority()
+	{
+		return this.highPriority;
+	}
+	
+	public void setHighPriority(boolean in)
+	{
+		this.highPriority = in;
 	}
 	
 	public double getPriority()
