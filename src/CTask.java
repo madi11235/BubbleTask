@@ -36,6 +36,7 @@ public class CTask {
 	private ImpactLevel complexity;
 	private boolean topicForCustomerCall; //Has this topic the potential to ba hendled in a customer call?
 	private boolean groomed; //if true, all relevant information in the task has been filled
+	private boolean highPriority; //if true, this is a high priority task, e.g. appears on top of the task list
 	
 	//Constructors
 	CTask()
@@ -56,6 +57,7 @@ public class CTask {
 		this.topicForCustomerCall = false; 
 		this.groomed = false;
 		this.priority = calculatePriority();
+		this.highPriority = false; 
 	}
 	
 	CTask(String str)
@@ -145,6 +147,16 @@ public class CTask {
 		str = str.substring(index+1);
 		index = str.indexOf("\t");
 		this.groomed = Boolean.parseBoolean(str.substring(0,index));
+		str = str.substring(index+1);
+		index = str.indexOf("\t");
+		if(index!=-1)
+		{
+			this.highPriority = Boolean.parseBoolean(str.substring(0,index));
+		}
+		else
+		{
+			this.highPriority = false;
+		}
 		this.interfaceList = new LinkedList<CInterface>();
 	}
 	
@@ -423,7 +435,10 @@ public class CTask {
 		outText = outText.concat("\t");
 		outText = outText.concat(String.valueOf(groomed));
 		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(highPriority));
+		outText = outText.concat("\t");
 		//TODO: Interface list auch speichern und laden
+		
 		
 		return outText; 
 	}
@@ -437,43 +452,49 @@ public class CTask {
 		double prio = 1.0;
 		int timeLeft = computeDifferenceInDays(new CDatum(),this.dateDue);
 		
-		//complexity factor
-		int c;
-		switch(complexity)
+		if(this.highPriority)
+			prio = MAX_PRIORITY + 1.0;
+		else 
 		{
-			case LOW:
-				c = 1; break;
-			case MEDIUM:
-				c = 2; break;
-			case HIGH:
-				c = 3; break;
-			case VERY_HIGH:
-				c = 5; break;
-			default:
-				c = 1; break;
-		}
-		//project impact factor
-		int pImp; 
-		switch(projectImpact)
-		{
-			case LOW:
-				pImp = 1; break;
-			case MEDIUM:
-				pImp = 2; break;
-			case HIGH:
-				pImp = 3; break;
-			case VERY_HIGH:
-				pImp = 5; break;
-			default:
-				pImp = 1; break;
-		}
 		
-		prio = Math.min(Math.max(15 - timeLeft, 1),15);
-		prio = prio + c + pImp;
-		
-		if(involveOthers)
-		{
-			prio = prio + 10;
+			//complexity factor
+			int c;
+			switch(complexity)
+			{
+				case LOW:
+					c = 1; break;
+				case MEDIUM:
+					c = 2; break;
+				case HIGH:
+					c = 3; break;
+				case VERY_HIGH:
+					c = 5; break;
+				default:
+					c = 1; break;
+			}
+			//project impact factor
+			int pImp; 
+			switch(projectImpact)
+			{
+				case LOW:
+					pImp = 1; break;
+				case MEDIUM:
+					pImp = 2; break;
+				case HIGH:
+					pImp = 3; break;
+				case VERY_HIGH:
+					pImp = 5; break;
+				default:
+					pImp = 1; break;
+			}
+			
+			prio = Math.min(Math.max(15 - timeLeft, 1),15);
+			prio = prio + c + pImp;
+			
+			if(involveOthers)
+			{
+				prio = prio + 10;
+			}
 		}
 		
 		return prio;
