@@ -1,9 +1,10 @@
 ---Start of tasklist---
-Name:  Neue Task List
+Name:       Neue Task List
 Date de creation: 23	2	2020	13
 
 ------------------
 Tasklist
-eins		Markus	false	2020	2	23	13	2020	2	23	13	2020	2	23	0	2076	1	1	0	17.0	false	false	LOW	LOW	false	true	false	
-zwei		Markus	false	2020	11	21	21	2020	11	21	21	2020	11	21	21	2076	1	1	0	36.0	false	false	LOW	LOW	false	true	true	
+zwei		Markus	false	2020	11	21	21	2021	1	2	19	2021	1	2	19	2076	1	1	0	17.0	false	false	LOW	LOW	false	true	false	
+eins		Markus	false	2020	2	23	13	2021	1	2	19	2021	1	4	19	2076	1	1	0	15.0	false	false	LOW	LOW	false	true	false	
+drei		Markus	false	2021	1	2	17	2021	1	2	19	2021	1	20	17	2076	1	1	0	3.0	false	false	LOW	LOW	false	true	false	
 ---EndOfTaskList---

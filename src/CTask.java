@@ -59,6 +59,28 @@ public class CTask {
 		this.highPriority = false; 
 	}
 	
+	//Copy Constructor
+	CTask(CTask task)
+	{
+		this.description = task.description;
+		this.notes = task.notes;
+		this.assignee = task.assignee;
+		this.done = task.done; 
+		this.dateCreation = new CDatum(task.dateCreation);
+		this.dateModification = new CDatum(task.dateModification);
+		this.interfaceList = task.interfaceList;
+		this.involveOthers = task.involveOthers;
+		this.dateDue = new CDatum(task.dateDue);
+		this.dateDone = new CDatum(task.dateDone);
+		this.customerRequest = task.customerRequest;
+		this.projectImpact = task.projectImpact;
+		this.complexity = task.complexity;
+		this.topicForCustomerCall = task.topicForCustomerCall; 
+		this.groomed = task.groomed;
+		this.priority = task.priority;
+		this.highPriority = task.highPriority;
+	}
+	
 	CTask(String str)
 	{
 		int index, tag, monat, jahr, stunde; 

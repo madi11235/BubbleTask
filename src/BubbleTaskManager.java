@@ -92,7 +92,8 @@ public class BubbleTaskManager implements ActionListener {
 			this.taskList.autoGroomAllTasks();
 			break;
 		case "BTaskSubmitEdit": //submit the edited task
-			CTask tsk = WEditTaskFrame.getTaskFromEditFrame(taskList.getTask(WEditTaskFrame.taskIndex));
+			CTask tsk = new CTask(taskList.getTask(WEditTaskFrame.taskIndex));
+			tsk = WEditTaskFrame.getTaskFromEditFrame(tsk);
 			tsk.dateModification.setToToday();
 			replaceTaskInList(WEditTaskFrame.taskIndex, tsk);
 			TableView.taskList = this.taskList;
