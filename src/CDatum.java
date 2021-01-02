@@ -4,9 +4,7 @@ import java.util.Calendar;
 public class CDatum extends Calendar
 {
 	
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	public static final int zeroDay = 1;

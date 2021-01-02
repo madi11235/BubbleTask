@@ -2,14 +2,18 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JPanel;
 
-/*
+
+/**
  * This class describes the area in the gui, where the 
  * bubbles representing the tasks are drawn. 
  * It contains all methods relevant to interactions of the user with the bubble tasks
  * area.
+ * 
+ * @author Markus Dihlmann
  */
-public class CBubbleArea extends JPanel{
 
+public class CBubbleArea extends JPanel{
+	
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_SET_SIZE = 500;
 	private static final int MIN_BUBBLE_diameter = 60;
@@ -216,11 +220,11 @@ public class CBubbleArea extends JPanel{
 		updateBubbleArea(taskList);
 	}
 	
-	public void editBubble(int mouseX, int mouseY)
-	/*
+	/**
 	 * Identifies the bubble, that has been clicked and then 
 	 * opens an edit frame pre-filled with the chosen task fields.
 	 */
+	public void editBubble(int mouseX, int mouseY)
 	{
 		//find task index
 		CTask task = null;
@@ -243,11 +247,11 @@ public class CBubbleArea extends JPanel{
 		}
 	}
 	
-	public int findBubbleIdx(int x, int y, CBubble[] set, int setSize)
-	/*
+	/**
 	 *  finds the bubble associated with the x and y coordinates on the
 	 *  canvas. 
 	 */
+	public int findBubbleIdx(int x, int y, CBubble[] set, int setSize)
 	{
 		int idx = 0;
 		boolean bubFound = false;
@@ -301,8 +305,7 @@ public class CBubbleArea extends JPanel{
 		}
 	}
 	
-	private void setXYofBubbles()
-	/*
+	/**
 	 * Computes the centers of the bubbles. 
 	 * The algorithms fills line by line the lines with bubbles.
 	 * If the line is filled, the algo switches to the next line. 
@@ -310,6 +313,7 @@ public class CBubbleArea extends JPanel{
 	 * It also sets the x- / y-coordinates of the bubbles of the 
 	 * tasks that have been done today. 
 	 */
+	private void setXYofBubbles()
 	{		
 		CBubble bub;
 		int x = 0; int y = 0;

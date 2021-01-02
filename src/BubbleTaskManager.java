@@ -1,10 +1,7 @@
-/*
- * Main Class for the bubble task task manager
+/**
+ * BubbleTask is a todo list manager helping you to track your tasks and to prioritize them for you. 
  * 
- * This class contains the main function for running the program. 
  * 
- * Furthermore, the main actions to manage the tasks are implemented here, e.g.
- * saveTasks, loadTasks, deleteTask, addNewTaskDefault, etc.
  * 
  */
 
@@ -13,6 +10,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Main Class for the bubble task task manager
+ *
+ * 
+ * This class contains the main function for running the program. 
+ * 
+ * Furthermore, the main actions to manage the tasks are implemented here, e.g.
+ * saveTasks, loadTasks, deleteTask, addNewTaskDefault, etc.
+ * 
+ * @author Markus Dihlmann
+ * @since 2021-01-02
+ */
 public class BubbleTaskManager implements ActionListener {
 
 	//constants
@@ -57,8 +66,17 @@ public class BubbleTaskManager implements ActionListener {
 	}
 	
 	
+	/**
+	 * This method is the central place to handle all actions, which are performed. 
+	 * For example, if a new task is created and the "OK" button is pressed, this launches activities being
+	 * defined in this method. 
+	 * 
+	 * @param e general action event e
+	 * 
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		
 		String command;
 		command = e.getActionCommand();
 		
@@ -134,8 +152,17 @@ public class BubbleTaskManager implements ActionListener {
 	}
 	
 	//Methods
+	
+	/**
+	 * This method saves the tasks to a standard file. 
+	 * This method does not consume much computation time. Hence, it can be called rather often 
+	 * when tasks are updated by the user. 
+	 * The user does not necessarily need to trigger the saving himself. It is rather done automatically in the background.  
+	 * 
+	 */
 	public void saveTasks()
 	{
+		
 
 	    try{
 				fWriter = new FileWriter(datei);
@@ -163,8 +190,13 @@ public class BubbleTaskManager implements ActionListener {
 			
 	}//end save tasks
 	
+	/**
+	 * When starting up the program, the tasks are loaded from a file using this function. 
+	 * 
+	 */
 	public CTaskList loadTasks()
 	{
+		
 		CTaskList tl = new CTaskList("Neue Task List");
 		
 		if(datei.exists() && !datei.isDirectory())
@@ -198,15 +230,17 @@ public class BubbleTaskManager implements ActionListener {
 		return tl;
 	}
 	
-	
+	/**
+	 * This is a very central method called when starting the program. 
+	 * It instantiates all relevant object, loads the task list from file, and initializes all settings. 
+	 * 
+	 */
 	public void initialize()
 	{
+	
 		today = new CDatum();
 		
 		taskList = loadTasks();
-		System.out.println("Task list loaded:");
-		System.out.println("Name: "+taskList.name);
-		System.out.println(String.format("Datum: %d - %d - %d: %d ", taskList.dateCreation.Tag, taskList.dateCreation.Monat, taskList.dateCreation.Jahr, taskList.dateCreation.Stunde));
 		
 		//update priorities (with current date)
 		taskList.sortDueDate();
@@ -330,46 +364,49 @@ public class BubbleTaskManager implements ActionListener {
 	}
 	
 	
-	public void addNewTaskDefault(String Description)
-	/*
+	/**
 	 * Quickly adds a new task with default values. 
 	 * Description is taken from the description line. 
 	 */
+	public void addNewTaskDefault(String Description)
 	{
 		CTask task = new CTask();
 		task.setDescription(Description);
 		taskList.addTaskToList(task);
 	}
 	
-	public void addNewTaskWithDetails()
-	/*
+	/**
 	 * Adds a new task, taking the information given in the 
 	 * task editing window.
 	 */
+	public void addNewTaskWithDetails()
 	{
 		CTask task = WTaskFrame.getTaskFromFrame();
 		taskList.addTaskToList(task);
 	}
 	
-	public void replaceTaskInList(int index, CTask task)
-	/*
+	/**
 	 * Replaces a task in the list of task with the edited version of the task 
 	 */
+	public void replaceTaskInList(int index, CTask task)
 	{
 		taskList.replaceTaskInList(index, task);
 	}
 	
-	public void deleteTask(int index)
-	/*
+	/**
 	 * Delet a task from the task list at the given index
 	 */
+	public void deleteTask(int index)
 	{
 		taskList.removeTaskFromList(index);
 	}
-	
+
+	/**
+	 * Main function being called at start up. 
+	 * Starting point for the application. 
+	 */
 	public static void main(String[] args) {
-		
-		System.out.println("Willkommen zum Bubble Task Manager");
+
 		
 		BubbleTaskManager taskMan = new BubbleTaskManager();
 		

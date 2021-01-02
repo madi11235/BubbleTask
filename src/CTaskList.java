@@ -1,17 +1,23 @@
-/*
+/**
  * Class CTask list
  * Summary: 
  * A list of tasks objects of the class CTask.
+ * 
+ * @author Markus Dihlmann
+ * 
  */
 
 import java.util.*;
 import java.io.*;
 
-/*
+/**
  * This class describes a list of tasks of class CTask. 
+ * 
+ * @author Markus Dihlmann
  */
 public class CTaskList {
-
+	
+	
 	//Attribute
 	public String name;
 	public CDatum dateCreation; 
@@ -160,6 +166,12 @@ public class CTaskList {
 		}
 	}
 	
+	/**
+	 * This method returns the list of tasks as a double array of strings. This is a format 
+	 * of the task list which can be used for exporting/saving of the tasks. 
+	 * 
+	 * @return String[][] String double array; first entry task index; second index is the task property
+	 */
 	public String[][] getListAsStringArray()
 	{
 		String[][] Slist;
@@ -181,24 +193,28 @@ public class CTaskList {
 		return Slist;
 	}
 	
-	
+	/**
+	 * Sort the task list according to priorities. 
+	 */
 	public void sortPriority()
 	{
 		Collections.sort(taskList, new CTaskPriorityComparator());
 	}
 	
+	/**
+	 * Sort the task list according to due dates.
+	 */
 	public void sortDueDate()
 	{
 		Collections.sort(taskList, new CTaskDueDateComparator());
 	}
 	
-	
-	public void updateAllTasks()
-	/*
+	/**
 	 * This method updated all tesks in the list w.r.t.:
 	 * - priority re-computation
 	 * - TODO: grooming activation if task is over due
 	 */
+	public void updateAllTasks()
 	{
 		for(int i=0; i< taskList.size(); i++)
 		{
@@ -206,12 +222,12 @@ public class CTaskList {
 		}
 	}
 	
-	public void autoGroomAllTasks()
-	/*
+	/**
 	 * This method goes through all the tasks in the task list
 	 * and updates the due date to today in case the task is not yet completed and
 	 * overdue. 
 	 */
+	public void autoGroomAllTasks()
 	{
 		CDatum today = new CDatum();
 		

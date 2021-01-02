@@ -1,11 +1,13 @@
 import javax.swing.*;
 
-/*
+/**
  * This class describes the GUI used to fill the details of 
- * a task. 
+ * a task.
+ * 
+ *  @author Markus Dihlmann
  */
 public class CTaskEditFrame {
-
+	
 	CDatum today;
 	
 	String[] SImpactLevels = {"Low", "Medium", "High", "Very High"};
@@ -145,10 +147,10 @@ public class CTaskEditFrame {
 		WTaskFrame.add(JBTaskCancel);
 	}	
 	
-	public void resetTaskFrame()
-	/*
+	/**
 	 * resets the task Edit / new task window to default values
 	 */
+	public void resetTaskFrame()
 	{
 		JTFDescription.setText("");
 		JTANotes.setText("");
@@ -168,23 +170,27 @@ public class CTaskEditFrame {
 		JComboComplexity.setSelectedIndex(-1);
 	}
 	
-	public void openEmptyTaskWindow(String descriptionText)
-	/*
+	/**
 	 * Opens the empty task window for adding a new task
-	 * If a description is available, it fills out the description text in the new task frame. 
+	 * If a description is available, it fills out the description text in the new task frame.
+	 * 
+	 *  @param descriptionText Task description
 	 */
+	public void openEmptyTaskWindow(String descriptionText)
 	{
 		resetTaskFrame();
 		JTFDescription.setText(descriptionText);
 		WTaskFrame.setVisible(true);
 	}
 	
-	public void openEditView(int indexOfTask, CTask task)
-	/*
+	/**
 	 * The editing window is opened; 
 	 * The fields are pre-filled with the task's properties. 
 	 * 
+	 * @param indexOfTask the index of the task in the task list
+	 * @param task Task to be edited
 	 */
+	public void openEditView(int indexOfTask, CTask task)
 	{
 		resetTaskFrame();
 		this.taskIndex = indexOfTask;
@@ -192,11 +198,13 @@ public class CTaskEditFrame {
 		preFillWithTask(task);
 	}
 	
-	private void preFillWithTask(CTask task)
-	/*
+	/**
 	 * Fills the fields in the task editing window with 
 	 * the attributes of the task. 
+	 * 
+	 * @param task Task to be filled into edit frame
 	 */
+	private void preFillWithTask(CTask task)
 	{
 		resetTaskFrame();
 		JTFDescription.setText(task.getDescription());
@@ -218,10 +226,12 @@ public class CTaskEditFrame {
 		JCBdone.setSelected(task.getDone());
 	}
 	
-	public CTask getTaskFromFrame()
-	/*
+	/**
 	 * reads out the fields in the frame and returns a task
+	 * 
+	 * @return CTask task read from iformation given by the user in the edit frame
 	 */
+	public CTask getTaskFromFrame()
 	{
 		CTask task = new CTask();
 		
@@ -280,11 +290,14 @@ public class CTaskEditFrame {
 		return task;
 	}
 	
-	public CTask getTaskFromEditFrame(CTask task)
-	/*
+	/**
 	 * reads out the fields in the frame and fills an already 
 	 * existing task with the fields from the form
+	 * 
+	 * @param task A task to be modified with information from the edit frame
+	 * @return CTask task provided as input modified with the inputs given by the user in the gui
 	 */
+	public CTask getTaskFromEditFrame(CTask task)
 	{		
 		task.setDescription(JTFDescription.getText());
 		task.setNotes(JTANotes.getText());

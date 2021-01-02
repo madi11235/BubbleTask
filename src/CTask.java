@@ -1,14 +1,16 @@
-/*
+
+import java.util.*;
+
+/**
  * Public class CTask
  * 
  * Summary: 
  * Class of singular tasks. An object of this class represents a singular tasks, which contains all the information to accomplish this task. 
  * 
+ * @author Markus Dihlmann
  */
-import java.util.*;
-
 public class CTask {
-
+	
 	//Constants
 	public static final double MIN_PRIORITY = 1.0;
 	public static final double MAX_PRIORITY = 35.0;
@@ -405,13 +407,15 @@ public class CTask {
 		this.priority = calculatePriority();
 	}
 	
-	/*
-	 * getContentAsString()
-	 * 
-	 * returns the attribute of the task as string for saving
-	 */
+	
+	/**
+	* getContentAsString()
+	* 
+	* @return String returns the attribute of the task as string for saving
+	*/
 	public String getContentAsString()
 	{
+	
 		String outText = description;
 		outText = outText.concat("\t");
 		outText = outText.concat(notes);
@@ -531,10 +535,10 @@ public class CTask {
 		return prio;
 	}
 	
-	/*
+	/**
 	 * getFieldNames()
 	 * 
-	 * returns te names of all properties of a task as a string array
+	 * @return returns the names of all properties of a task as a string array
 	 */
 	public String[] getFieldNames()
 	{
@@ -582,15 +586,22 @@ public class CTask {
 		return STask;
 	}
 	
-	private int computeDifferenceInDays(CDatum now, CDatum due)
-	/*
+	/**
 	 * Function computes the difference in days between two days. 
 	 * Note, that the maximum relevant difference is 14 days. 
 	 * 
 	 * In a first step, the date is converted into hours, starting with
 	 * 1.1.2019 as hour 0.
+	 * 
+	 * @param now date of today
+	 * @param due date when the task is due
+	 * @return int returns the difference in days
+	 * 
 	 */
+	
+	private int computeDifferenceInDays(CDatum now, CDatum due)
 	{
+		
 		if(due.Tag != 0)
 		{
 			long dueTime = due.convertDateInHours();
@@ -610,8 +621,7 @@ public class CTask {
 			
 	}
 	
-	public int computeRemainingTimeTillDate(CDatum now)
-	/*
+	/**
 	 * This function computes the time difference in days
 	 * between the due date of this task and another date. 
 	 * 
@@ -620,9 +630,15 @@ public class CTask {
 	 * 
 	 * Some due dates are given as 0.0.0000. This defines an undfined due date. 
 	 * The time remaining until then is per definition very long. 
-	 * We assume this undefined date to be very far in the future. 
+	 * We assume this undefined date to be very far in the future.
+	 * 
+	 *  @param now date used to compute difference to due date of the task
+	 *  @return int days from now until due date
+	 *  
 	 */
+	public int computeRemainingTimeTillDate(CDatum now)
 	{
+		
 		
 		CDatum dueDate = new CDatum(this.dateDue);
 		
