@@ -123,6 +123,9 @@ public class BubbleTaskManager implements ActionListener {
 			WEditTaskFrame.resetTaskFrame();
 			JTFnewTask.requestFocus();
 			break;
+		case "BDeleteTask": //Delete Task button is pressed
+			WDelConfFrame.openConfirmView(WEditTaskFrame.taskIndex, WEditTaskFrame.getTaskFromFrame().getDescription());
+			break; 
 		case "BConfDelete": //confirm deletion
 			deleteTask(WDelConfFrame.taskIndex);
 			WDelConfFrame.WConfirmFrame.setVisible(false);
@@ -325,6 +328,9 @@ public class BubbleTaskManager implements ActionListener {
 		
 		WEditTaskFrame.JBTaskCancel.addActionListener(this);
 		WEditTaskFrame.JBTaskCancel.setActionCommand("BEditCancel");
+		
+		WEditTaskFrame.JBTaskDelete.addActionListener(this);
+		WEditTaskFrame.JBTaskDelete.setActionCommand("BDeleteTask");
 		
 		WEditTaskFrame.JCBdone.addActionListener(this);
 		WEditTaskFrame.JCBdone.setActionCommand("CheckDone");

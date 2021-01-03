@@ -21,7 +21,7 @@ public class CTaskEditFrame {
 	JCheckBox JCBcustomerReq, JCBcustomerCall, JCBinterfaceOthers, JCBdone, JCBHighPrio;
 	JComboBox JComboImpact = new JComboBox(SImpactLevels);
 	JComboBox JComboComplexity = new JComboBox(SImpactLevels);
-	JButton JBTaskOK, JBTaskCancel;
+	JButton JBTaskOK, JBTaskCancel, JBTaskDelete;
 	
 	CTaskEditFrame(String name){
 		
@@ -139,12 +139,16 @@ public class CTaskEditFrame {
 		WTaskFrame.add(JCBdone);
 		
 		JBTaskOK = new JButton("OK");
-		JBTaskOK.setBounds(600, 450, 150,50);
+		JBTaskOK.setBounds(600, 450, 100,50);
 		WTaskFrame.add(JBTaskOK);
 		
 		JBTaskCancel = new JButton("Cancel");
-		JBTaskCancel.setBounds(800,450,150,50);
+		JBTaskCancel.setBounds(750,450,100,50);
 		WTaskFrame.add(JBTaskCancel);
+		
+		JBTaskDelete = new JButton("Del");
+		JBTaskDelete.setBounds(900,450,50,50);
+		WTaskFrame.add(JBTaskDelete);
 	}	
 	
 	/**
