@@ -40,6 +40,9 @@ public class BubbleTaskManager implements ActionListener {
 	FileReader fReader;
 	BufferedReader bReader;
 	
+	File logFile;
+	LogBook log; 
+	
 	CTableView TableView; 
 	
 	//Attribute Mask
@@ -50,10 +53,11 @@ public class BubbleTaskManager implements ActionListener {
 	CTaskEditFrame WTaskFrame; 
 	CTaskEditFrame WEditTaskFrame;
 	CDeleteConfirmFrame WDelConfFrame;
+	LogInterface WLogInterface;
 	
 	JMenuBar MenuBar;
-	JMenu MenuView, MenuEdit;
-	JMenuItem MenuTableView, MenuGroomAuto;
+	JMenu MenuView, MenuEdit, MenuLog;
+	JMenuItem MenuTableView, MenuGroomAuto, MenuLogOpen;
 	
 	CBubbleArea bubbleArea;
 	JScrollPane scrollPane; 
@@ -108,6 +112,9 @@ public class BubbleTaskManager implements ActionListener {
 			break;
 		case "StartAutoGroom":
 			this.taskList.autoGroomAllTasks();
+			break;
+		case "OpenLog":
+			WLogInterface.Frame.setVisible(true);
 			break;
 		case "BTaskSubmitEdit": //submit the edited task
 			CTask tsk = new CTask(taskList.getTask(WEditTaskFrame.taskIndex));
@@ -166,7 +173,6 @@ public class BubbleTaskManager implements ActionListener {
 	public void saveTasks()
 	{
 		
-
 	    try{
 				fWriter = new FileWriter(datei);
 				bWriter = new BufferedWriter(fWriter);	
@@ -249,6 +255,10 @@ public class BubbleTaskManager implements ActionListener {
 		taskList.sortDueDate();
 		taskList.updateAllTasks();
 		
+		//initialize logBook
+		logFile = new File("LogBook.log");
+		log = new LogBook(logFile); 
+		
 		/*****************
 		 * Start screen
 		 *****************/
@@ -297,11 +307,19 @@ public class BubbleTaskManager implements ActionListener {
 		MenuEdit.getAccessibleContext().setAccessibleDescription("Editing, performing actions");
 		MenuBar.add(MenuEdit);
 		
-		
 		MenuGroomAuto = new JMenuItem("Auto Groom");
 		MenuGroomAuto.addActionListener(this);
 		MenuGroomAuto.setActionCommand("StartAutoGroom");
 		MenuEdit.add(MenuGroomAuto);
+		
+		MenuLog = new JMenu("Log");
+		MenuLog.getAccessibleContext().setAccessibleDescription("Log book functions");
+		MenuBar.add(MenuLog);
+		
+		MenuLogOpen = new JMenuItem("Open Log Book");
+		MenuLogOpen.addActionListener(this);
+		MenuLogOpen.setActionCommand("OpenLog");
+		MenuLog.add(MenuLogOpen);
 		
 		WFrame.setJMenuBar(MenuBar);
 		
@@ -367,6 +385,11 @@ public class BubbleTaskManager implements ActionListener {
 		
 		//TODO: re-evaluate the need for grooming
 		
+		/*-----------------------
+		 * Log book interface
+		*/
+		WLogInterface = new LogInterface(log);
+		WLogInterface.Frame.setVisible(false);
 	}
 	
 	
