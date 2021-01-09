@@ -71,18 +71,18 @@ public class LogInterface {
 			if(command.equals("Log"))
 			{
 				//datum konvertieren
-				String str = JFTDatum.getText();
-				String datum;
-				datum = str.substring(6);
-				System.out.println(datum);
-			    datum = datum.concat(str.substring(3, 5));
-			    System.out.println(datum);
-			    datum = datum.concat(str.substring(0, 2));
-			    System.out.println(datum);
-			    
-			    System.out.println(textArea.getText());
-			    
-			    log.addLogEntry(new LogEntry(datum, TFOrt.getText(), textArea.getText()));
+				String Date = JFTDatum.getText();
+//				String datum;
+//				datum = str.substring(6);
+//				System.out.println(datum);
+//			    datum = datum.concat(str.substring(3, 5));
+//			    System.out.println(datum);
+//			    datum = datum.concat(str.substring(0, 2));
+//			    System.out.println(datum);
+//			    
+//			    System.out.println(textArea.getText());
+//			    
+			    log.addLogEntry(new LogEntry(Date, TFOrt.getText(), textArea.getText()));
 			    log.saveLogBook();
 				
 			}

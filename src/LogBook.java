@@ -54,13 +54,10 @@ public class LogBook {
 				
 				//Load Header
 				str = bReader.readLine();
-				System.out.println("Read first line log");
-				System.out.println(str);
 				str = bReader.readLine();
-				System.out.println(str);
 
 				System.out.println("Starting to read log entries");
-				bReader.readLine();
+				str = bReader.readLine();
 				while(!str.equals("---***---EndOfLogBook---***---") && counter < 3)
 				{
 					//Load logEntry Data	
@@ -76,9 +73,9 @@ public class LogBook {
 			    	{
 			    		bText = bText.concat(str+"\n");
 				    	str = bReader.readLine();
-				    	System.out.println(str);
 			    	}
-			    	this.addLogEntry(new LogEntry(bDate, bPlace, bText));
+			    	//cut out last newline character
+			    	this.addLogEntry(new LogEntry(bDate, bPlace, bText.substring(0,bText.length()-1)));
 			    	counter++;
 			    	System.out.println(counter);
 			    	str = bReader.readLine();
@@ -121,7 +118,7 @@ public class LogBook {
 			
 		 	try{
 		 		//save the Log Book Entries
-				 
+				String str; 
 			 	//Header
 		 		bWriter.write("---Start of Logbook---"); bWriter.newLine();
 		 		bWriter.write("----------------------");bWriter.newLine();
@@ -130,11 +127,7 @@ public class LogBook {
 		 		for(int i=0; i<this.getSize();i++)
 		 		{
 		 			
-		 			String str=LogEntryList.get(i).Datum.substring(6);
-					str = str+".";
-					str = str.concat(LogEntryList.get(i).Datum.substring(4,6));
-					str = str+".";
-					str=str.concat(LogEntryList.get(i).Datum.substring(0,4));
+		 			str=LogEntryList.get(i).Datum;
 					
 					bWriter.write("Datum : \t"+str);
 					bWriter.newLine();
