@@ -27,8 +27,10 @@ public class BubbleTaskManager implements ActionListener {
 	//constants
 	public static final int CANVAS_WIDTH = 700;
 	public static final int CANVAS_HEIGHT = 1500; 
-	public static final int SCROLL_HEIGHT = 500;
+	public static final int SCROLL_HEIGHT = 400;
 	public static final int SCROLL_WIDTH = CANVAS_WIDTH + 20;
+	
+	public static final int DONE_AREA_HEIGHT = 135;
 	
 	//Attribute
 	CTaskList taskList;
@@ -59,8 +61,9 @@ public class BubbleTaskManager implements ActionListener {
 	JMenu MenuView, MenuEdit, MenuLog;
 	JMenuItem MenuTableView, MenuGroomAuto, MenuLogOpen;
 	
-	CBubbleArea bubbleArea;
-	JScrollPane scrollPane; 
+	CMyTaskArea bubbleArea;
+	CDoneTodayArea doneArea;
+	JScrollPane scrollPane, scrollPaneDone; 
 	JPanel Vpanel;
 	
 	//Constructor
@@ -154,6 +157,7 @@ public class BubbleTaskManager implements ActionListener {
 		taskList.sortPriority();
 		taskList.sortDueDate();
 		bubbleArea.updateBubbleArea(taskList);
+		doneArea.updateBubbleArea(taskList);
 		saveTasks();
 		for(int i=0; i<taskList.getSize();i++)
 		{
@@ -372,16 +376,25 @@ public class BubbleTaskManager implements ActionListener {
 		/*******************
 		 * Set up bubble canvas
 		 */
-		bubbleArea = new CBubbleArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT, WEditTaskFrame);
-		bubbleArea.setBounds(80, 150, CANVAS_WIDTH, CANVAS_HEIGHT);
+		bubbleArea = new CMyTaskArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT, WEditTaskFrame);
+		bubbleArea.setBounds(80, 100, CANVAS_WIDTH, CANVAS_HEIGHT);
 		bubbleArea.setPreferredSize(new Dimension(CANVAS_WIDTH,CANVAS_HEIGHT));
 		
 		scrollPane = new JScrollPane(bubbleArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setBounds(80,150,SCROLL_WIDTH, SCROLL_HEIGHT);
+		scrollPane.setBounds(80,100,SCROLL_WIDTH, SCROLL_HEIGHT);
 		WFrame.add(scrollPane);
 		
 		scrollPane.revalidate();
 		scrollPane.repaint();
+		
+		doneArea = new CDoneTodayArea(taskList, CANVAS_WIDTH, DONE_AREA_HEIGHT, WEditTaskFrame);
+		doneArea.setBounds(80, 100 + SCROLL_HEIGHT + 10, 1000, DONE_AREA_HEIGHT);
+		scrollPaneDone = new JScrollPane(doneArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneDone.setBounds(80, 100 + SCROLL_HEIGHT + 10, SCROLL_WIDTH, DONE_AREA_HEIGHT + 20);
+		WFrame.add(scrollPaneDone);
+		
+		scrollPaneDone.revalidate();
+		scrollPaneDone.repaint();
 		
 		//TODO: re-evaluate the need for grooming
 		

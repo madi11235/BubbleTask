@@ -12,16 +12,14 @@ import javax.swing.JPanel;
  * @author Markus Dihlmann
  */
 
-public class CBubbleArea extends JPanel{
+abstract class CBubbleArea extends JPanel{
 	
-	private static final long serialVersionUID = 1L;
-	private static final int MAX_SET_SIZE = 500;
-	private static final int MIN_BUBBLE_diameter = 60;
-	private static final int MAX_BUBBLE_diameter = 120;
-	private static final int LIMIT_SMALL_diameter = 90;
-	private static final int BUBBLE_PADDING = 10;
-	private static final int DonePipeWidth = 150;
-	private static final int DonePipeWOPadding = 120;
+	public static final long serialVersionUID = 1L;
+	public static final int MAX_SET_SIZE = 500;
+	public static final int MIN_BUBBLE_diameter = 60;
+	public static final int MAX_BUBBLE_diameter = 120;
+	public static final int LIMIT_SMALL_diameter = 90;
+	public static final int BUBBLE_PADDING = 10;
 	
 	public static final Color BackgroundColor = new Color(250, 235, 215);
 	public static final Color highPrioColor = new Color(91,44,111);
@@ -32,6 +30,8 @@ public class CBubbleArea extends JPanel{
 	
 	public static Font smallFont = new Font("Avenir", Font.PLAIN, 10);
 	public static Font mediumFont = new Font("Avenir", Font.PLAIN, 12);
+	
+	abstract void updateBubbleArea(CTaskList taskList);
 	
 	public class CBubble
 	{
@@ -182,33 +182,18 @@ public class CBubbleArea extends JPanel{
 	
 	CDatum today;
 	CBubble[] bubbleSet = new CBubble[MAX_SET_SIZE];
-	CBubble[] doneTodaySet = new CBubble[MAX_SET_SIZE];
-	private int nrBubbles = 0;
-	private int nrDoneToday = 0;
-	private int CanvasHeight, CanvasWidth;
+	public int nrBubbles = 0;
+	public int CanvasHeight, CanvasWidth;
 	
 	CTaskEditFrame editFrame; 
 	
-	/*
-	CBubbleArea(int width, int height, CTaskEditFrame editFrame)
-	{
-		setBackground(BackgroundColor);
-		this.CanvasHeight = height;
-		this.CanvasWidth = width - DonePipeWidth;
-		this.editFrame = editFrame;
-		
-		today = new CDatum();
-		
-		addMouseListener(new MouseWatcher());
-	}
-	*/
 	
 	CBubbleArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)
 	{
 		System.out.println("In constructor for bubble area");
 		setBackground(BackgroundColor);
 		this.CanvasHeight = heigth;
-		this.CanvasWidth = width - DonePipeWidth;
+		this.CanvasWidth = width;
 		this.editFrame = editFrame; 
 		
 		today = new CDatum();
@@ -236,15 +221,7 @@ public class CBubbleArea extends JPanel{
 			task = bubbleSet[taskIndex].task;
 			editFrame.openEditView(bubbleSet[taskIndex].taskIndex, task);
 		}
-		else
-		{
-			taskIndex = findBubbleIdx(mouseX, mouseY, doneTodaySet, nrDoneToday);
-			if(taskIndex != -1)
-			{
-				task = doneTodaySet[taskIndex].task;
-				editFrame.openEditView(doneTodaySet[taskIndex].taskIndex, task);
-			}
-		}
+		
 	}
 	
 	/**
@@ -280,17 +257,10 @@ public class CBubbleArea extends JPanel{
 		return nrBubbles;
 	}
 	
-	public int getNrOfDoneToday()
-	{
-		return nrDoneToday; 
-	}
 	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		//draw line between open tasks canvas and done pipe
-		g.setColor(lineColor);
-		g.drawLine(CanvasWidth + 15, 20 , CanvasWidth + 15, CanvasHeight - 15);
 		
 		//draw open task bubbles
 		for(int i=0; i < getNumberOfBubbles(); i++)
@@ -298,11 +268,6 @@ public class CBubbleArea extends JPanel{
 			bubbleSet[i].drawBubble(g);
 		}
 		
-		//draw done today tasks
-		for(int i=0; i< getNrOfDoneToday(); i++)
-		{
-			doneTodaySet[i].drawBubble(g);
-		}
 	}
 	
 	/**
@@ -313,7 +278,7 @@ public class CBubbleArea extends JPanel{
 	 * It also sets the x- / y-coordinates of the bubbles of the 
 	 * tasks that have been done today. 
 	 */
-	private void setXYofBubbles()
+	public void setXYofBubbles()
 	{		
 		CBubble bub;
 		int x = 0; int y = 0;
@@ -376,77 +341,57 @@ public class CBubbleArea extends JPanel{
 				
 				idxStart = idx;
 			}
-		}
-		
-		// ----
-		// Assembling the bubbles of tasks done today
-		x = CanvasWidth + DonePipeWidth - DonePipeWOPadding / 2;
-		y = CanvasHeight;
-		radius = 0;
-		radiusOld = 0;
-		
-		if(nrDoneToday > 0)
-		{
-			for(int i=0; i<nrDoneToday; i++)
-			{
-				doneTodaySet[i].x = x;
-				radius = doneTodaySet[i].getRadius();
-				y = y - radiusOld - radius;
-				doneTodaySet[i].y = y;
-				radiusOld = radius; 
-			}
-		}
-		
+		}			
 	}
 	
-	public void updateBubbleArea(CTaskList taskList)
-	{
-		nrBubbles = 0;
-		nrDoneToday = 0;
-		for(int i = 0; i < taskList.getSize(); i++)
-		{
-			if(!taskList.getTask(i).getDone())
-			{
-				if(bubbleSet[nrBubbles] == null)
-				{
-					bubbleSet[nrBubbles] = new CBubble(taskList.getTask(i), i);
-					nrBubbles++;
-				}
-				else
-				{
-					bubbleSet[nrBubbles].updateBubbleFromTask(taskList.getTask(i), i);
-					nrBubbles++;
-				}
-			}
-			else
-			{
-				today.setToToday();
-				if(taskList.getTask(i).dateDone.Jahr == today.Jahr && 
-						taskList.getTask(i).dateDone.Monat == today.Monat &&
-						taskList.getTask(i).dateDone.Tag == today.Tag)
-				{
-					if(doneTodaySet[nrDoneToday] == null)
-					{
-						doneTodaySet[nrDoneToday] = new CBubble(taskList.getTask(i), i);
-						nrDoneToday++;
-					}
-					else
-					{
-						doneTodaySet[nrDoneToday].updateBubbleFromTask(taskList.getTask(i), i);
-						nrDoneToday++;
-					}
-				}
-			}
-			
-			if(nrBubbles >= MAX_SET_SIZE || nrDoneToday >= MAX_SET_SIZE)
-			{
-				break;
-			}
-		}
-		setXYofBubbles();
-		revalidate();
-		repaint();
-	}
+	
+	
+//  {
+//		nrBubbles = 0;
+//		for(int i = 0; i < taskList.getSize(); i++)
+//		{
+//			if(!taskList.getTask(i).getDone())
+//			{
+//				if(bubbleSet[nrBubbles] == null)
+//				{
+//					bubbleSet[nrBubbles] = new CBubble(taskList.getTask(i), i);
+//					nrBubbles++;
+//				}
+//				else
+//				{
+//					bubbleSet[nrBubbles].updateBubbleFromTask(taskList.getTask(i), i);
+//					nrBubbles++;
+//				}
+//			}
+//			else
+//			{
+//				today.setToToday();
+//				if(taskList.getTask(i).dateDone.Jahr == today.Jahr && 
+//						taskList.getTask(i).dateDone.Monat == today.Monat &&
+//						taskList.getTask(i).dateDone.Tag == today.Tag)
+//				{
+//					if(doneTodaySet[nrDoneToday] == null)
+//					{
+//						doneTodaySet[nrDoneToday] = new CBubble(taskList.getTask(i), i);
+//						nrDoneToday++;
+//					}
+//					else
+//					{
+//						doneTodaySet[nrDoneToday].updateBubbleFromTask(taskList.getTask(i), i);
+//						nrDoneToday++;
+//					}
+//				}
+//			}
+//			
+//			if(nrBubbles >= MAX_SET_SIZE || nrDoneToday >= MAX_SET_SIZE)
+//			{
+//				break;
+//			}
+//		}
+//		setXYofBubbles();
+//		revalidate();
+//		repaint();
+//	}
 	
 	class MouseWatcher extends MouseAdapter
 	{

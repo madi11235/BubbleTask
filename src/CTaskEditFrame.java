@@ -147,7 +147,7 @@ public class CTaskEditFrame {
 		WTaskFrame.add(JBTaskCancel);
 		
 		JBTaskDelete = new JButton("Del");
-		JBTaskDelete.setBounds(900,450,50,50);
+		JBTaskDelete.setBounds(900,450,60,60);
 		WTaskFrame.add(JBTaskDelete);
 	}	
 	
