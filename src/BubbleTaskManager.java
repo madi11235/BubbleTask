@@ -27,10 +27,10 @@ public class BubbleTaskManager implements ActionListener {
 	//constants
 	public static final int CANVAS_WIDTH = 700;
 	public static final int CANVAS_HEIGHT = 1500; 
-	public static final int SCROLL_HEIGHT = 400;
+	public static final int SCROLL_HEIGHT = 370;
 	public static final int SCROLL_WIDTH = CANVAS_WIDTH + 20;
 	
-	public static final int DONE_AREA_HEIGHT = 135;
+	public static final int DONE_AREA_HEIGHT = 121;
 	
 	//Attribute
 	CTaskList taskList;
@@ -270,30 +270,47 @@ public class BubbleTaskManager implements ActionListener {
 		WFrame = new JFrame("Bubble Tasks");
 		WFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		WFrame.setLayout(null);
-		WFrame.setSize(1000, 800);
+		WFrame.setSize(1200, 800);
 		WFrame.setLocation(50, 50);
+		//WFrame.setIconImage(image);
 		
 		JLabel JLnewTask = new JLabel("New Task:"); 
-		JLnewTask.setBounds(50, 50, 100, 30);
-		JLnewTask.setHorizontalAlignment(JLabel.RIGHT);
+		JLnewTask.setBounds(80, 30, 100, 30);
+		JLnewTask.setHorizontalAlignment(JLabel.LEFT);
 		WFrame.add(JLnewTask);
 		
 		JTFnewTask = new JTextField();
-		JTFnewTask.setBounds(150, 50, 425, 30);
+		JTFnewTask.setBounds(150, 30, 425, 30);
 		JTFnewTask.requestFocus();
 		WFrame.add(JTFnewTask);
 		
 		JBnewTask = new JButton("Add Task");
-		JBnewTask.setBounds(600, 50, 120, 30);
+		JBnewTask.setBounds(600, 30, 120, 30);
 		JBnewTask.addActionListener(this);
 		JBnewTask.setActionCommand("BNewTask");
 		WFrame.add(JBnewTask);
 		
 		JBquickAdd = new JButton("Quick Add");
-		JBquickAdd.setBounds(750, 50, 120, 30);
+		JBquickAdd.setBounds(750, 30, 120, 30);
 		JBquickAdd.addActionListener(this);
 		JBquickAdd.setActionCommand("BquickAdd");
 		WFrame.add(JBquickAdd);
+		
+		JLabel JLMyTasks = new JLabel("My Tasks");
+		JLMyTasks.setBounds(80,75,100,30);
+		JLMyTasks.setHorizontalAlignment(JLabel.LEFT);
+		WFrame.add(JLMyTasks);
+		
+		JLabel JLTasksDone = new JLabel("Tasks done today");
+		JLTasksDone.setBounds(80, 495, 200, 30);
+		JLTasksDone.setHorizontalAlignment(JLabel.LEFT);
+		WFrame.add(JLTasksDone);
+		
+		JLabel JLTasksDeleg = new JLabel("Waiting for reply");
+		JLTasksDeleg.setBounds(830, 75, 200, 30);
+		JLTasksDeleg.setHorizontalAlignment(JLabel.LEFT);
+		WFrame.add(JLTasksDeleg);
+		
 		
 		//Menu bar
 		MenuBar = new JMenuBar();
@@ -376,6 +393,7 @@ public class BubbleTaskManager implements ActionListener {
 		/*******************
 		 * Set up bubble canvas
 		 */
+		
 		bubbleArea = new CMyTaskArea(taskList, CANVAS_WIDTH, CANVAS_HEIGHT, WEditTaskFrame);
 		bubbleArea.setBounds(80, 100, CANVAS_WIDTH, CANVAS_HEIGHT);
 		bubbleArea.setPreferredSize(new Dimension(CANVAS_WIDTH,CANVAS_HEIGHT));
@@ -387,10 +405,11 @@ public class BubbleTaskManager implements ActionListener {
 		scrollPane.revalidate();
 		scrollPane.repaint();
 		
+	
 		doneArea = new CDoneTodayArea(taskList, CANVAS_WIDTH, DONE_AREA_HEIGHT, WEditTaskFrame);
-		doneArea.setBounds(80, 100 + SCROLL_HEIGHT + 10, 1000, DONE_AREA_HEIGHT);
-		scrollPaneDone = new JScrollPane(doneArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPaneDone.setBounds(80, 100 + SCROLL_HEIGHT + 10, SCROLL_WIDTH, DONE_AREA_HEIGHT + 20);
+		doneArea.setBounds(80, 100 + SCROLL_HEIGHT + 50, 1000, DONE_AREA_HEIGHT);
+		scrollPaneDone = new JScrollPane(doneArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED ,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneDone.setBounds(80, 100 + SCROLL_HEIGHT + 50, SCROLL_WIDTH, DONE_AREA_HEIGHT);
 		WFrame.add(scrollPaneDone);
 		
 		scrollPaneDone.revalidate();
