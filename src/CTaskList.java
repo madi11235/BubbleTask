@@ -21,6 +21,7 @@ public class CTaskList {
 	//Attribute
 	public String name;
 	public CDatum dateCreation; 
+	public String owner; 
 	public LinkedList<CTask> taskList;
 	
 	
@@ -29,6 +30,7 @@ public class CTaskList {
 	{
 		this.name = name;
 		this.dateCreation = new CDatum();
+		this.owner = "Me";
 		this.taskList = new LinkedList<CTask>();
 	}
 	
@@ -82,13 +84,17 @@ public class CTaskList {
 	
 		try 
 		{
-			output.write("---Start of tasklist---"); output.newLine();
-			output.write(String.format("Name: %s", this.name)); output.newLine();
-			output.write(String.format("Date de creation: %d\t%d\t%d\t%d", this.dateCreation.Tag, this.dateCreation.Monat, this.dateCreation.Jahr, this.dateCreation.Stunde)); output.newLine();
-			output.newLine();output.write("------------------");output.newLine();output.write("Tasklist");output.newLine();
+			output.write("---Start of tasklist---"); 
+			output.newLine();
+			output.write(String.format("Name: %s", this.name)); 
+			output.newLine();
+			output.write(String.format("Date de creation: %d\t%d\t%d\t%d", this.dateCreation.Tag, this.dateCreation.Monat, this.dateCreation.Jahr, this.dateCreation.Stunde)); 
+			output.newLine();
+			output.write(String.format("Owner: %s", this.owner));
+			output.newLine();
+			output.write("------------------");output.newLine();output.write("Tasklist");output.newLine();
 			
 			
-			//Vokabelkarten nacheinander abspeichern ...getrennt durch tabulatoren
 			for(int i=0; i<taskList.size(); i++)
 			{
 				output.write(taskList.get(i).getContentAsString());
@@ -141,6 +147,8 @@ public class CTaskList {
 			this.dateCreation.Stunde = Integer.parseInt(str);
 			
 			str = input.readLine();
+			index = str.indexOf(":")+1;
+			this.owner = str.substring(index);
 			
 			//Read in the tasks
 			int idx=0;

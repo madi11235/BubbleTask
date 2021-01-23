@@ -50,6 +50,8 @@ public class BubbleTaskManager implements ActionListener {
 	
 	CTableView TableView; 
 	
+	CPreferences preferences; 
+	
 	//Attribute Mask
 	JFrame WFrame; 
 	JButton JBnewTask, JBquickAdd;
@@ -59,6 +61,7 @@ public class BubbleTaskManager implements ActionListener {
 	CTaskEditFrame WEditTaskFrame;
 	CDeleteConfirmFrame WDelConfFrame;
 	LogInterface WLogInterface;
+	CPreferencesFrame WPrefFrame; 
 	
 	JMenuBar MenuBar;
 	JMenu MenuView, MenuEdit, MenuLog;
@@ -264,6 +267,9 @@ public class BubbleTaskManager implements ActionListener {
 		taskList.sortDueDate();
 		taskList.updateAllTasks();
 		
+		//initialize preferences
+		preferences = new CPreferences(taskList);
+		
 		//initialize logBook
 		logFile = new File("LogBook.log");
 		log = new LogBook(logFile); 
@@ -389,6 +395,13 @@ public class BubbleTaskManager implements ActionListener {
 		
 		WDelConfFrame.JBcancel.addActionListener(this);
 		WDelConfFrame.JBcancel.setActionCommand("BcancelDelete");
+		
+		/******************
+		 * Preferences setting frame
+		 */
+		WPrefFrame = new CPreferencesFrame(preferences);
+		WPrefFrame.WPrefFrame.setVisible(true);
+		
 		
 		/***********************
 		 * Prepare table view
