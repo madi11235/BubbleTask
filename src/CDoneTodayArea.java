@@ -1,5 +1,10 @@
 
-
+/**
+ * This class describes a bubble canvas, which shows takss, that have been done today. 
+ * 
+ * @author Markus Dihlmann
+ *
+ */
 public class CDoneTodayArea extends CBubbleArea{
 
 	CDoneTodayArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)

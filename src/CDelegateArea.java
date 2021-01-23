@@ -1,33 +1,28 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.JPanel;
 
 /**
- * THis class describes a bubble canvas, that shows only the tasks assigned to the user of the todo-list. 
+ * This class describes a Bubble area, which shows only tasks assigned to other people. 
  * 
  * @author Markus Dihlmann
  *
  */
-
-public class CMyTaskArea extends CBubbleArea {
-		
+public class CDelegateArea extends CBubbleArea {
 	
-	CMyTaskArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)
+	CDelegateArea(CTaskList taskList, int width, int heigth, CTaskEditFrame editFrame)
 	{
 		super(taskList, width, heigth, editFrame);
 		
 	}
 	
-	
-		
-	
-	
+	/**
+	 * updateBubbleArea takes all tasks, which are not yet done and which are assigned to other people
+	 * into the bubbleSet of this canvas.
+	 */
 	public void updateBubbleArea(CTaskList taskList)
 	{
 		nrBubbles = 0;
 		for(int i = 0; i < taskList.getSize(); i++)
 		{
-			if(!taskList.getTask(i).getDone() && taskList.getTask(i).getAssignee().equals("Markus"))
+			if(!taskList.getTask(i).getDone() && !taskList.getTask(i).getAssignee().equals("Markus"))
 			{
 				if(bubbleSet[nrBubbles] == null)
 				{
@@ -51,7 +46,6 @@ public class CMyTaskArea extends CBubbleArea {
 		revalidate();
 		repaint();
 	}
+
 	
-
-
 }

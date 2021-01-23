@@ -25,12 +25,15 @@ import java.awt.event.*;
 public class BubbleTaskManager implements ActionListener {
 
 	//constants
-	public static final int CANVAS_WIDTH = 700;
+	public static final int CANVAS_WIDTH = 800;
 	public static final int CANVAS_HEIGHT = 1500; 
 	public static final int SCROLL_HEIGHT = 370;
 	public static final int SCROLL_WIDTH = CANVAS_WIDTH + 20;
 	
 	public static final int DONE_AREA_HEIGHT = 121;
+	
+	public static final int DEL_AREA_WIDTH = 150;
+	
 	
 	//Attribute
 	CTaskList taskList;
@@ -63,7 +66,8 @@ public class BubbleTaskManager implements ActionListener {
 	
 	CMyTaskArea bubbleArea;
 	CDoneTodayArea doneArea;
-	JScrollPane scrollPane, scrollPaneDone; 
+	CDelegateArea delegateArea;
+	JScrollPane scrollPane, scrollPaneDone, scrollPaneDel; 
 	JPanel Vpanel;
 	
 	//Constructor
@@ -158,6 +162,7 @@ public class BubbleTaskManager implements ActionListener {
 		taskList.sortDueDate();
 		bubbleArea.updateBubbleArea(taskList);
 		doneArea.updateBubbleArea(taskList);
+		delegateArea.updateBubbleArea(taskList);
 		saveTasks();
 		for(int i=0; i<taskList.getSize();i++)
 		{
@@ -307,7 +312,7 @@ public class BubbleTaskManager implements ActionListener {
 		WFrame.add(JLTasksDone);
 		
 		JLabel JLTasksDeleg = new JLabel("Waiting for reply");
-		JLTasksDeleg.setBounds(830, 75, 200, 30);
+		JLTasksDeleg.setBounds(CANVAS_WIDTH + 130, 75, 200, 30);
 		JLTasksDeleg.setHorizontalAlignment(JLabel.LEFT);
 		WFrame.add(JLTasksDeleg);
 		
@@ -408,12 +413,24 @@ public class BubbleTaskManager implements ActionListener {
 	
 		doneArea = new CDoneTodayArea(taskList, CANVAS_WIDTH, DONE_AREA_HEIGHT, WEditTaskFrame);
 		doneArea.setBounds(80, 100 + SCROLL_HEIGHT + 50, 1000, DONE_AREA_HEIGHT);
+		doneArea.setPreferredSize(new Dimension(CANVAS_WIDTH * 2, DONE_AREA_HEIGHT));
 		scrollPaneDone = new JScrollPane(doneArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED ,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneDone.setBounds(80, 100 + SCROLL_HEIGHT + 50, SCROLL_WIDTH, DONE_AREA_HEIGHT);
 		WFrame.add(scrollPaneDone);
 		
 		scrollPaneDone.revalidate();
 		scrollPaneDone.repaint();
+		
+		
+		delegateArea = new CDelegateArea(taskList, DEL_AREA_WIDTH, CANVAS_HEIGHT, WEditTaskFrame);
+		delegateArea.setBounds(CANVAS_WIDTH + 130, 100, DEL_AREA_WIDTH, CANVAS_HEIGHT);
+		delegateArea.setPreferredSize(new Dimension(DEL_AREA_WIDTH, CANVAS_HEIGHT));
+		scrollPaneDel = new JScrollPane(delegateArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneDel.setBounds(CANVAS_WIDTH + 130, 100, DEL_AREA_WIDTH + 20, SCROLL_HEIGHT + DONE_AREA_HEIGHT + 50);
+		WFrame.add(scrollPaneDel);
+		
+		scrollPaneDel.revalidate();
+		scrollPaneDel.repaint();
 		
 		//TODO: re-evaluate the need for grooming
 		
