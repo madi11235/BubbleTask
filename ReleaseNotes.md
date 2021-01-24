@@ -14,3 +14,8 @@ Version 2.1
 -----------
 Release date: 02.01.2021
 Release feature/updates: Fixed a bug appearing when applying auto grooming. 
+
+Version 3
+----------
+Release date: 24.02.2021
+Release feature/updates: Assigning tasks to others enabled
