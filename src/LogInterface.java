@@ -44,7 +44,7 @@ public class LogInterface {
 		
 		
 		LOrt = new JLabel("Place: ");
-		LOrt.setBounds(570,60,30,30);
+		LOrt.setBounds(570,60,80,30);
 		Frame.add(LOrt);
 		
 		

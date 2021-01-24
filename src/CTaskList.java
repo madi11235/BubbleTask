@@ -249,7 +249,7 @@ public class CTaskList {
 		
 		for(int i=0; i< taskList.size(); i++)
 		{
-			if(!getTask(i).getDone())
+			if(!getTask(i).getDone() && getTask(i).assignedToMe)
 			{
 				if(getTask(i).computeRemainingTimeTillDate(today) < 0)
 				{

@@ -45,7 +45,7 @@ public class CTask {
 	{
 		this.description = "";
 		this.notes = "";
-		this.assignee = "Markus";
+		this.assignee = "";
 		this.done = false; 
 		this.dateCreation = new CDatum();
 		this.dateModification = new CDatum();

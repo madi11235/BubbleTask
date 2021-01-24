@@ -329,7 +329,7 @@ public class BubbleTaskManager implements ActionListener {
 		JLTasksDone.setHorizontalAlignment(JLabel.LEFT);
 		WFrame.add(JLTasksDone);
 		
-		JLabel JLTasksDeleg = new JLabel("Waiting for reply");
+		JLabel JLTasksDeleg = new JLabel("Assigned to others");
 		JLTasksDeleg.setBounds(CANVAS_WIDTH + 130, 75, 200, 30);
 		JLTasksDeleg.setHorizontalAlignment(JLabel.LEFT);
 		WFrame.add(JLTasksDeleg);
@@ -485,6 +485,7 @@ public class BubbleTaskManager implements ActionListener {
 		CTask task = new CTask();
 		task.setDescription(Description);
 		taskList.addTaskToList(task);
+		taskList.adaptOwnerNameOfMyTasks(preferences.owner);
 	}
 	
 	/**

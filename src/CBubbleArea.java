@@ -38,7 +38,7 @@ abstract class CBubbleArea extends JPanel{
 		int x,y;
 		private int diameter;
 		private Color fillColor;
-		private String text; 
+		private String[] text = {" ", " ", " "}; 
 		private CTask task; 
 		public int taskIndex;
 		
@@ -51,8 +51,15 @@ abstract class CBubbleArea extends JPanel{
 		
 		private int computediameter(double prio)
 		{
-			double prioNormal = (prio - CTask.MIN_PRIORITY)/(CTask.MAX_PRIORITY - CTask.MIN_PRIORITY);
-			double diameterDouble = prioNormal * (double)(MAX_BUBBLE_diameter - MIN_BUBBLE_diameter) + (double)(MIN_BUBBLE_diameter);
+			
+			double diameterDouble = MAX_BUBBLE_diameter;
+			
+			if(this.task.assignedToMe)
+			{	
+				double prioNormal = (prio - CTask.MIN_PRIORITY)/(CTask.MAX_PRIORITY - CTask.MIN_PRIORITY);
+				diameterDouble = prioNormal * (double)(MAX_BUBBLE_diameter - MIN_BUBBLE_diameter) + (double)(MIN_BUBBLE_diameter);
+			}
+			
 			return (int) diameterDouble; 
 		}
 		
@@ -69,9 +76,23 @@ abstract class CBubbleArea extends JPanel{
 				}
 				else
 				{
-					double limit = (2.0/3.0) * (CTask.MAX_PRIORITY - CTask.MIN_PRIORITY) + CTask.MIN_PRIORITY;
-					if(prio > limit)
-						retColor = urgentColor;
+					if(!task.assignedToMe)
+					{
+						if(task.computeRemainingTimeTillDate(new CDatum())< 0)
+						{
+							retColor = urgentColor;
+						}
+						else
+						{
+							retColor = bubbleColor;
+						}
+					}
+					else
+					{
+						double limit = (2.0/3.0) * (CTask.MAX_PRIORITY - CTask.MIN_PRIORITY) + CTask.MIN_PRIORITY;
+						if(prio > limit)
+							retColor = urgentColor;
+					}
 				}
 			}
 			
@@ -96,7 +117,7 @@ abstract class CBubbleArea extends JPanel{
 				lineIncrement = 14;
 			}
 			
-			String[] str = textUmbrechen(text, diameter);
+			String[] str = this.text;
 			for(int i=0; i < str.length; i++)
 			{
 					g.drawString(str[i], x - getRadius() + 10, y + (i-1)*lineIncrement);
@@ -114,7 +135,17 @@ abstract class CBubbleArea extends JPanel{
 			return (int) Math.round(this.diameter/2.0);
 		}
 		
-		private String[] textUmbrechen(String text, int diameter)
+		/**
+		 * 
+		 * Takes the text, which should be shown in the bubble and 
+		 * breaks it into lines, cuts it, 
+		 * so that it fits in the bubble.
+		 * 
+		 * @param text
+		 * @param diameter
+		 * @return a string array; each array element is a line
+		 */
+		private void updateText()
 		{
 			String[] out = {" ", " ", " "};
 			
@@ -133,11 +164,15 @@ abstract class CBubbleArea extends JPanel{
 				}
 			}
 			
-			String str = text;
+			String str = this.task.getDescription();
 			int indexSpace;
 			int charsUsed = 0;
+			int linesForDescription = 3;
 			
-			for(int i=0; i < out.length; i++)
+			if(!task.assignedToMe && !task.getDone())
+				linesForDescription = 1;
+			
+			for(int i=0; i < linesForDescription; i++)
 			{
 				out[i] = "";
 				indexSpace = str.indexOf(" ");
@@ -167,16 +202,23 @@ abstract class CBubbleArea extends JPanel{
 				}
 			}
 			
-			return out;
+			if(!task.assignedToMe && !task.getDone())
+			{
+				out[1] = task.getAssignee();
+				out[2] = String.valueOf(task.getDueDate().Tag) + "." + 
+							String.valueOf(task.getDueDate().Monat) + "." +
+							String.valueOf(task.getDueDate().Jahr);
+			}
+			this.text = out;
 		}
 		
 		public void updateBubbleFromTask(CTask task, int idx)
 		{
-			this.diameter = computediameter(task.getPriority());
-			this.text = task.getDescription();
-			this.fillColor = computeColor(task.getPriority(), task.getDone());
 			this.task = task;
 			this.taskIndex = idx;
+			this.diameter = computediameter(task.getPriority());
+			updateText();
+			this.fillColor = computeColor(task.getPriority(), task.getDone());
 		}
 	}
 	
