@@ -86,11 +86,11 @@ public class CTaskList {
 		{
 			output.write("---Start of tasklist---"); 
 			output.newLine();
-			output.write(String.format("Name: %s", this.name)); 
+			output.write(String.format("Name:%s", this.name)); 
 			output.newLine();
 			output.write(String.format("Date de creation: %d\t%d\t%d\t%d", this.dateCreation.Tag, this.dateCreation.Monat, this.dateCreation.Jahr, this.dateCreation.Stunde)); 
 			output.newLine();
-			output.write(String.format("Owner: %s", this.owner));
+			output.write(String.format("Owner:%s", this.owner));
 			output.newLine();
 			output.write("------------------");output.newLine();output.write("Tasklist");output.newLine();
 			
@@ -227,6 +227,14 @@ public class CTaskList {
 		for(int i=0; i< taskList.size(); i++)
 		{
 			getTask(i).updatePriority();
+			if(getTask(i).getAssignee().equals(this.owner))
+			{
+				getTask(i).assignedToMe = true; 
+			}
+			else
+			{
+				getTask(i).assignedToMe = false; 
+			}
 		}
 	}
 	
@@ -252,4 +260,26 @@ public class CTaskList {
 			
 		}
 	}
+	
+	/**
+	 * Assuming that the name of the user/owner of the task list has changed, e.g. by 
+	 * setting the preferencec, this function allows to update the names 
+	 * of the assignee to all the tasks assigned to the owner of the task list
+	 * 
+	 * @param ownerName
+	 */
+	public void adaptOwnerNameOfMyTasks(String ownerName)
+	{
+		if(ownerName.length()>0)
+		{
+			for (int i=0; i<taskList.size();i++)
+			{
+				if(getTask(i).assignedToMe)
+				{
+					getTask(i).setAssignee(ownerName);
+				}
+			}
+		}
+	}
+	
 }

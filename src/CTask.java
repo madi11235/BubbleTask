@@ -38,6 +38,7 @@ public class CTask {
 	private boolean topicForCustomerCall; //Has this topic the potential to ba hendled in a customer call?
 	private boolean groomed; //if true, all relevant information in the task has been filled
 	private boolean highPriority; //if true, this is a high priority task, e.g. appears on top of the task list
+	public boolean assignedToMe;
 	
 	//Constructors
 	CTask()
@@ -59,6 +60,7 @@ public class CTask {
 		this.groomed = false;
 		this.priority = calculatePriority();
 		this.highPriority = false; 
+		this.assignedToMe = true; 
 	}
 	
 	//Copy Constructor
@@ -81,6 +83,7 @@ public class CTask {
 		this.groomed = task.groomed;
 		this.priority = task.priority;
 		this.highPriority = task.highPriority;
+		this.assignedToMe = task.assignedToMe;
 	}
 	
 	CTask(String str)
@@ -175,10 +178,20 @@ public class CTask {
 		if(index!=-1)
 		{
 			this.highPriority = Boolean.parseBoolean(str.substring(0,index));
+			str = str.substring(index+1);
 		}
 		else
 		{
 			this.highPriority = false;
+		}
+		index = str.indexOf("\t");
+		if(index!=-1)
+		{
+			this.assignedToMe = Boolean.parseBoolean(str.substring(0,index));
+		}
+		else
+		{
+			this.assignedToMe = true; 
 		}
 		this.interfaceList = new LinkedList<CInterface>();
 	}
@@ -472,6 +485,8 @@ public class CTask {
 		outText = outText.concat("\t");
 		outText = outText.concat(String.valueOf(highPriority));
 		outText = outText.concat("\t");
+		outText = outText.concat(String.valueOf(assignedToMe));
+		outText = outText.concat("\t");
 		//TODO: Interface list auch speichern und laden
 		
 		
@@ -558,7 +573,9 @@ public class CTask {
 					"Customer Request",
 					"Involves others",
 					"Topic for Customer Call",
-					"groomed"
+					"groomed",
+					"highPriority",
+					"assignedToMe"
 			};
 		return fieldNames;
 	}
@@ -580,7 +597,9 @@ public class CTask {
 				String.valueOf(this.customerRequest),
 				String.valueOf(this.involveOthers),
 				String.valueOf(this.topicForCustomerCall),
-				String.valueOf(this.groomed)
+				String.valueOf(this.groomed),
+				String.valueOf(this.highPriority),
+				String.valueOf(this.assignedToMe)
 		};
 		
 		return STask;

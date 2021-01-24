@@ -25,7 +25,19 @@ public class CPreferencesFrame {
 	
 	public CPreferences getPreferences()
 	{
+		pref.owner = JTFOwner.getText();
+		
 		return this.pref; 
+	}
+	
+	public void openPreferencesFrame()
+	{
+		WPrefFrame.setVisible(true);
+	}
+	
+	public void closePreferencesFrame()
+	{
+		WPrefFrame.setVisible(false);
 	}
 	
 	private void setUpPrefFrame()
@@ -53,5 +65,7 @@ public class CPreferencesFrame {
 		JBCancel.setBounds(300, 300, 80, 30);
 		WPrefFrame.add(JBCancel);
 	}
+	
+	
 
 }

@@ -11,6 +11,7 @@ public class CTaskEditFrame {
 	CDatum today;
 	
 	String[] SImpactLevels = {"Low", "Medium", "High", "Very High"};
+	String defaultUser;
 	
 	int taskIndex; //index of task in task list which is being edited in this window
 	
@@ -23,9 +24,11 @@ public class CTaskEditFrame {
 	JComboBox JComboComplexity = new JComboBox(SImpactLevels);
 	JButton JBTaskOK, JBTaskCancel, JBTaskDelete;
 	
-	CTaskEditFrame(String name){
+	CTaskEditFrame(String name, String defaultUser){
 		
 		today = new CDatum();
+		
+		this.defaultUser = defaultUser; 
 		
 		WTaskFrame = new JFrame(name);
 		WTaskFrame.setLayout(null);
@@ -58,7 +61,7 @@ public class CTaskEditFrame {
 		JLAssignee.setHorizontalAlignment(JLabel.RIGHT);
 		WTaskFrame.add(JLAssignee);
 		
-		JTFAssignee = new JTextField("Markus");
+		JTFAssignee = new JTextField(this.defaultUser);
 		JTFAssignee.setBounds(280, 100, 250, 30);
 		WTaskFrame.add(JTFAssignee);
 		
@@ -158,7 +161,7 @@ public class CTaskEditFrame {
 	{
 		JTFDescription.setText("");
 		JTANotes.setText("");
-		JTFAssignee.setText("Markus");
+		JTFAssignee.setText(this.defaultUser);
 		
 		JTFDueDay.setText(String.valueOf(today.Tag));
 		JTFDueMonth.setText(String.valueOf(today.Monat));

@@ -27,7 +27,7 @@ public class CMyTaskArea extends CBubbleArea {
 		nrBubbles = 0;
 		for(int i = 0; i < taskList.getSize(); i++)
 		{
-			if(!taskList.getTask(i).getDone() && taskList.getTask(i).getAssignee().equals("Markus"))
+			if(!taskList.getTask(i).getDone() && taskList.getTask(i).assignedToMe)
 			{
 				if(bubbleSet[nrBubbles] == null)
 				{

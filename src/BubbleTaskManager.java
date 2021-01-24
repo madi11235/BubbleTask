@@ -65,7 +65,7 @@ public class BubbleTaskManager implements ActionListener {
 	
 	JMenuBar MenuBar;
 	JMenu MenuView, MenuEdit, MenuLog;
-	JMenuItem MenuTableView, MenuGroomAuto, MenuLogOpen;
+	JMenuItem MenuTableView, MenuGroomAuto, MenuSetPref, MenuLogOpen;
 	
 	CMyTaskArea bubbleArea;
 	CDoneTodayArea doneArea;
@@ -157,6 +157,18 @@ public class BubbleTaskManager implements ActionListener {
 			aufg.setDone(WEditTaskFrame.JCBdone.isSelected());
 			replaceTaskInList(WEditTaskFrame.taskIndex, aufg);
 			TableView.taskList = this.taskList;
+			break;
+		case "openPrefSetting":
+			WPrefFrame.openPreferencesFrame();
+			break;
+		case "preferencesConfirmed":
+			//Click on the OK button in the Preferences window
+			preferences = WPrefFrame.getPreferences();
+			updatePreferences();
+			WPrefFrame.closePreferencesFrame();
+			break;
+		case "preferencesCanceled":
+			WPrefFrame.closePreferencesFrame();
 			break;
 		}
 		//After each action, we update and save the new task list
@@ -344,6 +356,11 @@ public class BubbleTaskManager implements ActionListener {
 		MenuGroomAuto.setActionCommand("StartAutoGroom");
 		MenuEdit.add(MenuGroomAuto);
 		
+		MenuSetPref = new JMenuItem("Set Preferences ...");
+		MenuSetPref.addActionListener(this);
+		MenuSetPref.setActionCommand("openPrefSetting");
+		MenuEdit.add(MenuSetPref);
+		
 		MenuLog = new JMenu("Log");
 		MenuLog.getAccessibleContext().setAccessibleDescription("Log book functions");
 		MenuBar.add(MenuLog);
@@ -360,7 +377,7 @@ public class BubbleTaskManager implements ActionListener {
 		/*********************
 		 * New Task screen
 		 */
-		WTaskFrame = new CTaskEditFrame("Task");
+		WTaskFrame = new CTaskEditFrame("Task", taskList.owner);
 		
 		WTaskFrame.JBTaskOK.addActionListener(this);
 		WTaskFrame.JBTaskOK.setActionCommand("BTaskAdd");
@@ -371,7 +388,7 @@ public class BubbleTaskManager implements ActionListener {
 		/**********************
 		 *  Edit Task screen
 		 */
-		WEditTaskFrame = new CTaskEditFrame("Edit Task");
+		WEditTaskFrame = new CTaskEditFrame("Edit Task", taskList.owner);
 		
 		WEditTaskFrame.JBTaskOK.addActionListener(this);
 		WEditTaskFrame.JBTaskOK.setActionCommand("BTaskSubmitEdit");
@@ -400,8 +417,12 @@ public class BubbleTaskManager implements ActionListener {
 		 * Preferences setting frame
 		 */
 		WPrefFrame = new CPreferencesFrame(preferences);
-		WPrefFrame.WPrefFrame.setVisible(true);
 		
+		WPrefFrame.JBOK.addActionListener(this);
+		WPrefFrame.JBOK.setActionCommand("preferencesConfirmed");
+		
+		WPrefFrame.JBCancel.addActionListener(this);
+		WPrefFrame.JBCancel.setActionCommand("preferencesCanceled");
 		
 		/***********************
 		 * Prepare table view
@@ -493,6 +514,20 @@ public class BubbleTaskManager implements ActionListener {
 	}
 
 	/**
+	 * If preferences have been changed by the user, 
+	 * the changes are taken into effect by this method
+	 */
+	public void updatePreferences()
+	{
+		taskList.owner = preferences.owner;
+		WEditTaskFrame.defaultUser = preferences.owner;
+		WTaskFrame.defaultUser = preferences.owner;
+		
+		//TODO: Ändere den Namen des assignees aller "myTasks" 
+		taskList.adaptOwnerNameOfMyTasks(preferences.owner);
+	}
+	
+	/**
 	 * Main function being called at start up. 
 	 * Starting point for the application. 
 	 */
@@ -503,6 +538,7 @@ public class BubbleTaskManager implements ActionListener {
 		
 		//initialize
 		taskMan.initialize();
+		
 		
 	}
 
